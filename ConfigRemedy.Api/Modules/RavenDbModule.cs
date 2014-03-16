@@ -7,14 +7,6 @@ namespace ConfigRemedy.Api.Modules
 {
     public abstract class RavenDbModule : NancyModule
     {
-        protected RavenDbModule()
-        {
-        }
-
-        protected RavenDbModule(string modulePath) : base(modulePath)
-        {
-        }
-
         private static readonly Lazy<IDocumentStore> LazyDocStore = new Lazy<IDocumentStore>(() =>
         {
             var docstore = new EmbeddableDocumentStore
@@ -26,12 +18,20 @@ namespace ConfigRemedy.Api.Modules
             return docstore;
         });
 
+        protected RavenDbModule()
+        {
+        }
+
+        protected RavenDbModule(string modulePath) : base(modulePath)
+        {
+        }
+
         public IDocumentStore Store
         {
             get { return LazyDocStore.Value; }
         }
 
-        public IDocumentSession Session { get; set; }
+        public IDocumentSession DbSession { get; set; }
 
         //public override async Task<HttpResponseMessage> ExecuteAsync(
         //    HttpControllerContext controllerContext,
