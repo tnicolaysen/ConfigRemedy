@@ -115,7 +115,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Modules\EnvironmentsModule.cs" />
     <Compile Include="Modules\IndexModule.cs" />
-    <Compile Include="Modules\RavenDbModule.cs" />
+    <Compile Include="RavenFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

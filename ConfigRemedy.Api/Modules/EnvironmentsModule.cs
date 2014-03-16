@@ -1,28 +1,35 @@
 ﻿using System.Linq;
-using ConfigRemedy.Api.Modules;
 using ConfigRemedy.Models;
+using Nancy;
+using Raven.Client;
+using Raven.Client.Linq;
 
-namespace ConfigRemedy.Api
+namespace ConfigRemedy.Api.Modules
 {
-    public class EnviromentModule : RavenDbModule
+    public class EnviromentModule : NancyModule
     {
-        public EnviromentModule() : base("/environments")
+        public EnviromentModule() : this(RavenFactory.Create())
+        {
+        }
+
+        public EnviromentModule(IDocumentStore docStore)
+            : base("/environments")
         {
             Get["/"] = _ =>
             {
-                using (DbSession = Store.OpenSession())
+                using (var session  = docStore.OpenSession())
                 {
-                    return DbSession.Query<Environment>().Select(e => e).ToList();
+                    return session.Query<Environment>().Select(e => e).ToList();
                 }
             };
 
             Post["/{name}"] = _ =>
             {
-                using (DbSession = Store.OpenSession())
+                using (var session = docStore.OpenSession())
                 {
                     var environment = new Environment {EnvironmentName = _.name};
-                    DbSession.Store(environment);
-                    DbSession.SaveChanges();
+                    session.Store(environment);
+                    session.SaveChanges();
                     return environment;
                 }
             };
