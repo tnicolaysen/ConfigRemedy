@@ -19,9 +19,13 @@ Scenario: Adding environment
 	And an environment named "dev" should be persisted
 	# TODO: Consider checking for location header
 
-@ignore
-Scenario: Delete environment
+Scenario: Delete environment that exist
 	Given an environment named "dev" exist
 	When I DELETE an environment named "dev" 
 	Then I should get HTTP NoContent
 	And there should be 0 environments
+
+Scenario: Delete environment that does not exist
+	Given the database is empty
+	When I DELETE an environment named "dev" 
+	Then I should get HTTP NotFound

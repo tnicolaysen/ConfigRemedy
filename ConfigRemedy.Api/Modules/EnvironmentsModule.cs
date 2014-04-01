@@ -33,9 +33,28 @@ namespace ConfigRemedy.Api.Modules
                     var environment = this.Bind<Environment>(e => e.Id);
                     session.Store(environment);
                     session.SaveChanges();
-                }
 
-                return HttpStatusCode.Created;
+                    return HttpStatusCode.Created;
+                }
+            };
+
+            Delete["/{name}"] = _ =>
+            {
+                var name = (string)_.name;
+
+                using (var session = docStore.OpenSession())
+                {
+                    var envToDelete = session.Query<Environment>()
+                                             .SingleOrDefault(env => env.Name == name);
+
+                    if (envToDelete == null)
+                        return HttpStatusCode.NotFound;
+
+                    session.Delete(envToDelete);
+                    session.SaveChanges();
+
+                    return HttpStatusCode.NoContent;
+                }
             };
         }
     }
