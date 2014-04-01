@@ -1,8 +1,11 @@
-﻿using System.Linq;
-using ConfigRemedy.Models;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using Nancy;
+using Nancy.ModelBinding;
 using Raven.Client;
 using Raven.Client.Linq;
+using Environment = ConfigRemedy.Models.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
@@ -23,15 +26,16 @@ namespace ConfigRemedy.Api.Modules
                 }
             };
 
-            Post["/{name}"] = _ =>
+            Post["/"] = _ =>
             {
                 using (var session = docStore.OpenSession())
                 {
-                    var environment = new Environment {EnvironmentName = _.name};
+                    var environment = this.Bind<Environment>(e => e.Id);
                     session.Store(environment);
                     session.SaveChanges();
-                    return environment;
                 }
+
+                return HttpStatusCode.Created;
             };
         }
     }
