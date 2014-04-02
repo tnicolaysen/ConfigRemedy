@@ -17,7 +17,7 @@ Scenario: Adding environment
 	When I POST a environment named "dev" 
 	Then I should get HTTP Created
 	And an environment named "dev" should be persisted
-	# TODO: Consider checking for location header
+	And location header should contain url for "environments/dev"
 
 Scenario: Delete environment that exist
 	Given an environment named "dev" exist

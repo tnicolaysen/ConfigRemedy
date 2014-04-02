@@ -99,6 +99,14 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             }
         }
 
+        [Then(@"location header should contain url for ""(.+)""")]
+        public void ThenLocationHeaderShouldContainUrlFor(string urlPart)
+        {
+            Assert.That(_result.Headers.ContainsKey("Location"), Is.True, "Location header is not set");
+            Assert.That(_result.Headers["Location"], Is.StringContaining(urlPart));
+        }
+
+
 
         // Setup / boilerplate
 
