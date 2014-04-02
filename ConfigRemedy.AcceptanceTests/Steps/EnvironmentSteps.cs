@@ -10,6 +10,7 @@ using Environment = ConfigRemedy.Models.Environment;
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
     [Binding]
+    [Scope(Feature = "Environment")]
     public class EnvironmentSteps : TechTalk.SpecFlow.Steps
     {
         [Given(@"I am testing the Environment module")]
