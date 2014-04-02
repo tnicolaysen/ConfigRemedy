@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Nancy;
-using Nancy.Extensions;
 using Nancy.ModelBinding;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -15,7 +14,7 @@ namespace ConfigRemedy.Api.Modules
         {
             Get["/"] = _ =>
             {
-                using (var session  = docStore.OpenSession())
+                using (var session = docStore.OpenSession())
                 {
                     return session.Query<Environment>().Select(e => e).ToList();
                 }
@@ -29,6 +28,7 @@ namespace ConfigRemedy.Api.Modules
                     session.Store(environment);
                     session.SaveChanges();
 
+                    // NOTE: Try to generalize this in time
                     return Negotiate
                         .WithContentType("application/json")
                         .WithModel(environment)
@@ -39,12 +39,11 @@ namespace ConfigRemedy.Api.Modules
 
             Delete["/{name}"] = _ =>
             {
-                var name = (string)_.name;
+                var name = (string) _.name;
 
                 using (var session = docStore.OpenSession())
                 {
-                    var envToDelete = session.Query<Environment>()
-                                             .SingleOrDefault(env => env.Name == name);
+                    var envToDelete = session.Query<Environment>().SingleOrDefault(env => env.Name == name);
 
                     if (envToDelete == null)
                         return HttpStatusCode.NotFound;
