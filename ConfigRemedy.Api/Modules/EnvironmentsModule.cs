@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using Nancy;
+using Nancy.Extensions;
 using Nancy.ModelBinding;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -11,10 +10,6 @@ namespace ConfigRemedy.Api.Modules
 {
     public class EnviromentModule : NancyModule
     {
-        public EnviromentModule() : this(RavenFactory.Create())
-        {
-        }
-
         public EnviromentModule(IDocumentStore docStore)
             : base("/environments")
         {
@@ -34,7 +29,11 @@ namespace ConfigRemedy.Api.Modules
                     session.Store(environment);
                     session.SaveChanges();
 
-                    return HttpStatusCode.Created;
+                    return Negotiate
+                        .WithContentType("application/json")
+                        .WithModel(environment)
+                        .WithHeader("Location", string.Format("{0}/{1}", ModulePath, environment.Name))
+                        .WithStatusCode(HttpStatusCode.Created);
                 }
             };
 
