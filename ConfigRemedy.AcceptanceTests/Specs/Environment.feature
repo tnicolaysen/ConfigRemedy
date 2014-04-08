@@ -4,13 +4,25 @@
 	I want to have a REST API to manage them
 
 Background: 
-	Given I am testing the Environment module
+	Given I have a JSON client
 
 Scenario: Get environment when database is empty
 	Given the database is empty
 	When I get available environments
 	Then I should get HTTP OK
 	And I should get an empty list
+
+Scenario: Getting a environment that don't exist
+	Given an environment named "dev" exist
+	When I GET an environment named "prod"
+	Then I should get HTTP NotFound
+	And I should get an empty body
+
+Scenario: Getting an existing enviornment
+	Given an environment named "dev" exist
+	When I GET an environment named "dev"
+	Then I should get HTTP 200
+	And I should get environment in the response
 
 Scenario: Adding environment
 	Given the database is empty

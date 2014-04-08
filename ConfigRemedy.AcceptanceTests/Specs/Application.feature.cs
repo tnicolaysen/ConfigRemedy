@@ -69,7 +69,7 @@ namespace ConfigRemedy.AcceptanceTests.Specs
         {
 #line 6
 #line 7
- testRunner.Given("I am testing the Application module", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have a JSON client", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -85,7 +85,7 @@ this.FeatureBackground();
 #line 10
  testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.When("I get available applications for the \"dev\" enviroment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I get available applications for the \"dev\" enviroment%", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
  testRunner.Then("I should get HTTP OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13

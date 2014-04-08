@@ -4,11 +4,11 @@
 	I want to have a REST API to manage them
 
 Background: 
-	Given I am testing the Application module
+	Given I have a JSON client
 
 Scenario: Get application when database is empty
 	Given an environment named "dev" exist
-	When I get available applications for the "dev" enviroment
+	When I get available applications for the "dev" enviroment%
 	Then I should get HTTP OK
 	And I should get an empty list
 

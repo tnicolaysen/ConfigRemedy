@@ -20,6 +20,24 @@ namespace ConfigRemedy.Api.Modules
                 }
             };
 
+            Get["/{name}"] = _ =>
+            {
+                var name = (string)_.name;
+
+                using (var session = docStore.OpenSession())
+                {
+                    var environment = session.Query<Environment>().SingleOrDefault(env => env.Name == name);
+
+                    if (environment == null)
+                        return HttpStatusCode.NotFound;
+
+                    return environment;
+                    //return Negotiate
+                    //    .WithStatusCode(HttpStatusCode.OK)
+                    //    .WithModel(environment);
+                }
+            };
+
             Post["/"] = _ =>
             {
                 using (var session = docStore.OpenSession())
