@@ -6,19 +6,27 @@
 Background: 
 	Given I have a JSON client
 
-Scenario: Get application when database is empty
+Scenario: Get applications in an environment without applications
 	Given an environment named "dev" exist
-	When I get available applications for the "dev" enviroment%
+	When I get available applications for the "dev" enviroment
 	Then I should get HTTP OK
 	And I should get an empty list
 
-@ignore
+@ignore 
+Scenario: Get all applications in an environment 
+	Given an environment named "dev" exist
+	And "dev" has the application "zaphod"
+	And "dev" has the application "arthur"
+	When I get available applications for the "dev" enviroment
+	Then I should get HTTP OK
+	And I should get a list containing: "zaphod", "arthur"
+
 Scenario: Adding application
-	Given the database is empty
+	Given an environment named "dev" exist
 	When I POST a application named "fixerupper" to the "dev" environment 
 	Then I should get HTTP Created
-	And an environment named "dev" should be persisted
-	And location header should contain url for "environments/dev"
+	And an application named "fixerupper" should be persisted
+	And location header should contain url for "environments/dev/applications/fixerupper"
 
 @ignore
 Scenario: Delete application that exist

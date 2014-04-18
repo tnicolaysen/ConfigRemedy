@@ -4,7 +4,7 @@ using Nancy.Testing;
 using NUnit.Framework;
 using Raven.Imports.Newtonsoft.Json;
 using TechTalk.SpecFlow;
-using Environment = ConfigRemedy.Models.Environment;
+using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
