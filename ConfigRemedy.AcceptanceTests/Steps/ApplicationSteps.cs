@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ConfigRemedy.Domain;
-using Nancy;
 using Nancy.Testing;
 using NUnit.Framework;
 using Raven.Client.Linq;
+using Raven.Imports.Newtonsoft.Json;
 using TechTalk.SpecFlow;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
@@ -14,7 +15,8 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [Given(@"""(\w+)"" has the application ""(\w+)""")]
         public void GivenEnvironmentHasTheApplication(string envName, string appName)
         {
-            ScenarioContext.Current.Pending();
+            WhenIPOSTAApplicationNamedToTheEnvironment(appName, envName);
+            //When(string.Format(@"When I POST a application named ""{0}"" to the ""{1}"" environment", appName, envName));
         }
 
         [When(@"I get available applications for the ""(.*)"" enviroment")]
@@ -33,10 +35,18 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             });
         }
 
-        [Then(@"I should get a list containing: ""(.*)"", ""(.*)""")]
-        public void ThenIShouldGetAListContaining(string p0, string p1)
+        [Then(@"I should get a list containing ""(\w+)""")]
+        public void ThenIShouldGetAListContaining(string appName)
         {
-            ScenarioContext.Current.Pending();
+            var env = Deserialize<List<Application>>(Result);
+            Assert.That(env.Any(a => a.Name == appName), Is.True,
+                        "Did not find the application. Got the following: " + Result.Body.AsString());
+        }
+
+        private T Deserialize<T>(BrowserResponse response)
+        {
+            var jsonString = Result.Body.AsString();
+            return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
         [Then(@"an application named ""(\w+)"" should be persisted")]

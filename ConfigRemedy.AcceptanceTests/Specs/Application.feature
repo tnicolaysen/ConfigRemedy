@@ -12,14 +12,14 @@ Scenario: Get applications in an environment without applications
 	Then I should get HTTP OK
 	And I should get an empty list
 
-@ignore 
 Scenario: Get all applications in an environment 
 	Given an environment named "dev" exist
-	And "dev" has the application "zaphod"
-	And "dev" has the application "arthur"
+	Given "dev" has the application "zaphod"
+	Given "dev" has the application "arthur"
 	When I get available applications for the "dev" enviroment
 	Then I should get HTTP OK
-	And I should get a list containing: "zaphod", "arthur"
+	And I should get a list containing "arthur"
+	And I should get a list containing "zaphod"
 
 Scenario: Adding application
 	Given an environment named "dev" exist

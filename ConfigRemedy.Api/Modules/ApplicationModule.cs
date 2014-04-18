@@ -15,7 +15,16 @@ namespace ConfigRemedy.Api.Modules
         {
             Get["/"] = _ =>
             {
-                return "[]";
+                string envName = RequiredParam(_, "envName");
+
+                using (var session = docStore.OpenSession())
+                {
+                    var env = GetEnvironment(session, envName);
+
+                    return Negotiate
+                        .WithContentType("application/json")
+                        .WithModel(env.Applications);
+                }
             };
 
             Post["/"] = _ =>
