@@ -18,6 +18,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             {
                 with.Module<EnviromentModule>();
                 with.Module<ApplicationModule>();
+                with.Module<SettingModule>();
                 with.Dependency(DbContext.EmbeddedStore);
             });
         }

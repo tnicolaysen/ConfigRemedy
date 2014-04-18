@@ -101,11 +101,17 @@
     </Compile>
     <Compile Include="Hooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specs\Setting.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Setting.feature</DependentUpon>
+    </Compile>
     <Compile Include="Steps\CommonModuleSteps.cs" />
     <Compile Include="Steps\ModuleStepsBase.cs" />
     <Compile Include="Steps\DatabaseContext.cs" />
     <Compile Include="Steps\ApplicationSteps.cs" />
     <Compile Include="Steps\EnvironmentSteps.cs" />
+    <Compile Include="Steps\SettingSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -118,6 +124,10 @@
       <LastGenOutput>Environment.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Specs\Setting.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Setting.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigRemedy.Api\ConfigRemedy.Api.csproj">

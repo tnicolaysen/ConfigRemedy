@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConfigRemedy.Domain
 {
@@ -12,6 +14,14 @@ namespace ConfigRemedy.Domain
         public Environment()
         {
             Applications = new List<Application>();
+        }
+
+        public Application Application(string appName)
+        {
+            if (!Applications.Any(a => a.Name == appName))
+                throw new Exception(string.Format("Application '{0}' was not found", appName));
+
+            return Applications.Single(a => a.Name == appName);
         }
     }
 }

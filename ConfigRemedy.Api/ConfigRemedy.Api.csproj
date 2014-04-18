@@ -117,6 +117,7 @@
     <Compile Include="Modules\BaseModule.cs" />
     <Compile Include="Modules\EnvironmentsModule.cs" />
     <Compile Include="Modules\IndexModule.cs" />
+    <Compile Include="Modules\SettingModule.cs" />
     <Compile Include="RavenFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
