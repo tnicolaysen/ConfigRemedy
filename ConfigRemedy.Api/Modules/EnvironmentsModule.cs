@@ -7,12 +7,12 @@ using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
-    public class EnviromentModule : NancyModule
+    public class EnviromentModule : BaseModule
     {
         public EnviromentModule(IDocumentStore docStore)
             : base("/environments")
         {
-            Get["/"] = _ =>
+            Get["/"] = _ => // All environments
             {
                 using (var session = docStore.OpenSession())
                 {
@@ -20,9 +20,9 @@ namespace ConfigRemedy.Api.Modules
                 }
             };
 
-            Get["/{name}"] = _ =>
+            Get["/{name}"] = _ => // Given environment
             {
-                var name = (string)_.name;
+                string name = RequiredParam(_, "name");
 
                 using (var session = docStore.OpenSession())
                 {
@@ -31,10 +31,10 @@ namespace ConfigRemedy.Api.Modules
                     if (environment == null)
                         return HttpStatusCode.NotFound;
 
-                    return environment;
-                    //return Negotiate
-                    //    .WithStatusCode(HttpStatusCode.OK)
-                    //    .WithModel(environment);
+                    return Negotiate
+                        .WithContentType("application/json")
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithModel(environment);
                 }
             };
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
@@ -8,12 +7,12 @@ using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
-    public class ApplicationModule :NancyModule
+    public class ApplicationModule : BaseModule
     {
         public ApplicationModule(IDocumentStore docStore)
             : base("/environments/{envName}/applications")
         {
-            Get["/"] = _ =>
+            Get["/"] = _ => // All apps in a given env.
             {
                 string envName = RequiredParam(_, "envName");
 
@@ -23,11 +22,12 @@ namespace ConfigRemedy.Api.Modules
 
                     return Negotiate
                         .WithContentType("application/json")
+                        .WithStatusCode(HttpStatusCode.OK)
                         .WithModel(env.Applications);
                 }
             };
 
-            Post["/"] = _ =>
+            Post["/"] = _ => // Create a new app. in a given env.
             {
                 string envName = RequiredParam(_, "envName");
 
@@ -52,7 +52,7 @@ namespace ConfigRemedy.Api.Modules
                 }
             };
 
-            Delete["/{appName}"] = _ =>
+            Delete["/{appName}"] = _ => // Delete a given app. in a given env.
             {
                 string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");
@@ -60,7 +60,7 @@ namespace ConfigRemedy.Api.Modules
                 using (var session = docStore.OpenSession())
                 {
                     var envToModify = session.Query<Environment>()
-                                             .SingleOrDefault(env => env.Name == envName);                                             
+                                             .SingleOrDefault(env => env.Name == envName);
 
                     if (envToModify == null)
                         return HttpStatusCode.NotFound;
@@ -78,20 +78,9 @@ namespace ConfigRemedy.Api.Modules
             };
         }
 
-        private string RequiredParam(dynamic _, string paramName)
-        {
-            string parmaAsString = _[paramName];
-                
-            if (string.IsNullOrWhiteSpace(parmaAsString))
-                throw new ArgumentNullException("paramName", "Required param was null or empty string");
-
-            return parmaAsString;
-        }
-
         private static Environment GetEnvironment(IDocumentSession session, string envName)
         {
-            return session.Query<Environment>()
-                          .Single(e => e.Name == envName);
+            return session.Query<Environment>().Single(e => e.Name == envName);
         }
     }
 }

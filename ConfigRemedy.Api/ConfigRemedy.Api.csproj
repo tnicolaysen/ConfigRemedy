@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Modules\ApplicationModule.cs" />
+    <Compile Include="Modules\BaseModule.cs" />
     <Compile Include="Modules\EnvironmentsModule.cs" />
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="RavenFactory.cs" />
