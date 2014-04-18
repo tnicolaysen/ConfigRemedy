@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Mime;
 using ConfigRemedy.Domain;
 using Nancy;
-using Nancy.Extensions;
 using Nancy.ModelBinding;
-using Nancy.Routing;
 using Raven.Client;
-using Raven.Client.Linq;
 using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
@@ -24,14 +20,11 @@ namespace ConfigRemedy.Api.Modules
 
             Post["/"] = _ =>
             {
-                string envName = _.envName;
-                if (string.IsNullOrWhiteSpace(envName))
-                    throw new ArgumentNullException("envName", "Required");
+                string envName = RequiredParam(_, "envName");
 
                 using (var session = docStore.OpenSession())
                 {
-                    // get env
-                    var env = session.Query<Environment>().Single(e => e.Name == envName);
+                    var env = GetEnvironment(session, envName);
                     var app = this.Bind<Application>(e => e.Id);
 
                     // TODO: Check for dupes
@@ -49,6 +42,22 @@ namespace ConfigRemedy.Api.Modules
                         .WithStatusCode(HttpStatusCode.Created);
                 }
             };
+        }
+
+        private string RequiredParam(dynamic _, string paramName)
+        {
+            string parmaAsString = _[paramName];
+
+            if (string.IsNullOrWhiteSpace(parmaAsString))
+                throw new ArgumentNullException("paramName", "Required param was null or empty string");
+
+            return parmaAsString;
+        }
+
+        private static Environment GetEnvironment(IDocumentSession session, string envName)
+        {
+            return session.Query<Environment>()
+                          .Single(e => e.Name == envName);
         }
     }
 }
