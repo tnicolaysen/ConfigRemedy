@@ -34,7 +34,7 @@ namespace ConfigRemedy.Api.Modules
                 using (var session = docStore.OpenSession())
                 {
                     var env = GetEnvironment(session, envName);
-                    var app = this.Bind<Application>(e => e.Id);
+                    var app = this.Bind<Application>();
 
                     // TODO: Check for dupes
                     env.Applications.Add(app);
@@ -51,12 +51,37 @@ namespace ConfigRemedy.Api.Modules
                         .WithStatusCode(HttpStatusCode.Created);
                 }
             };
+
+            Delete["/{appName}"] = _ =>
+            {
+                string envName = RequiredParam(_, "envName");
+                string appName = RequiredParam(_, "appName");
+
+                using (var session = docStore.OpenSession())
+                {
+                    var envToModify = session.Query<Environment>()
+                                             .SingleOrDefault(env => env.Name == envName);                                             
+
+                    if (envToModify == null)
+                        return HttpStatusCode.NotFound;
+
+                    if (!envToModify.Applications.Any(a => a.Name == appName))
+                        return HttpStatusCode.NotFound;
+
+                    envToModify.Applications.RemoveAll(a => a.Name == appName);
+
+                    session.Store(envToModify);
+                    session.SaveChanges();
+
+                    return HttpStatusCode.NoContent;
+                }
+            };
         }
 
         private string RequiredParam(dynamic _, string paramName)
         {
             string parmaAsString = _[paramName];
-
+                
             if (string.IsNullOrWhiteSpace(parmaAsString))
                 throw new ArgumentNullException("paramName", "Required param was null or empty string");
 

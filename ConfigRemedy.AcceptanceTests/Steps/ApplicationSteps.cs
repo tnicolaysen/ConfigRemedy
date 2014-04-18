@@ -35,6 +35,26 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             });
         }
 
+        [When(@"I DELETE an app named ""(.*)"" in the environment ""(.*)""")]
+        public void WhenIDELETEAnAppNamedInTheEnvironment(string appName, string envName)
+        {
+            Result = Browser.Delete("/environments/" + envName + "/applications/" + appName, JsonClient);
+        }
+
+        [Then(@"there should be (\d+) apps in the environment ""(\w+)""")]
+        public void ThenThereShouldBeAppsInTheEnvironment(int numberOfApps, string envName)
+        {
+            using (var session = DbContext.EmbeddedStore.OpenSession())
+            {
+                var result = session.Query<Environment>()
+                                    .Single(e => e.Name == envName)
+                                    .Applications;
+
+                Assert.That(result.Count, Is.EqualTo(numberOfApps));
+            }
+        }
+
+
         [Then(@"I should get a list containing ""(\w+)""")]
         public void ThenIShouldGetAListContaining(string appName)
         {

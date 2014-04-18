@@ -28,15 +28,14 @@ Scenario: Adding application
 	And an application named "fixerupper" should be persisted
 	And location header should contain url for "environments/dev/applications/fixerupper"
 
-@ignore
 Scenario: Delete application that exist
 	Given an environment named "dev" exist
-	When I DELETE an environment named "dev" 
+	Given "dev" has the application "zaphod"
+	When I DELETE an app named "zaphod" in the environment "dev"
 	Then I should get HTTP NoContent
-	And there should be 0 environments
+	And there should be 0 apps in the environment "dev"
 
-@ignore
 Scenario: Delete application that does not exist
-	Given the database is empty
-	When I DELETE an environment named "dev" 
+	Given an environment named "dev" exist
+	When I DELETE an app named "idontexist" in the environment "dev"
 	Then I should get HTTP NotFound
