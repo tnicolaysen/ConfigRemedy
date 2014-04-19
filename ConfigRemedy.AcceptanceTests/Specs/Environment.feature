@@ -22,7 +22,7 @@ Scenario: Getting an existing enviornment
 	Given an environment named "dev" exist
 	When I GET an environment named "dev"
 	Then I should get HTTP 200
-	And I should get environment in the response
+	And I should get an environment model with name "dev"
 
 Scenario: Adding environment
 	Given the database is empty
@@ -30,6 +30,7 @@ Scenario: Adding environment
 	Then I should get HTTP Created
 	And an environment named "dev" should be persisted
 	And location header should contain url for "environments/dev"
+	And I should get an environment model with name "dev"
 
 Scenario: Adding duplicate environment is not allowed
 	Given an environment named "dev" exist

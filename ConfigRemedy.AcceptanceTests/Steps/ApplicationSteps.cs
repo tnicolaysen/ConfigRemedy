@@ -19,6 +19,13 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             //When(string.Format(@"When I POST a application named ""{0}"" to the ""{1}"" environment", appName, envName));
         }
 
+        [When(@"I GET the application ""(.*)"" in the ""(.*)"" environment")]
+        public void WhenIGETTheApplicationInTheEnvironment(string appName, string envName)
+        {
+            Result = Browser.Get("/environments/" + envName + "/applications/" + appName, JsonClient);
+        }
+
+
         [When(@"I get available applications for the ""(.*)"" enviroment")]
         public void WhenIGetAvailableApplicationsForTheEnviroment(string envName)
         {
@@ -58,16 +65,19 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [Then(@"I should get a list containing ""(\w+)""")]
         public void ThenIShouldGetAListContaining(string appName)
         {
-            var env = Deserialize<List<Application>>(Result);
-            Assert.That(env.Any(a => a.Name == appName), Is.True,
+            var apps = Deserialize<List<Application>>(Result);
+            Assert.That(apps.Any(a => a.Name == appName), Is.True,
                         "Did not find the application. Got the following: " + Result.Body.AsString());
         }
 
-        private T Deserialize<T>(BrowserResponse response)
+        [Then(@"I should get an application model with name ""(\w+)""")]
+        public void ThenIShouldGetAnApplicationModelWithName(string appName)
         {
-            var jsonString = Result.Body.AsString();
-            return JsonConvert.DeserializeObject<T>(jsonString);
+            var app = Deserialize<Application>(Result);
+            Assert.That(app, Is.Not.Null);
+            Assert.That(app.Name, Is.EqualTo(appName));
         }
+
 
         [Then(@"an application named ""(\w+)"" should be persisted")]
         public void ThenAnApplicationNamedShouldBePersisted(string appName)
@@ -82,6 +92,12 @@ namespace ConfigRemedy.AcceptanceTests.Steps
 
                 Assert.That(result, Is.Not.Empty, "Did not find the specified application");
             }
+        }
+
+        private T Deserialize<T>(BrowserResponse response)
+        {
+            var jsonString = Result.Body.AsString();
+            return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
 

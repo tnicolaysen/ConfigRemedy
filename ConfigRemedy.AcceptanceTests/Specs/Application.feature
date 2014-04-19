@@ -21,6 +21,18 @@ Scenario: Get all applications in an environment
 	And I should get a list containing "arthur"
 	And I should get a list containing "zaphod"
 
+Scenario: Get specific application
+	Given an environment named "dev" exist
+	Given "dev" has the application "zaphod"
+	When I GET the application "zaphod" in the "dev" environment
+	Then I should get HTTP OK
+	And I should get an application model with name "zaphod"
+
+Scenario: Get non-existing application
+	Given an environment named "dev" exist
+	When I GET the application "idontexist" in the "dev" environment
+	Then I should get HTTP NotFound
+
 Scenario: Adding application
 	Given an environment named "dev" exist
 	When I POST a application named "fixerupper" to the "dev" environment 

@@ -66,12 +66,12 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             }
         }
 
-        [Then(@"I should get environment in the response")]
-        public void ThenIShouldGetEnvironmentInTheResponse()
+        [Then(@"I should get an environment model with name ""(\w+)""")]
+        public void ThenIShouldGetAnEnvironmentModelWithName(string envName)
         {
-            // TODO: Unhack this later
             var environment = Deserialize<Environment>(Result);
             Assert.That(environment, Is.Not.Null);
+            Assert.That(environment.Name, Is.EqualTo(envName));
         }
 
         private T Deserialize<T>(BrowserResponse response)

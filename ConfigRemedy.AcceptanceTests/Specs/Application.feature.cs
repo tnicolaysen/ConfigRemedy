@@ -122,10 +122,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Adding application")]
-        public virtual void AddingApplication()
+        [NUnit.Framework.DescriptionAttribute("Get specific application")]
+        public virtual void GetSpecificApplication()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding application", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get specific application", ((string[])(null)));
 #line 24
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -133,12 +133,54 @@ this.FeatureBackground();
 #line 25
  testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 26
- testRunner.When("I POST a application named \"fixerupper\" to the \"dev\" environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("\"dev\" has the application \"zaphod\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 27
- testRunner.Then("I should get HTTP Created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I GET the application \"zaphod\" in the \"dev\" environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 28
- testRunner.And("an application named \"fixerupper\" should be persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("I should get HTTP OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 29
+ testRunner.And("I should get an application model with name \"zaphod\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get non-existing application")]
+        public virtual void GetNon_ExistingApplication()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get non-existing application", ((string[])(null)));
+#line 31
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 32
+ testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 33
+ testRunner.When("I GET the application \"idontexist\" in the \"dev\" environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 34
+ testRunner.Then("I should get HTTP NotFound", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Adding application")]
+        public virtual void AddingApplication()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding application", ((string[])(null)));
+#line 36
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 37
+ testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 38
+ testRunner.When("I POST a application named \"fixerupper\" to the \"dev\" environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 39
+ testRunner.Then("I should get HTTP Created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 40
+ testRunner.And("an application named \"fixerupper\" should be persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 41
  testRunner.And("location header should contain url for \"environments/dev/applications/fixerupper\"" +
                     "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -150,17 +192,17 @@ this.FeatureBackground();
         public virtual void AddingDuplicateApplicationIsNotAllowed()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding duplicate application is not allowed", ((string[])(null)));
-#line 31
+#line 43
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 32
+#line 44
  testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 33
+#line 45
  testRunner.Given("\"dev\" has the application \"zaphod\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 34
+#line 46
  testRunner.When("I POST a application named \"zaphod\" to the \"dev\" environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 35
+#line 47
  testRunner.Then("I should get HTTP Forbidden with reason \"Duplicates are not allowed\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -171,19 +213,19 @@ this.FeatureBackground();
         public virtual void DeleteApplicationThatExist()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete application that exist", ((string[])(null)));
-#line 37
+#line 49
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 38
+#line 50
  testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 39
+#line 51
  testRunner.Given("\"dev\" has the application \"zaphod\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 40
+#line 52
  testRunner.When("I DELETE an app named \"zaphod\" in the environment \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 41
+#line 53
  testRunner.Then("I should get HTTP NoContent", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 42
+#line 54
  testRunner.And("there should be 0 apps in the environment \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -194,15 +236,15 @@ this.FeatureBackground();
         public virtual void DeleteApplicationThatDoesNotExist()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete application that does not exist", ((string[])(null)));
-#line 44
+#line 56
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 45
+#line 57
  testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 46
+#line 58
  testRunner.When("I DELETE an app named \"idontexist\" in the environment \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 47
+#line 59
  testRunner.Then("I should get HTTP NotFound", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
