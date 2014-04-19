@@ -31,6 +31,11 @@ Scenario: Adding environment
 	And an environment named "dev" should be persisted
 	And location header should contain url for "environments/dev"
 
+Scenario: Adding duplicate environment is not allowed
+	Given an environment named "dev" exist
+	When I POST a environment named "dev" 
+	Then I should get HTTP Forbidden with reason "Duplicates are not allowed"
+
 Scenario: Delete environment that exist
 	Given an environment named "dev" exist
 	When I DELETE an environment named "dev" 

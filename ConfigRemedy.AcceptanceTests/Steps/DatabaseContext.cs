@@ -1,4 +1,5 @@
-﻿using Raven.Client.Embedded;
+﻿using ConfigRemedy.Api;
+using Raven.Client.Embedded;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
@@ -17,6 +18,9 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             {
                 RunInMemory = true
             };
+
+            RavenConfigurator.Configure(embeddedStore);
+
             embeddedStore.Initialize();
             return embeddedStore;
         }

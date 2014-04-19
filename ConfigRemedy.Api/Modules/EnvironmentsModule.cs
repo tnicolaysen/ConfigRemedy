@@ -16,7 +16,7 @@ namespace ConfigRemedy.Api.Modules
             {
                 using (var session = docStore.OpenSession())
                 {
-                    return session.Query<Environment>().Select(e => e).ToList();
+                    return session.Query<Environment>().ToList();
                 }
             };
 
@@ -26,7 +26,7 @@ namespace ConfigRemedy.Api.Modules
 
                 using (var session = docStore.OpenSession())
                 {
-                    var environment = session.Query<Environment>().SingleOrDefault(env => env.Name == name);
+                    var environment = GetEnvironment(session, name);
 
                     if (environment == null)
                         return HttpStatusCode.NotFound;
@@ -40,13 +40,19 @@ namespace ConfigRemedy.Api.Modules
 
             Post["/"] = _ =>
             {
+                var environment = this.Bind<Environment>(e => e.Id);
+
                 using (var session = docStore.OpenSession())
                 {
-                    var environment = this.Bind<Environment>(e => e.Id);
+                    if (GetEnvironment(session, environment.Name) != null)
+                    {
+                        return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
+                                        .WithReasonPhrase("Duplicates are not allowed");
+                    }
+
                     session.Store(environment);
                     session.SaveChanges();
 
-                    // NOTE: Try to generalize this in time
                     return Negotiate
                         .WithContentType("application/json")
                         .WithModel(environment)
@@ -72,6 +78,11 @@ namespace ConfigRemedy.Api.Modules
                     return HttpStatusCode.NoContent;
                 }
             };
+        }
+
+        private Environment GetEnvironment(IDocumentSession session, string name)
+        {
+            return session.Load<Environment>("environments/" + name);
         }
     }
 }

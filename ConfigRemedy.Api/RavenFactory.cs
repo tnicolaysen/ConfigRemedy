@@ -12,8 +12,12 @@ namespace ConfigRemedy.Api
                 DataDirectory = "Data"
             };
 
+            RavenConfigurator.Configure(docstore);
+
             docstore.Initialize();
             return docstore;
         }
+
+      
     }
 }

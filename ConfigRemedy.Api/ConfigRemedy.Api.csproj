@@ -118,6 +118,7 @@
     <Compile Include="Modules\EnvironmentsModule.cs" />
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="Modules\SettingModule.cs" />
+    <Compile Include="RavenConfigurator.cs" />
     <Compile Include="RavenFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
