@@ -28,6 +28,12 @@ Scenario: Adding application
 	And an application named "fixerupper" should be persisted
 	And location header should contain url for "environments/dev/applications/fixerupper"
 
+Scenario: Adding duplicate application is not allowed
+	Given an environment named "dev" exist
+	Given "dev" has the application "zaphod"
+	When I POST a application named "zaphod" to the "dev" environment 
+	Then I should get HTTP Forbidden with reason "Duplicates are not allowed"
+
 Scenario: Delete application that exist
 	Given an environment named "dev" exist
 	Given "dev" has the application "zaphod"

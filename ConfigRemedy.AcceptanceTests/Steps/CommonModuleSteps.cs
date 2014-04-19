@@ -46,6 +46,14 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Assert.That(Result.StatusCode, Is.EqualTo(statusCode));
         }
 
+        [Then(@"I should get HTTP (\w+) with reason ""(.*)""")]
+        public void ThenIShouldGetHTTPForbiddenWithReason(HttpStatusCode statusCode, string reason)
+        {
+            Assert.That(Result.StatusCode, Is.EqualTo(statusCode));
+            Assert.That(Result.ReasonPhrase, Is.EqualTo(reason));
+        }
+
+
         [Then(@"I should get an empty list")]
         public void ThenIShouldGetAnEmptyList()
         {

@@ -22,7 +22,7 @@ namespace ConfigRemedy.Api.Modules
                     return Negotiate
                         .WithContentType("application/json")
                         .WithStatusCode(HttpStatusCode.OK)
-                        .WithModel(env.Application(appName).Settings);
+                        .WithModel(env.GetApplication(appName).Settings);
                 }
             };
         }

@@ -36,7 +36,12 @@ namespace ConfigRemedy.Api.Modules
                     var env = GetEnvironment(session, envName);
                     var app = this.Bind<Application>();
 
-                    // TODO: Check for dupes
+                    if (env.HasApplication(app.Name))
+                    {
+                        return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
+                                        .WithReasonPhrase("Duplicates are not allowed");
+                    }
+
                     env.Applications.Add(app);
 
                     session.Store(env);

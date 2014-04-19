@@ -16,9 +16,14 @@ namespace ConfigRemedy.Domain
             Applications = new List<Application>();
         }
 
-        public Application Application(string appName)
+        public bool HasApplication(string appName)
         {
-            if (!Applications.Any(a => a.Name == appName))
+            return Applications.Any(a => a.Name == appName);
+        }
+
+        public Application GetApplication(string appName)
+        {
+            if (!HasApplication(appName))
                 throw new Exception(string.Format("Application '{0}' was not found", appName));
 
             return Applications.Single(a => a.Name == appName);
