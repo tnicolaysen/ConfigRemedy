@@ -62,11 +62,11 @@ namespace ConfigRemedy.Api.Modules
                     var app = env.GetApplication(appName);
                     var setting = this.Bind<Setting>();
 
-                    //if (app.HasSetting(setting.Key))
-                    //{
-                    //    return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
-                    //                    .WithReasonPhrase("Duplicates are not allowed");
-                    //}
+                    if (app.HasSetting(setting.Key))
+                    {
+                        return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
+                                        .WithReasonPhrase("Duplicates are not allowed");
+                    }
 
                     app.AddSetting(setting);
 

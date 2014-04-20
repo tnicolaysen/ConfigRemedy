@@ -11,18 +11,6 @@ namespace ConfigRemedy.AcceptanceTests.Steps
     [Binding]
     public class SettingSteps : ModuleStepsBase
     {
-        [Given(@"I POST the following setting to ""(\w+)\/(\w+)"": ""(\w+)"" = ""(.+)""")]
-        public void GivenITheFollowingSetting(string envName, string appName, string settingKey, string settingValue)
-        {
-            var url = string.Format("/environments/{0}/{1}/settings", envName, appName);
-            Result = Browser.Post(url, with =>
-            {
-                JsonClient(with);
-                with.FormValue("key", settingKey);
-                with.FormValue("value", settingValue);
-            });
-        }
-
         [Given(@"the following setting exist in ""(\w+)\/(\w+)"": ""(\w+)"" = ""(.+)""")]
         public void GivenTheFollowingSettingExistIn(string envName, string appName, string settingKey, string settingValue)
         {
@@ -34,6 +22,18 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             var url = string.Format("/environments/{0}/{1}/settings", envName, appName);
             Result = Browser.Get(url, JsonClient);
+        }
+
+        [When(@"I POST the following setting to ""(\w+)\/(\w+)"": ""(\w+)"" = ""(.+)""")]
+        public void GivenITheFollowingSetting(string envName, string appName, string settingKey, string settingValue)
+        {
+            var url = string.Format("/environments/{0}/{1}/settings", envName, appName);
+            Result = Browser.Post(url, with =>
+            {
+                JsonClient(with);
+                with.FormValue("key", settingKey);
+                with.FormValue("value", settingValue);
+            });
         }
 
         [When(@"I get the setting ""(\w+)"" in ""(\w+)\/(\w+)""")]

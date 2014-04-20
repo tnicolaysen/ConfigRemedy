@@ -42,7 +42,14 @@ Scenario: Get specific setting that don't exist
 Scenario: Adding settings to an application
 	Given an environment named "test" exist
 	Given "test" has the application "scroogle"
-	And I POST the following setting to "test/scroogle": "retries" = "10"
+	When I POST the following setting to "test/scroogle": "retries" = "10"
 	Then I should get HTTP Created
 	And the setting "retries" should be persisted in "test/scroogle" with value "10"
 	And location header should contain url for "environments/test/scroogle/retries"
+
+Scenario: Adding duplicate setting is not allowed
+	Given an environment named "test" exist
+	Given "test" has the application "scroogle"
+	And the following setting exist in "test/scroogle": "version" = "1.0 RC1"
+	When I POST the following setting to "test/scroogle": "version" = "something else"
+	Then I should get HTTP Forbidden with reason "Duplicates are not allowed"
