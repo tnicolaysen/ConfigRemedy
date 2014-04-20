@@ -42,12 +42,12 @@ namespace ConfigRemedy.Api.Modules
                 using (var session = docStore.OpenSession())
                 {
                     var env = GetEnvironment(session, envName);
-                    var settings = env.GetApplication(appName).Settings;
-                    var setting = settings.FirstOrDefault(KeyMatcher(settingKey));
-                    
-                    // todo: check for existence
+                    var app = env.GetApplication(appName);
 
-                    return new TextResponse(setting.Value);
+                    if (!app.HasSetting(settingKey))
+                        return new NotFoundResponse();
+
+                    return new TextResponse(app.GetSetting(settingKey).Value);
                 }
             };
 

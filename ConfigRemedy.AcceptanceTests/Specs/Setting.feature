@@ -33,6 +33,11 @@ Scenario: Get specific setting value
 	Then I should get HTTP OK
 	And I should get a string identical to "1.0 RC1"
 
+Scenario: Get specific setting that don't exist
+	Given an environment named "prod" exist
+	Given "prod" has the application "fooble"
+	When I get the setting "idontexist" in "prod/fooble"
+	Then I should get HTTP NotFound
 
 Scenario: Adding settings to an application
 	Given an environment named "test" exist
