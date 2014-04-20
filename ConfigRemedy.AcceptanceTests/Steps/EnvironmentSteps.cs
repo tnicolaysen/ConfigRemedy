@@ -1,10 +1,7 @@
-﻿using System.IO;
-using System.Linq;
-using Nancy.Testing;
+﻿using System.Linq;
+using ConfigRemedy.Domain;
 using NUnit.Framework;
-using Raven.Imports.Newtonsoft.Json;
 using TechTalk.SpecFlow;
-using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {

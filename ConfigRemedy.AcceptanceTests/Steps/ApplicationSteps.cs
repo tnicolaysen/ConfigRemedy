@@ -4,7 +4,6 @@ using ConfigRemedy.Domain;
 using Nancy.Testing;
 using NUnit.Framework;
 using Raven.Client.Linq;
-using Raven.Imports.Newtonsoft.Json;
 using TechTalk.SpecFlow;
 
 namespace ConfigRemedy.AcceptanceTests.Steps

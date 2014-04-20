@@ -3,7 +3,6 @@ using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
 using Raven.Client;
-using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {

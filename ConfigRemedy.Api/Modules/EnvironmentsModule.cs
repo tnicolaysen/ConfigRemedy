@@ -1,9 +1,8 @@
 ﻿using System.Linq;
+using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
 using Raven.Client;
-using Raven.Client.Linq;
-using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {

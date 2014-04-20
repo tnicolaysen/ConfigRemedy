@@ -1,11 +1,8 @@
-﻿using Nancy.TinyIoc;
-using Raven.Client;
-using Raven.Client.Embedded;
+﻿using Nancy;
+using Nancy.TinyIoc;
 
 namespace ConfigRemedy.Api
 {
-    using Nancy;
-
     public class Bootstrapper : DefaultNancyBootstrapper
     {
         

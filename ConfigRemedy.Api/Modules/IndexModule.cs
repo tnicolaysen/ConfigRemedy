@@ -1,7 +1,7 @@
-﻿namespace ConfigRemedy.Api
-{
-    using Nancy;
+﻿using Nancy;
 
+namespace ConfigRemedy.Api
+{
     public class IndexModule : NancyModule
     {
         public IndexModule()
