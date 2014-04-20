@@ -1,4 +1,5 @@
 ﻿using Nancy.Testing;
+using Raven.Imports.Newtonsoft.Json;
 using TechTalk.SpecFlow;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
@@ -33,6 +34,12 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             with.Header("accept", "application/json");
             with.HttpRequest();
+        }
+
+        protected T Deserialize<T>(BrowserResponse response)
+        {
+            var jsonString = Result.Body.AsString();
+            return JsonConvert.DeserializeObject<T>(jsonString);
         }
     }
 }

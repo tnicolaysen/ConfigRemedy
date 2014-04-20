@@ -59,6 +59,12 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             Assert.That(Result.Body.AsString(), Is.EqualTo("[]"));
         }
+        
+        [Then(@"I should get an empty object")]
+        public void ThenIShouldGetAnEmptyObject()
+        {
+            Assert.That(Result.Body.AsString(), Is.EqualTo("{}"));
+        }
 
         [Then(@"I should get an empty body")]
         public void ThenIShouldGetAnEmptyBody()

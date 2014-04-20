@@ -27,6 +27,25 @@ namespace ConfigRemedy.Api.Modules
                 }
             };
 
+            Get["/{appName}"] = _ => // Specific app
+            {
+                string envName = RequiredParam(_, "envName");
+                string appName = RequiredParam(_, "appName");
+
+                using (var session = docStore.OpenSession())
+                {
+                    var env = GetEnvironment(session, envName);
+
+                    if (!env.HasApplication(appName))
+                        return Negotiate.WithStatusCode(HttpStatusCode.NotFound);
+
+                    return Negotiate
+                        .WithContentType("application/json")
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithModel(env.GetApplication(appName));
+                }
+            };
+
             Post["/"] = _ => // Create a new app. in a given env.
             {
                 string envName = RequiredParam(_, "envName");
@@ -85,7 +104,7 @@ namespace ConfigRemedy.Api.Modules
 
         private static Environment GetEnvironment(IDocumentSession session, string envName)
         {
-            return session.Query<Environment>().Single(e => e.Name == envName);
+            return session.Load<Environment>("environments/" + envName);
         }
     }
 }

@@ -7,8 +7,28 @@ Background:
 	Given I have a JSON client
 
 Scenario: Getting settings for an app. without settings
-	Given an environment named "dev" exist
-	Given "dev" has the application "zaphod"
-	When I get available settings for the application "zaphod" in the "dev" enviroment
+	Given an environment named "test" exist
+	Given "test" has the application "zaphod"
+	When I get available settings for the application "zaphod" in the "test" enviroment
 	Then I should get HTTP OK
-	And I should get an empty list
+	And I should get an empty object
+
+Scenario: Getting settings for an app.
+	Given an environment named "test" exist
+	Given "test" has the application "scroogle"
+	And the following setting exist in "test/scroogle": "setting1" = "a"
+	And the following setting exist in "test/scroogle": "setting2" = "b"
+	When I get available settings for the application "scroogle" in the "test" enviroment
+	Then I should get HTTP OK
+	And I should the following settings:
+		| Key      | Value |
+		| setting1 | a     |
+		| setting2 | b     |
+
+Scenario: Adding settings to an application
+	Given an environment named "test" exist
+	Given "test" has the application "scroogle"
+	And I POST the following setting to "test/scroogle": "retries" = "10"
+	Then I should get HTTP Created
+	And the setting "retries" should be persisted in "test/scroogle" with value "10"
+	And location header should contain url for "environments/test/applications/scroogle/settings/retries"

@@ -94,12 +94,6 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             }
         }
 
-        private T Deserialize<T>(BrowserResponse response)
-        {
-            var jsonString = Result.Body.AsString();
-            return JsonConvert.DeserializeObject<T>(jsonString);
-        }
-
 
         // Setup / boilerplate
 

@@ -73,13 +73,6 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Assert.That(environment, Is.Not.Null);
             Assert.That(environment.Name, Is.EqualTo(envName));
         }
-
-        private T Deserialize<T>(BrowserResponse response)
-        {
-            var jsonString = Result.Body.AsString();
-            return JsonConvert.DeserializeObject<T>(jsonString);
-        }
-
         
         // Setup / boilerplate
 
