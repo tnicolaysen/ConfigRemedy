@@ -21,8 +21,6 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             {
                 JsonClient(with);
                 with.FormValue("name", environmentName);
-                //var jsonBody = string.Format("{{ name: '{0}' }}", environmentName);
-                //with.Body(jsonBody, "application/json");
             });
         }
 
@@ -33,9 +31,9 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         }
         
         [When(@"I DELETE an environment named ""(.*)""")]
-        public void WhenIDELETEAnEnvironmentNamed(string p0)
+        public void WhenIDELETEAnEnvironmentNamed(string envName)
         {
-            Result = Browser.Delete("/environments/dev", JsonClient);
+            Result = Browser.Delete("/environments/" + envName, JsonClient);
         }
 
         [Then(@"there should be (\d+) environments")]
