@@ -22,7 +22,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I GET the application ""(.*)"" in the ""(.*)"" environment")]
         public void WhenIGETTheApplicationInTheEnvironment(string appName, string envName)
         {
-            Result = Browser.Get("/environments/" + envName + "/applications/" + appName, JsonClient);
+            Result = Browser.Get("/environments/" + envName + "/" + appName, JsonClient);
         }
 
 
@@ -35,7 +35,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I POST a application named ""(.*)"" to the ""(.*)"" environment")]
         public void WhenIPOSTAApplicationNamedToTheEnvironment(string appName, string envName)
         {
-            Result = Browser.Post("/environments/" + envName + "/applications/", with =>
+            Result = Browser.Post("/environments/" + envName + "/applications", with =>
             {
                 JsonClient(with);
                 with.FormValue("name", appName);
@@ -45,7 +45,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I DELETE an app named ""(.*)"" in the environment ""(.*)""")]
         public void WhenIDELETEAnAppNamedInTheEnvironment(string appName, string envName)
         {
-            Result = Browser.Delete("/environments/" + envName + "/applications/" + appName, JsonClient);
+            Result = Browser.Delete("/environments/" + envName + "/" + appName, JsonClient);
         }
 
         [Then(@"there should be (\d+) apps in the environment ""(\w+)""")]

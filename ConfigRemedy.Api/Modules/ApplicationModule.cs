@@ -10,9 +10,9 @@ namespace ConfigRemedy.Api.Modules
     public class ApplicationModule : BaseModule
     {
         public ApplicationModule(IDocumentStore docStore)
-            : base("/environments/{envName}/applications")
+            : base("/environments/{envName}")
         {
-            Get["/"] = _ => // All apps in a given env.
+            Get["/applications"] = _ => // All apps in a given env.
             {
                 string envName = RequiredParam(_, "envName");
 
@@ -46,7 +46,7 @@ namespace ConfigRemedy.Api.Modules
                 }
             };
 
-            Post["/"] = _ => // Create a new app. in a given env.
+            Post["/applications"] = _ => // Create a new app. in a given env.
             {
                 string envName = RequiredParam(_, "envName");
 

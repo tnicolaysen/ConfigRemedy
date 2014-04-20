@@ -31,4 +31,4 @@ Scenario: Adding settings to an application
 	And I POST the following setting to "test/scroogle": "retries" = "10"
 	Then I should get HTTP Created
 	And the setting "retries" should be persisted in "test/scroogle" with value "10"
-	And location header should contain url for "environments/test/applications/scroogle/settings/retries"
+	And location header should contain url for "environments/test/scroogle/retries"

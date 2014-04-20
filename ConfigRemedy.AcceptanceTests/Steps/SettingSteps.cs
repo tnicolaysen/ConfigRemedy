@@ -13,7 +13,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [Given(@"I POST the following setting to ""(\w+)\/(\w+)"": ""(\w+)"" = ""(\w+)""")]
         public void GivenITheFollowingSetting(string envName, string appName, string settingKey, string settingValue)
         {
-            var url = string.Format("/environments/{0}/applications/{1}/settings", envName, appName);
+            var url = string.Format("/environments/{0}/{1}/settings", envName, appName);
             Result = Browser.Post(url, with =>
             {
                 JsonClient(with);
@@ -31,7 +31,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I get available settings for the application ""(\w+)"" in the ""(\w+)"" enviroment")]
         public void WhenIGetAvailableSettingsForTheApplicationInTheEnviroment(string appName, string envName)
         {
-            var url = string.Format("/environments/{0}/applications/{1}/settings", envName, appName);
+            var url = string.Format("/environments/{0}/{1}/settings", envName, appName);
             Result = Browser.Get(url, JsonClient);
         }
 

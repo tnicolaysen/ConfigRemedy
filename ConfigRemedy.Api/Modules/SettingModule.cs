@@ -11,9 +11,9 @@ namespace ConfigRemedy.Api.Modules
     public class SettingModule : BaseModule
     {
         public SettingModule(IDocumentStore docStore)
-            : base("/environments/{envName}/applications/{appName}/settings")
+            : base("/environments/{envName}/{appName}")
         {
-            Get["/"] = _ => // All app. settings in a given env.
+            Get["/settings"] = _ => // All app. settings in a given env.
             {
                 string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");
@@ -30,7 +30,7 @@ namespace ConfigRemedy.Api.Modules
                 }
             };
 
-            Post["/"] = _ => // Create a new setting for a given app. in a given env.
+            Post["/settings"] = _ => // Create a new setting for a given app. in a given env.
             {
                 string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");

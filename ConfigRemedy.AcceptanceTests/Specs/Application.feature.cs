@@ -181,8 +181,7 @@ this.FeatureBackground();
 #line 40
  testRunner.And("an application named \"fixerupper\" should be persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
- testRunner.And("location header should contain url for \"environments/dev/applications/fixerupper\"" +
-                    "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("location header should contain url for \"environments/dev/fixerupper\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

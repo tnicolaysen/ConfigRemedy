@@ -38,7 +38,7 @@ Scenario: Adding application
 	When I POST a application named "fixerupper" to the "dev" environment 
 	Then I should get HTTP Created
 	And an application named "fixerupper" should be persisted
-	And location header should contain url for "environments/dev/applications/fixerupper"
+	And location header should contain url for "environments/dev/fixerupper"
 
 Scenario: Adding duplicate application is not allowed
 	Given an environment named "dev" exist
