@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
+using Nancy.Responses;
+using Nancy.Responses.Negotiation;
 using Raven.Client;
+using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
@@ -26,6 +30,24 @@ namespace ConfigRemedy.Api.Modules
                         .WithContentType("application/json")
                         .WithStatusCode(HttpStatusCode.OK)
                         .WithModel(settings);
+                }
+            };
+
+            Get["/{settingKey}"] = _ => // Get the value of a specific key
+            {
+                string envName = RequiredParam(_, "envName");
+                string appName = RequiredParam(_, "appName");
+                string settingKey = RequiredParam(_, "settingKey");
+
+                using (var session = docStore.OpenSession())
+                {
+                    var env = GetEnvironment(session, envName);
+                    var settings = env.GetApplication(appName).Settings;
+                    var setting = settings.FirstOrDefault(KeyMatcher(settingKey));
+                    
+                    // todo: check for existence
+
+                    return new TextResponse(setting.Value);
                 }
             };
 
@@ -70,6 +92,10 @@ namespace ConfigRemedy.Api.Modules
             return settings.ToDictionary(s => s.Key, s => s.Value);
         }
 
+        private static Func<Setting, bool> KeyMatcher(string key)
+        {
+            return s => string.Equals(s.Key, key, StringComparison.InvariantCultureIgnoreCase);
+        }
 
         private static Environment GetEnvironment(IDocumentSession session, string envName)
         {

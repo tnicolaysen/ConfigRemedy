@@ -25,6 +25,15 @@ Scenario: Getting settings for an app.
 		| setting1 | a     |
 		| setting2 | b     |
 
+Scenario: Get specific setting value
+	Given an environment named "prod" exist
+	Given "prod" has the application "fooble"
+	And the following setting exist in "prod/fooble": "version" = "1.0 RC1"
+	When I get the setting "version" in "prod/fooble"
+	Then I should get HTTP OK
+	And I should get a string identical to "1.0 RC1"
+
+
 Scenario: Adding settings to an application
 	Given an environment named "test" exist
 	Given "test" has the application "scroogle"

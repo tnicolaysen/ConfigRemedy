@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ConfigRemedy.Domain;
+using Nancy.Testing;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
@@ -10,7 +11,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
     [Binding]
     public class SettingSteps : ModuleStepsBase
     {
-        [Given(@"I POST the following setting to ""(\w+)\/(\w+)"": ""(\w+)"" = ""(\w+)""")]
+        [Given(@"I POST the following setting to ""(\w+)\/(\w+)"": ""(\w+)"" = ""(.+)""")]
         public void GivenITheFollowingSetting(string envName, string appName, string settingKey, string settingValue)
         {
             var url = string.Format("/environments/{0}/{1}/settings", envName, appName);
@@ -22,7 +23,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             });
         }
 
-        [Given(@"the following setting exist in ""(\w+)\/(\w+)"": ""(\w+)"" = ""(\w+)""")]
+        [Given(@"the following setting exist in ""(\w+)\/(\w+)"": ""(\w+)"" = ""(.+)""")]
         public void GivenTheFollowingSettingExistIn(string envName, string appName, string settingKey, string settingValue)
         {
             GivenITheFollowingSetting(envName, appName, settingKey, settingValue);
@@ -35,7 +36,21 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Result = Browser.Get(url, JsonClient);
         }
 
-        [Then(@"the setting ""(\w+)"" should be persisted in ""(\w+)\/(\w+)"" with value ""(\w+)""")]
+        [When(@"I get the setting ""(\w+)"" in ""(\w+)\/(\w+)""")]
+        public void WhenIGetTheSettingFor(string settingKey, string envName, string appName)
+        {
+            var url = string.Format("/environments/{0}/{1}/{2}", envName, appName, settingKey);
+            Result = Browser.Get(url, JsonClient);
+        }
+
+        [Then(@"I should get a string identical to ""(.*)""")]
+        public void ThenIShouldGetAStringIdenticalTo(string settingValue)
+        {
+            Assert.That(Result.Body.AsString(), Is.EqualTo(settingValue));
+        }
+
+
+        [Then(@"the setting ""(\w+)"" should be persisted in ""(\w+)\/(\w+)"" with value ""(.+)""")]
         public void ThenTheSettingShouldBePersistedInWithValue(string settingKey, string envName, string appName, string settingValue)
         {
             using (var session = DbContext.EmbeddedStore.OpenSession())
