@@ -2,6 +2,7 @@
 using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
+using Nancy.Responses;
 using Raven.Client;
 
 namespace ConfigRemedy.Api.Modules
@@ -45,14 +46,18 @@ namespace ConfigRemedy.Api.Modules
                 {
                     if (GetEnvironment(session, environment.Name) != null)
                     {
-                        return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
-                                        .WithReasonPhrase("Duplicates are not allowed");
+                        // TODO: Refactor or try to find a better builder
+                        var response = new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed");
+                        response.WithHeader("Access-Control-Allow-Origin", "*");
+                        response.ReasonPhrase = "Duplicates are not allowed";
+                        return response;
                     }
 
                     session.Store(environment);
                     session.SaveChanges();
-
+                    
                     return Negotiate
+                        .WithHeader("Access-Control-Allow-Origin", "*")
                         .WithContentType("application/json")
                         .WithModel(environment)
                         .WithHeader("Location", string.Format("{0}/{1}", ModulePath, environment.Name))

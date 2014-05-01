@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ConfigRemedy.Domain;
+using Nancy.Testing;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -68,6 +69,21 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Assert.That(environment, Is.Not.Null);
             Assert.That(environment.Name, Is.EqualTo(envName));
         }
+
+        [Then(@"I should get an the following JSON response: (.*)")]
+        public void ThenIShouldGetAnTheFollowingJSONResponse(string expectedJson)
+        {
+            var resultJson = Result.Body.AsString();
+            Assert.That(resultJson, Is.EqualTo(expectedJson).IgnoreCase);
+        }
+
+        [Then(@"body should be ""(.*)""")]
+        public void ThenBodyShouldBe(string expectedBody)
+        {
+            var actualBody = Result.Body.AsString();
+            Assert.That(actualBody, Is.EqualTo(expectedBody));
+        }
+
         
         // Setup / boilerplate
 

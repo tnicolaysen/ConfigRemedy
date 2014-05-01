@@ -137,25 +137,49 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Adding environment")]
-        public virtual void AddingEnvironment()
+        [NUnit.Framework.DescriptionAttribute("Getting all environments")]
+        public virtual void GettingAllEnvironments()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding environment", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Getting all environments", ((string[])(null)));
 #line 27
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 28
- testRunner.Given("the database is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 29
- testRunner.When("I POST a environment named \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("an environment named \"test\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 30
- testRunner.Then("I should get HTTP Created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I get available environments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 31
- testRunner.And("an environment named \"dev\" should be persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("I should get HTTP 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 32
+ testRunner.And("I should get an the following JSON response: [{\"name\":\"dev\",\"link\":\"/environments" +
+                    "/dev\"},{\"name\":\"test\",\"link\":\"/environments/test\"}]", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Adding environment")]
+        public virtual void AddingEnvironment()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding environment", ((string[])(null)));
+#line 34
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 35
+ testRunner.Given("the database is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 36
+ testRunner.When("I POST a environment named \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 37
+ testRunner.Then("I should get HTTP Created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 38
+ testRunner.And("an environment named \"dev\" should be persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 39
  testRunner.And("location header should contain url for \"environments/dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 33
+#line 40
  testRunner.And("I should get an environment model with name \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -166,16 +190,18 @@ this.FeatureBackground();
         public virtual void AddingDuplicateEnvironmentIsNotAllowed()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding duplicate environment is not allowed", ((string[])(null)));
-#line 35
+#line 42
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 36
+#line 43
  testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 37
+#line 44
  testRunner.When("I POST a environment named \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 38
+#line 45
  testRunner.Then("I should get HTTP Forbidden with reason \"Duplicates are not allowed\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 46
+ testRunner.And("body should be \"Duplicates are not allowed\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -185,17 +211,17 @@ this.FeatureBackground();
         public virtual void DeleteEnvironmentThatExist()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete environment that exist", ((string[])(null)));
-#line 40
+#line 48
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 41
+#line 49
  testRunner.Given("an environment named \"dev\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 42
+#line 50
  testRunner.When("I DELETE an environment named \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 43
+#line 51
  testRunner.Then("I should get HTTP NoContent", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 44
+#line 52
  testRunner.And("there should be 0 environments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -206,15 +232,15 @@ this.FeatureBackground();
         public virtual void DeleteEnvironmentThatDoesNotExist()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete environment that does not exist", ((string[])(null)));
-#line 46
+#line 54
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 47
+#line 55
  testRunner.Given("the database is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 48
+#line 56
  testRunner.When("I DELETE an environment named \"dev\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 49
+#line 57
  testRunner.Then("I should get HTTP NotFound", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

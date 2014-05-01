@@ -24,6 +24,13 @@ Scenario: Getting an existing enviornment
 	Then I should get HTTP 200
 	And I should get an environment model with name "dev"
 
+Scenario: Getting all environments
+	Given an environment named "dev" exist
+	Given an environment named "test" exist
+	When I get available environments
+	Then I should get HTTP 200
+	And I should get an the following JSON response: [{"name":"dev","link":"/environments/dev"},{"name":"test","link":"/environments/test"}]
+
 Scenario: Adding environment
 	Given the database is empty
 	When I POST a environment named "dev" 
@@ -36,6 +43,7 @@ Scenario: Adding duplicate environment is not allowed
 	Given an environment named "dev" exist
 	When I POST a environment named "dev" 
 	Then I should get HTTP Forbidden with reason "Duplicates are not allowed"
+	And body should be "Duplicates are not allowed"
 
 Scenario: Delete environment that exist
 	Given an environment named "dev" exist
