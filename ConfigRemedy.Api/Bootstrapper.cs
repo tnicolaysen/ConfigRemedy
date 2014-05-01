@@ -1,20 +1,27 @@
 ﻿using Nancy;
 using Nancy.TinyIoc;
+using Raven.Client;
 
 namespace ConfigRemedy.Api
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {
-        
-        // The bootstrapper enables you to reconfigure the composition of the framework,
-        // by overriding the various methods and properties.
-        // For more information https://github.com/NancyFx/Nancy/wiki/Bootstrapper
+        /// <summary>
+        /// Belived to behave as "singletons"
+        /// </summary>
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        {
+            base.ConfigureApplicationContainer(container);
+
+            container.Register(RavenFactory.Create());
+        }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
         {
             base.ConfigureRequestContainer(container, context);
 
-            container.Register(RavenFactory.Create());
+            var documentStore = container.Resolve<IDocumentStore>();
+            container.Register(documentStore.OpenSession());
         }
     }
 }

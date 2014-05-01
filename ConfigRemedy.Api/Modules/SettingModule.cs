@@ -5,7 +5,6 @@ using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
-using Nancy.Responses.Negotiation;
 using Raven.Client;
 using Environment = ConfigRemedy.Domain.Environment;
 
@@ -13,24 +12,21 @@ namespace ConfigRemedy.Api.Modules
 {
     public class SettingModule : BaseModule
     {
-        public SettingModule(IDocumentStore docStore)
+        public SettingModule(IDocumentSession session)
             : base("/environments/{envName}/{appName}")
         {
             Get["/settings"] = _ => // All app. settings in a given env.
             {
                 string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");
+                
+                var env = GetEnvironment(session, envName);
+                var settings = SettingsAsDictionary(env, appName);
 
-                using (var session = docStore.OpenSession())
-                {
-                    var env = GetEnvironment(session, envName);
-                    var settings = SettingsAsDictionary(env, appName);
-
-                    return Negotiate
-                        .WithContentType("application/json")
-                        .WithStatusCode(HttpStatusCode.OK)
-                        .WithModel(settings);
-                }
+                return Negotiate
+                    .WithContentType("application/json")
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithModel(settings);
             };
 
             Get["/{settingKey}"] = _ => // Get the value of a specific key
@@ -38,17 +34,14 @@ namespace ConfigRemedy.Api.Modules
                 string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");
                 string settingKey = RequiredParam(_, "settingKey");
+                
+                var env = GetEnvironment(session, envName);
+                var app = env.GetApplication(appName);
 
-                using (var session = docStore.OpenSession())
-                {
-                    var env = GetEnvironment(session, envName);
-                    var app = env.GetApplication(appName);
+                if (!app.HasSetting(settingKey))
+                    return new NotFoundResponse();
 
-                    if (!app.HasSetting(settingKey))
-                        return new NotFoundResponse();
-
-                    return new TextResponse(app.GetSetting(settingKey).Value);
-                }
+                return new TextResponse(app.GetSetting(settingKey).Value);
             };
 
             Post["/settings"] = _ => // Create a new setting for a given app. in a given env.
@@ -56,33 +49,30 @@ namespace ConfigRemedy.Api.Modules
                 string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");
 
-                using (var session = docStore.OpenSession())
+                var env = GetEnvironment(session, envName);
+                var app = env.GetApplication(appName);
+                var setting = this.Bind<Setting>();
+
+                if (app.HasSetting(setting.Key))
                 {
-                    var env = GetEnvironment(session, envName);
-                    var app = env.GetApplication(appName);
-                    var setting = this.Bind<Setting>();
-
-                    if (app.HasSetting(setting.Key))
-                    {
-                        return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
-                                        .WithReasonPhrase("Duplicates are not allowed");
-                    }
-
-                    app.AddSetting(setting);
-
-                    session.Store(env);
-                    session.SaveChanges();
-
-                    // NOTE: Try to generalize this in time
-                    var modulePath = ModulePath.Replace("{envName}", envName)
-                                               .Replace("{appName}", appName);
-
-                    return Negotiate
-                        .WithContentType("application/json")
-                        .WithModel(setting) // TODO: Test for object structure
-                        .WithHeader("Location", string.Format("{0}/{1}", modulePath, setting.Key))
-                        .WithStatusCode(HttpStatusCode.Created);
+                    return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
+                        .WithReasonPhrase("Duplicates are not allowed");
                 }
+
+                app.AddSetting(setting);
+
+                session.Store(env);
+                session.SaveChanges();
+
+                // NOTE: Try to generalize this in time
+                var modulePath = ModulePath.Replace("{envName}", envName)
+                    .Replace("{appName}", appName);
+
+                return Negotiate
+                    .WithContentType("application/json")
+                    .WithModel(setting) // TODO: Test for object structure
+                    .WithHeader("Location", string.Format("{0}/{1}", modulePath, setting.Key))
+                    .WithStatusCode(HttpStatusCode.Created);
             };
         }
 
