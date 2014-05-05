@@ -1,7 +1,7 @@
 ﻿using Raven.Client;
 using Raven.Client.Embedded;
 
-namespace ConfigRemedy.Api
+namespace ConfigRemedy.Api.Infrastructure
 {
     public class RavenFactory
     {

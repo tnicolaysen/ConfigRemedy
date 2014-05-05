@@ -2,7 +2,7 @@
 using Raven.Abstractions.Util;
 using Raven.Client;
 
-namespace ConfigRemedy.Api
+namespace ConfigRemedy.Api.Infrastructure
 {
     public static class RavenConfigurator
     {

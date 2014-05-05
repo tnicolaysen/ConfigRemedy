@@ -1,9 +1,11 @@
-﻿using Nancy;
+﻿using ConfigRemedy.Api.Infrastructure;
 using Nancy.TinyIoc;
 using Raven.Client;
 
 namespace ConfigRemedy.Api
 {
+    using Nancy;
+
     public class Bootstrapper : DefaultNancyBootstrapper
     {
         /// <summary>

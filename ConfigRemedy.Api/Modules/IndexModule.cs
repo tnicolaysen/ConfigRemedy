@@ -1,6 +1,6 @@
 ﻿using Nancy;
 
-namespace ConfigRemedy.Api
+namespace ConfigRemedy.Api.Modules
 {
     public class IndexModule : NancyModule
     {
