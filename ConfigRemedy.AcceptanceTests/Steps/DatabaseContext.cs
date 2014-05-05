@@ -1,4 +1,5 @@
 ﻿using ConfigRemedy.Api;
+using ConfigRemedy.Api.Infrastructure;
 using Raven.Client.Embedded;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
