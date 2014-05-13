@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.AcceptanceTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Api", "ConfigRemedy.Api\ConfigRemedy.Api.csproj", "{6A77021F-1884-4429-A3BE-A8163746C7DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Client", "ConfigRemedy.Client\ConfigRemedy.Client.csproj", "{E9A8D3B5-0525-416A-BC5F-07B7B373397F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +25,18 @@ Global
 		{3F7C8746-1F10-46CA-B32E-7776242ECFC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F7C8746-1F10-46CA-B32E-7776242ECFC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F7C8746-1F10-46CA-B32E-7776242ECFC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49F521D7-2006-4EC6-AB7A-FFE236D754A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F521D7-2006-4EC6-AB7A-FFE236D754A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F521D7-2006-4EC6-AB7A-FFE236D754A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F521D7-2006-4EC6-AB7A-FFE236D754A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A77021F-1884-4429-A3BE-A8163746C7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A77021F-1884-4429-A3BE-A8163746C7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A77021F-1884-4429-A3BE-A8163746C7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A77021F-1884-4429-A3BE-A8163746C7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9A8D3B5-0525-416A-BC5F-07B7B373397F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9A8D3B5-0525-416A-BC5F-07B7B373397F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9A8D3B5-0525-416A-BC5F-07B7B373397F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9A8D3B5-0525-416A-BC5F-07B7B373397F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
