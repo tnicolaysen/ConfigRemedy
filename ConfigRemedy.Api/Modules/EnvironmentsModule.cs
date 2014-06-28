@@ -19,9 +19,7 @@ namespace ConfigRemedy.Api.Modules
                     .ToList();
 
                 var envProjection = environments.Select(e => new {Name = e.Name, Link = CreateLinkForEnvironment(e)});
-                return Negotiate
-                    .WithHeader("Access-Control-Allow-Origin", "*")
-                    .WithModel(envProjection);
+                return envProjection;
             };
 
             Get["/{name}"] = _ => // Given environment
@@ -33,11 +31,7 @@ namespace ConfigRemedy.Api.Modules
                 if (environment == null)
                     return HttpStatusCode.NotFound;
 
-                return Negotiate
-                    .WithHeader("Access-Control-Allow-Origin", "*")
-                    .WithContentType("application/json")
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithModel(environment);
+                return environment;
             };
 
             Post["/"] = _ =>
@@ -46,18 +40,16 @@ namespace ConfigRemedy.Api.Modules
 
                 if (GetEnvironment(session, environment.Name) != null)
                 {
-                    // TODO: Refactor or try to find a better builder
-                    var response = new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed");
-                    response.WithHeader("Access-Control-Allow-Origin", "*");
-                    response.ReasonPhrase = "Duplicates are not allowed";
-                    return response;
+                    return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
+                    {
+                        ReasonPhrase = "Duplicates are not allowed"
+                    };
                 }
 
                 session.Store(environment);
                 session.SaveChanges();
                     
                 return Negotiate
-                    .WithHeader("Access-Control-Allow-Origin", "*")
                     .WithContentType("application/json")
                     .WithModel(environment)
                     .WithHeader("Location", string.Format("{0}/{1}", ModulePath, environment.Name))
