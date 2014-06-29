@@ -1,8 +1,11 @@
-﻿using ConfigRemedy.Api.Modules;
-using Nancy;
+﻿using System;
+using System.Net;
+using ConfigRemedy.Api.Infrastructure;
+using ConfigRemedy.Api.Modules;
 using Nancy.Testing;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
+using HttpStatusCode = Nancy.HttpStatusCode;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
@@ -19,6 +22,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
                 with.Module<EnviromentModule>();
                 with.Module<ApplicationModule>();
                 with.Module<SettingModule>();
+                with.RequestStartup((container, pipelines, ctx) => CustomPipelines.Configure(pipelines));
                 with.Dependency(DbContext.EmbeddedStore.OpenSession());
             });
         }
@@ -37,6 +41,38 @@ namespace ConfigRemedy.AcceptanceTests.Steps
 
         // Whens
 
+        [When(@"I make a (\w+) request")]
+        public void WhenIMakeARequest(string requestType)
+        {
+            if (string.Equals(requestType, "DELETE", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Result = Browser.Delete("/", JsonClient);
+            }
+            else if (string.Equals(requestType, "OPTIONS", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Result = Browser.Options("/", JsonClient);
+            }
+            else if (string.Equals(requestType, "GET", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Result = Browser.Get("/", JsonClient);
+            }
+            else if (string.Equals(requestType, "POST", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Result = Browser.Post("/", JsonClient);
+            }
+            else if (string.Equals(requestType, "PUT", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Result = Browser.Put("/", JsonClient);
+            }
+            else if (string.Equals(requestType, "HEAD", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Result = Browser.Head("/", JsonClient);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("requestType", "Request type is not supported");
+            }
+        }
 
         // Thens
 

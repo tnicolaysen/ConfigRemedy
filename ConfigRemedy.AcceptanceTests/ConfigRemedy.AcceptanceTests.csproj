@@ -101,6 +101,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Application.feature</DependentUpon>
     </Compile>
+    <Compile Include="Specs\CrossOriginHeaders.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrossOriginHeaders.feature</DependentUpon>
+    </Compile>
     <Compile Include="Specs\Environment.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,6 +119,7 @@
       <DependentUpon>Setting.feature</DependentUpon>
     </Compile>
     <Compile Include="Steps\CommonModuleSteps.cs" />
+    <Compile Include="Steps\CrossOriginHeadersSteps.cs" />
     <Compile Include="Steps\ModuleStepsBase.cs" />
     <Compile Include="Steps\DatabaseContext.cs" />
     <Compile Include="Steps\ApplicationSteps.cs" />
@@ -125,6 +131,10 @@
     <None Include="Specs\Application.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Application.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Specs\CrossOriginHeaders.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CrossOriginHeaders.feature.cs</LastGenOutput>
     </None>
     <None Include="Specs\Environment.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

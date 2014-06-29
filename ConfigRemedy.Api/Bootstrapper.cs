@@ -16,19 +16,7 @@ namespace ConfigRemedy.Api
 
         protected override void RequestStartup(TinyIoCContainer requestContainer, IPipelines pipelines, NancyContext context)
         {
-            AddCrossOriginSupport(pipelines);
-        }
-
-        private static void AddCrossOriginSupport(IPipelines pipelines)
-        {
-            pipelines.AfterRequest.AddItemToEndOfPipeline(ctx =>
-            {
-                ctx.Response.WithHeader("Access-Control-Allow-Origin", "*");
-
-                string allowHeader = ctx.Response.Headers.GetOrDefault("Allow");
-                if (allowHeader != null)
-                    ctx.Response.WithHeader("Access-Control-Allow-Methods", allowHeader);
-            });
+            CustomPipelines.Configure(pipelines);
         }
 
         /// <summary>

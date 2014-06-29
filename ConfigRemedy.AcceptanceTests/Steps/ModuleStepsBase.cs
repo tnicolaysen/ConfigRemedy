@@ -25,7 +25,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             set { ScenarioContext.Current.Set(value, "Result"); }
         }
 
-        protected ModuleStepsBase(DatabaseContext dbContext)
+        protected ModuleStepsBase(DatabaseContext dbContext = null)
         {
             DbContext = dbContext;
         }
