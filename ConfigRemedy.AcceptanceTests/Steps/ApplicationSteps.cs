@@ -53,7 +53,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             using (var session = DbContext.EmbeddedStore.OpenSession())
             {
                 var result = session.Query<Environment>()
-                                    .Single(e => e.Name == envName)
+                                    .Single(e => e.ShortName == envName)
                                     .Applications;
 
                 Assert.That(result.Count, Is.EqualTo(numberOfApps));

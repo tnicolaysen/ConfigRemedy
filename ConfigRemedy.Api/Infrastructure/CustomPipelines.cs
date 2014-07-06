@@ -16,6 +16,7 @@ namespace ConfigRemedy.Api.Infrastructure
             pipelines.AfterRequest.AddItemToEndOfPipeline(ctx =>
             {
                 ctx.Response.WithHeader("Access-Control-Allow-Origin", "*");
+                ctx.Response.WithHeader("Access-Control-Allow-Headers", "origin, accept, content-type");
 
                 string allowHeader = ctx.Response.Headers.GetOrDefault("Allow");
                 if (allowHeader != null)

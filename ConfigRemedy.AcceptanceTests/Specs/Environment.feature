@@ -29,7 +29,7 @@ Scenario: Getting all environments
 	Given an environment named "test" exist
 	When I get available environments
 	Then I should get HTTP 200
-	And I should get an the following JSON response: [{"name":"dev","link":"/environments/dev"},{"name":"test","link":"/environments/test"}]
+	And I should get an the following JSON response: [{"shortName":"dev","longName":null,"description":null,"icon":null,"link":"/environments/dev"},{"shortName":"test","longName":null,"description":null,"icon":null,"link":"/environments/test"}]
 
 Scenario: Adding environment
 	Given the database is empty

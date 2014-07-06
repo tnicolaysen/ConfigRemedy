@@ -21,7 +21,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Result = Browser.Post("/environments", with =>
             {
                 JsonClient(with);
-                with.FormValue("name", environmentName);
+                with.FormValue("shortName", environmentName);
             });
         }
 
@@ -55,7 +55,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             {
                 var result = session
                     .Query<Environment>()
-                    .Where(env => env.Name == environmentName)
+                    .Where(env => env.ShortName == environmentName)
                     .ToList();
 
                 Assert.That(result, Is.Not.Empty, "Did not find the specified environment");
@@ -67,7 +67,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             var environment = Deserialize<Environment>(Result);
             Assert.That(environment, Is.Not.Null);
-            Assert.That(environment.Name, Is.EqualTo(envName));
+            Assert.That(environment.ShortName, Is.EqualTo(envName));
         }
 
         [Then(@"I should get an the following JSON response: (.*)")]

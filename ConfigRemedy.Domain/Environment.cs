@@ -7,7 +7,10 @@ namespace ConfigRemedy.Domain
     public class Environment
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string ShortName { get; set; }
+        public string LongName { get; set; }
+        public string Description { get; set; }
+        public string Icon { get; set; }
 
         public List<Application> Applications { get; set; }
 

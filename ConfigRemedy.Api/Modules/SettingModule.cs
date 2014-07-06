@@ -89,7 +89,7 @@ namespace ConfigRemedy.Api.Modules
 
         private static Environment GetEnvironment(IDocumentSession session, string envName)
         {
-            return session.Query<Environment>().Single(e => e.Name == envName);
+            return session.Query<Environment>().Single(e => e.ShortName == envName);
         }
 
     }

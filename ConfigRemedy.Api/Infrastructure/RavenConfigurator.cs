@@ -16,10 +16,10 @@ namespace ConfigRemedy.Api.Infrastructure
             // Create custom convetion for Environment so that they get a natural 
             // "unique" constraint. It makes it easier to look them up as well.
             store.Conventions.RegisterIdConvention<Environment>((dbName, commands, env) =>
-                "environments/" + env.Name);
+                "environments/" + env.ShortName);
             
             store.Conventions.RegisterAsyncIdConvention<Environment>((dbName, commands, env) =>
-                new CompletedTask<string>("environments/" + env.Name));
+                new CompletedTask<string>("environments/" + env.ShortName));
         }
     }
 }

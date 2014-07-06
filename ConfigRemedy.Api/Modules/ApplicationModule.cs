@@ -71,7 +71,7 @@ namespace ConfigRemedy.Api.Modules
                 string appName = RequiredParam(_, "appName");
                 
                 var envToModify = session.Query<Environment>()
-                    .SingleOrDefault(env => env.Name == envName);
+                    .SingleOrDefault(env => env.ShortName == envName);
 
                 if (envToModify == null)
                     return HttpStatusCode.NotFound;
