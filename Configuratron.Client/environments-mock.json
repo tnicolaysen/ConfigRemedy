@@ -1,0 +1,23 @@
+[
+    {
+        "id": "environments/DEV",
+        "shortName": "DEV",
+        "longName": "Development",
+        "description": "A potentially unstable environment. It's where we try out stuff",
+        "icon": "bug"
+    },
+    {
+        "id": "environments/PROD",
+        "shortName": "PROD",
+        "longName": "Production",
+        "description": "The holy grail!",
+        "icon": "cloud"
+    },
+    {
+        "id": "environments/QA",
+        "shortName": "QA",
+        "longName": "Quality Assurance",
+        "description": "Where bugs are killed",
+        "icon": "qa"
+    }
+]

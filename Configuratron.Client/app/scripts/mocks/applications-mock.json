@@ -1,0 +1,106 @@
+[
+    {
+        "appName": "Accounting",
+        "settings": [
+            {
+                "name": "Bring.EA.DisableSending",
+                "defaultValue": false,
+                "description": "",
+                "deleted": false,
+                "environments": [
+                    {
+                        "environmentId": "environment/DEV",
+                        "value": false,
+                        "shortName": "DEV",
+                        "longName": "Development",
+                        "description": "A potentially unstable environment. It's where we try out stuff",
+                        "icon": "bug"
+                    },
+                    {
+                        "environmentId": "environment/PROD",
+                        "value": true,
+                        "shortName": "PROD",
+                        "longName": "Production",
+                        "description": "The holy grail!",
+                        "icon": "cloud"
+                    }
+                ],
+                "history": [
+                    {
+                        "who": "EUROPE\\t3n",
+                        "when": "2014-07-03T16:41:34.000Z+2",
+                        "what": "Created",
+                        "from": "",
+                        "to": true
+                    },
+                    {
+                        "who": "EUROPE\\evg",
+                        "when": "2014-01-01T20:12:34.000Z+2",
+                        "what": "Edited",
+                        "from": true,
+                        "to": false
+                    },
+                    {
+                        "who": "EUROPE\\p9s",
+                        "when": "2014-12-01T20:12:34.000Z+2",
+                        "what": "Deleted",
+                        "from": true,
+                        "to": ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "appName": "Online Sales: Nemo",
+        "settings": [
+            {
+                "name": "ReceiptEmail.SenderName",
+                "defaultValue": "no-reply@if.no",
+                "description": "",
+                "deleted": false,
+                "environments": [
+                    {
+                        "environmentId": "environment/QA",
+                        "value": "bob@if.no",
+                        "shortName": "QA",
+                        "longName": "Quality Assurance",
+                        "description": "Where bugs are killed",
+                        "icon": "qa"
+                    },
+                    {
+                        "environmentId": "environment/PROD",
+                        "value": "support@if.no",
+                        "shortName": "PROD",
+                        "longName": "Production",
+                        "description": "The holy grail!",
+                        "icon": "cloud"
+                    }
+                ],
+                "history": [
+                    {
+                        "who": "EUROPE\\t3n",
+                        "when": "2014-07-03T16:41:34.000Z+2",
+                        "what": "Created",
+                        "from": "",
+                        "to": true
+                    },
+                    {
+                        "who": "EUROPE\\evg",
+                        "when": "2014-01-01T20:12:34.000Z+2",
+                        "what": "Edited",
+                        "from": true,
+                        "to": false
+                    },
+                    {
+                        "who": "EUROPE\\p9s",
+                        "when": "2014-12-01T20:12:34.000Z+2",
+                        "what": "Deleted",
+                        "from": true,
+                        "to": ""
+                    }
+                ]
+            }
+        ]
+    }
+]

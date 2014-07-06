@@ -1,0 +1,193 @@
+<!-- Templates -->
+
+<script type="text/ng-template" id="iconListTemplate.html">
+	<a>
+		<i class="fa fa-{{match.model.id}} fa-2x fa-border"></i>
+		<span bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+		<span ng-repeat="category in match.model.categories">
+			<span class="small text-muted" bind-html-unsafe="category | typeaheadHighlight:query"></span>
+		</span>
+	</a>
+</script>
+
+
+
+<!-- Edit modal + form template -->
+<script type="text/ng-template" id="editModal.html">
+	<div class="modal-header">
+			<h3 class="modal-title">
+				Edit environment {{env.shortName}}
+				<span style="color: #f0ad4e" class="fa {{env.icon}}"></span>
+			</h3>
+	</div>
+	<div class="modal-body">
+		<form role="form" name="editForm" id="edit-form" ng-submit="ok()">
+
+			<!-- longName -->
+			<div class="form-group" ng-class="{ 'has-error' : editForm.longName.$invalid && !editForm.longName.$pristine }">
+				<label for="longName">Long name</label>
+				<input type="text" class="form-control"
+						ng-model="env.longName"
+						id="longName"
+						name="longName"
+						required
+						placeholder="Enter a long name">
+				<span class="help-block">E.g. Development, Quality Assurance, Staging, Production</span>
+				<p class="text-danger"
+					 ng-show="editForm.longName.$invalid && !editForm.longName.$pristine">
+				Must be filled in
+				</p>
+			</div>
+
+			<!-- description -->
+			<div class="form-group">
+				<label for="description">Description</label>
+				<input type="text" class="form-control"
+						ng-model="env.description"
+						id="description"
+						placeholder="Enter a description">
+				<span class="help-block">(Optional) A helpful description to describe what the environment is used for.</span>
+			</div>
+
+			<!-- icon -->
+			<div class="form-group">
+				<label for="edit-icon">Icon</label>
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa {{env.icon}}"></i>
+					</span>
+					<input type="text" class="form-control"
+							 id="edit-icon"
+							 placeholder="Start typing to search"
+							 ng-model="env.icon"
+							 typeahead="icon as icon.id for icon in getIcons() | filter:{name:$viewValue}"
+							 typeahead-template-url="iconListTemplate.html"
+							 typeahead-loading="Loading..."
+							 typeahead-on-select="selectIcon($model)">
+				</div>
+				<span class="help-block">(Optional) Choose an icon to help identify your environment. You can find all supported icons at <a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome</a>.</span>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="reset"
+						class="btn btn-link"
+						ng-click="reset()"
+						ng-disabled="editForm.$pristine">
+			Reset
+		</button>
+		<button class="btn btn-primary"
+						ng-click="ok()"
+						ng-disabled="editForm.$invalid || editForm.$pristine">
+			Update
+		</button>
+
+			<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
+
+<!-- / Templates -->
+
+
+<button class="btn btn-lg btn-default" ng-click="createFormIsCollapsed = !createFormIsCollapsed">
+	<span class="glyphicon glyphicon-plus"></span> Create new
+</button>
+
+<form role="form" name="createForm" id="create-form" class="well" ng-submit="submit()" collapse="createFormIsCollapsed">
+	<!-- shortName -->
+	<div class="form-group" ng-class="{ 'has-error' : createForm.shortName.$invalid && !createForm.shortName.$pristine }">
+		<label for="shortName">Short name</label>
+		<input type="text" class="form-control"
+				ng-model="env.shortName"
+				id="shortName"
+				name="shortName"
+				placeholder="Enter a short name"
+				required
+				ng-pattern="/^[A-Za-z0-9]+$/">
+		<span class="help-block">Will be used a an unique identificator. E.g. DEV, TEST, QA, PROD.</span>
+		<p class="text-danger"
+			 ng-show="createForm.shortName.$invalid && !createForm.shortName.$pristine">
+		Required and must only contain letters and numbers.
+		</p>
+	</div>
+
+	<!-- longName -->
+	<div class="form-group" ng-class="{ 'has-error' : createForm.longName.$invalid && !createForm.longName.$pristine }">
+		<label for="longName">Long name</label>
+		<input type="text" class="form-control"
+				ng-model="env.longName"
+				id="longName"
+				name="longName"
+				required
+				placeholder="Enter a long name">
+		<span class="help-block">E.g. Development, Quality Assurance, Staging, Production</span>
+		<p class="text-danger"
+			 ng-show="createForm.longName.$invalid && !createForm.longName.$pristine">
+		Must be filled in
+		</p>
+	</div>
+
+	<!-- description -->
+	<div class="form-group">
+		<label for="description">Description</label>
+		<input type="text" class="form-control"
+				ng-model="env.description"
+				id="description"
+				placeholder="Enter a description">
+		<span class="help-block">(Optional) A helpful description to describe what the environment is used for.</span>
+	</div>
+
+	<!-- icon -->
+	<div class="form-group">
+		<label for="icon">Icon</label>
+		<br>
+
+	<div class="input-group">
+		<span class="input-group-addon">
+		<i class="fa {{env.icon}}"></i>
+		</span>
+		<input type="text" class="form-control"
+				 placeholder="Start typing to search"
+				 ng-model="env.icon"
+				 typeahead="icon as icon.id for icon in getIcons() | filter:{name:$viewValue}"
+				 typeahead-template-url="iconListTemplate.html"
+				 typeahead-loading="Loading..."
+				 typeahead-on-select="selectIcon($model)">
+	</div>
+
+	<span class="help-block">(Optional) Choose an icon to help identify your environment. You can find all supported-icons at <a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome</a>.</span>
+	</div>
+
+	<!-- Buttons -->
+	<button type="submit"
+				class="btn btn-primary"
+				ng-disabled="createForm.$invalid || createForm.$pristine">
+		Create
+	</button>
+</form>
+
+<div ng-repeat="env in environments">
+	<h2>
+		<span style="color: #f0ad4e" class="fa {{env.icon}}"></span>
+		{{env.shortName}}
+		<small>{{env.longName}}</small>
+	</h2>
+
+	<p class="lead">
+		{{env.description}}
+	</p>
+
+	<div>
+	<button class="btn btn-xs btn-default" ng-click="open(env)">
+		<i class="fa fa-pencil"></i> Edit
+	</button>
+
+	<button class="btn btn-xs btn-danger" ng-click="remove(env)">
+		<i class="fa fa-trash-o"></i> Delete
+	</button>
+	</div>
+</div>
+
+<div ng-show="!environments.length" class="alert alert-info" role="alert">
+	No environments found.
+</div>
