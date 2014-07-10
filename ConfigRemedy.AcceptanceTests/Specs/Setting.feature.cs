@@ -245,8 +245,6 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 58
- testRunner.Given("an environment named \"test\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 59
  testRunner.Given("an application named \"scroogle\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
@@ -255,7 +253,7 @@ this.FeatureBackground();
             table6.AddRow(new string[] {
                         "dontDuplicateMe",
                         "Sure, whatever"});
-#line 60
+#line 59
  testRunner.Given("that \"scroogle\" have the following settings:", ((string)(null)), table6, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
@@ -264,9 +262,9 @@ this.FeatureBackground();
             table7.AddRow(new string[] {
                         "dontDuplicateMe",
                         "uwish"});
-#line 63
+#line 62
  testRunner.When("I POST the following settings to \"scroogle\":", ((string)(null)), table7, "When ");
-#line 66
+#line 65
  testRunner.Then("I should get HTTP Forbidden with reason \"Duplicates are not allowed\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

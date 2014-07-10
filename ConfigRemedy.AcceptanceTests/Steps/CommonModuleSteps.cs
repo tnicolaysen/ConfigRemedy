@@ -1,21 +1,22 @@
-﻿using System;
-using System.Net;
+﻿using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Modules;
 using Nancy.Testing;
 using NUnit.Framework;
+using System;
 using TechTalk.SpecFlow;
 using HttpStatusCode = Nancy.HttpStatusCode;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
+    [UsedImplicitly, MeansImplicitUse]
     [Binding]
     public class CommonModuleSteps : ModuleStepsBase
     {
         // Givens
 
         [Given(@"I have a JSON client")]
-        public void GivenIHaveAJSONClient()
+        public void GivenIHaveAJsonClient()
         {
             Browser = new Browser(with =>
             {
@@ -77,13 +78,13 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         // Thens
 
         [Then(@"I should get HTTP (\w+)")]
-        public void ThenIShouldGetHTTPCode(HttpStatusCode statusCode)
+        public void ThenIShouldGetHttpCode(HttpStatusCode statusCode)
         {
             Assert.That(Result.StatusCode, Is.EqualTo(statusCode));
         }
 
         [Then(@"I should get HTTP (\w+) with reason ""(.*)""")]
-        public void ThenIShouldGetHTTPForbiddenWithReason(HttpStatusCode statusCode, string reason)
+        public void ThenIShouldGetHttpForbiddenWithReason(HttpStatusCode statusCode, string reason)
         {
             Assert.That(Result.StatusCode, Is.EqualTo(statusCode));
             Assert.That(Result.ReasonPhrase, Is.EqualTo(reason));

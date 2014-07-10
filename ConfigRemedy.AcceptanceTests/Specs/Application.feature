@@ -33,14 +33,14 @@ Scenario: Get non-existing application
 
 Scenario: Adding application
 	Given an environment named "dev" exist
-	When I POST a application named "fixerupper"
+	When I POST an application named "fixerupper"
 	Then I should get HTTP Created
 	And an application named "fixerupper" should be persisted
 	And location header should contain url for "applications/fixerupper"
 
 Scenario: Adding duplicate application is not allowed
 	Given an application named "zaphod" exist
-	When I POST a application named "zaphod" 
+	When I POST an application named "zaphod" 
 	Then I should get HTTP Forbidden with reason "Duplicates are not allowed"
 
 Scenario: Delete application that exist

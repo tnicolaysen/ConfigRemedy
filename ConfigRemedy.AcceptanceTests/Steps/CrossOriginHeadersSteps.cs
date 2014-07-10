@@ -1,3 +1,4 @@
+using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using Nancy;
 using Nancy.Testing;
@@ -6,6 +7,7 @@ using TechTalk.SpecFlow;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
+    [UsedImplicitly, MeansImplicitUse]
     [Binding]
     public class CrossOriginHeadersSteps : ModuleStepsBase
     {
@@ -26,11 +28,12 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         }
     }
 
+    [UsedImplicitly]
     public class TestingModule : NancyModule
     {
         public TestingModule()
         {
-            Delete["/"] = _ => { return HttpStatusCode.NoContent; };
+            Delete["/"] = _ => HttpStatusCode.NoContent;
         }
     }
 }

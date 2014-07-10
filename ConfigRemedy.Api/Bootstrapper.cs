@@ -1,13 +1,14 @@
-﻿using ConfigRemedy.Api.Infrastructure;
+﻿using ConfigRemedy.Api.Annotations;
+using ConfigRemedy.Api.Infrastructure;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
-using Raven.Abstractions.Extensions;
 using Raven.Client;
 
 namespace ConfigRemedy.Api
 {
     using Nancy;
 
+    [UsedImplicitly]
     public class Bootstrapper : DefaultNancyBootstrapper
     {
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)

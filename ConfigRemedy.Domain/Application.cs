@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ConfigRemedy.Domain.Annotations;
 
 namespace ConfigRemedy.Domain
 {
+    [UsedImplicitly]
     public class Application : IEquatable<Application>
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string Id { get; [UsedImplicitly] set; }
+        public string Name { get; [UsedImplicitly]set; }
         public List<Setting> Settings { get; set; }
 
         public Application()
@@ -20,22 +22,12 @@ namespace ConfigRemedy.Domain
             return Settings.SingleOrDefault(KeyMatcher(key));
         }
 
-        //public IEnumerable<string> EnvironmentIds
-        //{
-        //    get { return Settings.SelectMany(s => s.EnvironmentOverrides.Select(e => e.Key)); }
-        //}
-
         public void AddSetting(Setting setting)
         {
             if (HasSetting(setting.Key))
-                throw new Exception("Duplicate applications found");
+                throw new Exception("Setting already exist");
 
             Settings.Add(setting);
-        }
-
-        public void AddSetting(string key, string defaultValue)
-        {
-            AddSetting(new Setting(key, defaultValue));
         }
 
         public bool HasSetting(string key)
@@ -70,7 +62,7 @@ namespace ConfigRemedy.Domain
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((Application) obj);
         }
 
@@ -96,7 +88,5 @@ namespace ConfigRemedy.Domain
         }
 
         #endregion
-
-     
     }
 }

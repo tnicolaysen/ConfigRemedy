@@ -1,12 +1,13 @@
-﻿using ConfigRemedy.Api;
+﻿using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using Raven.Client.Embedded;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
+    [UsedImplicitly]
     public class DatabaseContext
     {
-        public EmbeddableDocumentStore EmbeddedStore { get; set; }
+        public EmbeddableDocumentStore EmbeddedStore { get; private set; }
 
         public DatabaseContext()
         {

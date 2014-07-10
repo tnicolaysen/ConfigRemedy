@@ -3,7 +3,7 @@ using Raven.Client.Embedded;
 
 namespace ConfigRemedy.Api.Infrastructure
 {
-    public class RavenFactory
+    public static class RavenFactory
     {
         public static IDocumentStore Create()
         {
@@ -17,7 +17,5 @@ namespace ConfigRemedy.Api.Infrastructure
             docstore.Initialize();
             return docstore;
         }
-
-      
     }
 }

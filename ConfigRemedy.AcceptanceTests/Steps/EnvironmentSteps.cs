@@ -1,11 +1,13 @@
-﻿using System.Linq;
+﻿using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Domain;
 using Nancy.Testing;
 using NUnit.Framework;
+using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
+    [UsedImplicitly, MeansImplicitUse]
     [Binding]
     public class EnvironmentSteps : ModuleStepsBase
     {
@@ -16,7 +18,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         }
 
         [When(@"I POST a environment named ""(\w+)""")]
-        public void WhenIPOSTAEnvironmentNamed(string environmentName)
+        public void WhenIPostAEnvironmentNamed(string environmentName)
         {
             Result = Browser.Post("/environments", with =>
             {
@@ -26,13 +28,13 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         }
 
         [When(@"I GET an environment named ""(\w+)""")]
-        public void WhenIGETAnEnvironmentNamed(string envName)
+        public void WhenIGetAnEnvironmentNamed(string envName)
         {
             Result = Browser.Get("/environments/" + envName, JsonClient);
         }
         
         [When(@"I DELETE an environment named ""(.*)""")]
-        public void WhenIDELETEAnEnvironmentNamed(string envName)
+        public void WhenIDeleteAnEnvironmentNamed(string envName)
         {
             Result = Browser.Delete("/environments/" + envName, JsonClient);
         }

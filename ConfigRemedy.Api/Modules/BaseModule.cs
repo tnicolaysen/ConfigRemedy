@@ -1,15 +1,15 @@
-﻿using System;
-using Nancy;
+﻿using Nancy;
+using System;
 
 namespace ConfigRemedy.Api.Modules
 {
     public class BaseModule : NancyModule
     {
-        public BaseModule()
+        protected BaseModule()
         {
         }
 
-        public BaseModule(string modulePath) : base(modulePath)
+        protected BaseModule(string modulePath) : base(modulePath)
         {
         }
 

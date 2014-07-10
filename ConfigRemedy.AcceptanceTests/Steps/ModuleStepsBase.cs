@@ -7,19 +7,19 @@ namespace ConfigRemedy.AcceptanceTests.Steps
     [Binding]
     public class ModuleStepsBase : TechTalk.SpecFlow.Steps
     {
-        public DatabaseContext DbContext
+        protected DatabaseContext DbContext
         {
             get { return ScenarioContext.Current.Get<DatabaseContext>("DatabaseContext"); }
             set { ScenarioContext.Current.Set(value, "DatabaseContext"); }
         }
 
-        public Browser Browser
+        protected Browser Browser
         {
             get { return ScenarioContext.Current.Get<Browser>("Browser"); }
             set { ScenarioContext.Current.Set(value, "Browser"); }
         }
 
-        public BrowserResponse Result
+        protected BrowserResponse Result
         {
             get { return ScenarioContext.Current.Get<BrowserResponse>("Result"); }
             set { ScenarioContext.Current.Set(value, "Result"); }
@@ -38,7 +38,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
 
         protected T Deserialize<T>(BrowserResponse response)
         {
-            var jsonString = Result.Body.AsString();
+            var jsonString = response.Body.AsString();
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
     }

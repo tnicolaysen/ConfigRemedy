@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
 using Raven.Client;
-using Raven.Client.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
+    [UsedImplicitly]
     public class ApplicationModule : BaseModule
     {
         public ApplicationModule(IDocumentSession session)

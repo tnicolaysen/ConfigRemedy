@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
@@ -9,6 +8,7 @@ using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
+    [UsedImplicitly]
     public class SettingModule : BaseModule
     {
         public SettingModule(IDocumentSession session)
@@ -186,11 +186,6 @@ namespace ConfigRemedy.Api.Modules
         //    var settings = env.GetApplication(appName).Settings;
         //    return settings.ToDictionary(s => s.Key, s => s.DefaultValue);
         //}
-
-        private static Func<Setting, bool> KeyMatcher(string key)
-        {
-            return s => string.Equals(s.Key, key, StringComparison.InvariantCultureIgnoreCase);
-        }
 
         private static Application GetApplication(IDocumentSession session, string appName)
         {

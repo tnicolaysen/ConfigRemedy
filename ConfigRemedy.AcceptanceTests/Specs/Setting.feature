@@ -55,7 +55,6 @@ Scenario: Adding settings to an application
 	And location header should contain url for "applications/scroogle/settings/retries"
 
 Scenario: Adding duplicate setting is not allowed
-	Given an environment named "test" exist
 	Given an application named "scroogle" exist
 	Given that "scroogle" have the following settings:
 		| Key             | DefaultValue   |

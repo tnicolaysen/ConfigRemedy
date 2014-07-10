@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using ConfigRemedy.Domain.Annotations;
 
 namespace ConfigRemedy.Domain
 {
+    [UsedImplicitly, MeansImplicitUse]
     public class Setting : IEquatable<Setting>
     {
-        public string Key { get; set; }
-        public string DefaultValue { get; set; }
+        [NotNull] public string Key { get; set; }
+        [NotNull] public string DefaultValue { get; set; }
+
         public string Description { get; set; }
-        public bool Deleted { get; set; }
+        public bool Deleted { get; internal set; }
         public SortedDictionary<string, string> Overrides { get; private set; }
         public IList<SettingHistory> History { get; private set; }
 
@@ -45,6 +48,8 @@ namespace ConfigRemedy.Domain
 
         }
 
+        #region Equality comparison
+
         public bool Equals(Setting other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -56,7 +61,7 @@ namespace ConfigRemedy.Domain
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((Setting) obj);
         }
 
@@ -64,8 +69,7 @@ namespace ConfigRemedy.Domain
         {
             unchecked
             {
-                return ((Key != null ? Key.GetHashCode() : 0)*397) ^
-                       (DefaultValue != null ? DefaultValue.GetHashCode() : 0);
+                return (Key.GetHashCode()*397) ^ DefaultValue.GetHashCode();
             }
         }
 
@@ -78,5 +82,7 @@ namespace ConfigRemedy.Domain
         {
             return !Equals(left, right);
         }
+
+        #endregion
     }
 }

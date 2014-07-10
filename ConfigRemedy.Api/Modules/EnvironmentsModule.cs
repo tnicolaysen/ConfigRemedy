@@ -1,13 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using ConfigRemedy.Api.Annotations;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
 using Raven.Client;
+using System;
+using System.Linq;
 using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
+    [UsedImplicitly]
     public class EnviromentModule : BaseModule
     {
         public EnviromentModule(IDocumentSession session)

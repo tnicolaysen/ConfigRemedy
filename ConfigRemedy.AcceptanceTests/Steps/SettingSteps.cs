@@ -1,4 +1,5 @@
-﻿using ConfigRemedy.Domain;
+﻿using ConfigRemedy.AcceptanceTests.Annotations;
+using ConfigRemedy.Domain;
 using Nancy.Testing;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -6,34 +7,25 @@ using TechTalk.SpecFlow.Assist;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
+    [UsedImplicitly, MeansImplicitUse]
     [Binding]
     public class SettingSteps : ModuleStepsBase
     {
-        [Given(@"the following override exist in ""(\w+)\/(\w+)"": ""(\w+)"" = ""(.+)""")]
-        public void GivenTheFollowingOverrideExistIn(string envName, string appName, string settingKey, string settingValue)
-        {
-            GivenITheFollowingSettingOverride(envName, appName, settingKey, settingValue);
-        }
-
         [Given(@"that ""(\w+)"" have the following settings:")]
         public void GivenThatHaveTheFollowingSettings(string appName, Table settingsTable)
         {   
             var settings = settingsTable.CreateSet<Setting>();
-            foreach (var setting in settings)
+            foreach (var setting in settings) 
             {
+
                 Result = Browser.Post(string.Format("/applications/{0}/settings", appName), context =>
                 {
                     JsonClient(context);
+
+                    // ReSharper disable once AccessToForEachVariableInClosure
                     context.JsonBody(setting);
                 });
             }
-        }
-
-        [When(@"I get available settings for the application ""(\w+)"" in the ""(\w+)"" enviroment")]
-        public void WhenIGetAvailableSettingsForTheApplicationInTheEnviroment(string appName, string envName)
-        {
-            var url = string.Format("/environments/{0}/{1}/settings", envName, appName);
-            Result = Browser.Get(url, JsonClient);
         }
 
         [When(@"I get available settings for the application ""(\w+)""")]
@@ -44,9 +36,9 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         }
 
         [When(@"I POST the following settings to ""(.*)"":")]
-        public void WhenIPOSTTheFollowingSettingsTo(string appName, Table settingsTable)
+        public void WhenIPostTheFollowingSettingsTo(string appName, Table settingsTable)
         {
-            GivenThatHaveTheFollowingSettings(appName, settingsTable);;
+            GivenThatHaveTheFollowingSettings(appName, settingsTable);
         }
 
         [When(@"I POST the following setting override to ""(\w+)\/(\w+)"": ""(.+)"" = ""(.+)""")]

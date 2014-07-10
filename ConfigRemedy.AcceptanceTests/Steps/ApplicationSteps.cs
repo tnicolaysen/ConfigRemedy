@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Domain;
 using Nancy.Testing;
 using NUnit.Framework;
 using Raven.Client.Linq;
+using System.Collections.Generic;
+using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
-    [Binding]
+    [Binding, UsedImplicitly, MeansImplicitUseAttribute]
     public class ApplicationSteps : ModuleStepsBase
     {
         [Given(@"an application named ""(\w+)"" exist")]
         public void GivenEnvironmentHasTheApplication(string appName)
         {
-            WhenIPOSTAApplicationNamed(appName);
+            WhenIPostAnApplicationNamed(appName);
         }
-
-
 
         [When(@"I get all applications")]
         public void WhenIGetAllApplications()
@@ -26,7 +25,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         }
 
         [When(@"I GET the application ""(.*)""")]
-        public void WhenIGETTheApplication(string appName)
+        public void WhenIGetTheApplication(string appName)
         {
             Result = Browser.Get("/applications/" + appName, JsonClient);
         }
@@ -37,8 +36,8 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Result = Browser.Get("/applications", JsonClient);
         }
 
-        [When(@"I POST a application named ""(.*)""")]
-        public void WhenIPOSTAApplicationNamed(string appName)
+        [When(@"I POST an application named ""(.*)""")]
+        public void WhenIPostAnApplicationNamed(string appName)
         {
             Result = Browser.Post("/applications", with =>
             {
@@ -48,7 +47,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         }
 
         [When(@"I DELETE an app named ""(.*)""")]
-        public void WhenIDELETEAnAppNamed(string appName)
+        public void WhenIDeleteAnAppNamed(string appName)
         {
             Result = Browser.Delete("/applications/" + appName, JsonClient);
         }
