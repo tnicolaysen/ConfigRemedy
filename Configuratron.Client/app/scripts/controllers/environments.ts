@@ -53,6 +53,24 @@ angular.module('ctronApp')
       });
     };
 
+    $scope.sortableOptions = {
+      update: (e, ui) => {
+        $log.log('Update',
+         ui.item.sortable.index, ui.item.sortable.dropindex
+        );
+      },
+      stop: (e, ui) => {
+        $log.log('Stop',
+         ui.item.sortable.index, ui.item.sortable.dropindex
+        );
+
+        for (var i = 0; i < $scope.environments.length; i++) {
+          $log.log(i, $scope.environments[i]);
+        }
+
+      }
+    };
+
     $scope.submit = () => {
       $log.log('Saving', $scope.env);
 
@@ -66,6 +84,10 @@ angular.module('ctronApp')
     };
 
     $scope.remove = (env) => {
+      if (!$window.confirm('Do you want to delete ' + env.shortName + '?')) {
+        return;
+      }
+
       $log.log('Removing', env);
 
       Environments.remove({id: env.shortName}, (envRes) => {

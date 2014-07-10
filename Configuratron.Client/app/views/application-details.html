@@ -1,0 +1,56 @@
+<div>
+	<h2>Settings for {{app.name}}</h2>
+
+	<p class="lead">
+		{{app.description}}
+	</p>
+
+	<table class="table table-striped">
+		<thead>
+			<th>Key</th>
+			<th>Default value</th>
+			<th ng-repeat="env in environments">
+				{{env.shortName}}
+			</th>
+			<th></th>
+		</thead>
+		<tbody>
+		<tr ng-repeat="setting in app.settings">
+			<td>{{setting.key}}</td>
+			<td>
+				<!--<span editable-text="setting.defaultValue" e-name="defaultValue" e-form="rowform" e-required>
+					{{ setting.defaultValue || 'empty' }}
+				</span>-->
+				<a href="#" editable-text="setting.defaultValue" e-required onaftersave="saveSetting($data, app, env, setting)">
+					{{ setting.defaultValue }}
+				</a>
+			</td>
+			<td ng-repeat="(envName, override) in setting.overrides">
+				<a href="#" editable-text="override" onaftersave="updateOverride($data, app, envName, setting)">
+					{{ override || 'unset' }}
+				</a>
+			</td>
+			 <td style="white-space: nowrap">
+
+		       <!--
+		        <form editable-form shown="false" name="rowform" onbeforesave="saveSetting($data, setting.key)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+		          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-success">
+		            Save
+		          </button>
+		          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+		            Cancel
+		          </button>
+		        </form>
+		        <div class="buttons" ng-show="!rowform.$visible">
+		          <button class="btn btn-xs btn-primary" ng-click="rowform.$show()">
+		          	<i class="fa fa-pencil"></i> Edit
+	          	  </button>
+		          <button class="btn btn-xs btn-danger" ng-click="removeSetting(setting.key)">
+		            <i class="fa fa-trash-o"></i> Delete
+		          </button>
+		        </div>-->
+		      </td>
+		</tr>
+		</tbody>
+	</table>
+</div>

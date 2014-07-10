@@ -1,0 +1,29 @@
+<div ng-repeat="app in applications">
+	<h2>
+		{{app.name}}
+	</h2>
+
+	<p class="lead">
+		{{app.description || 'No description'}}
+	</p>
+
+	<div class="btn-group">
+		<a href="#/applications/{{app.name}}" class="btn btn-sm btn-default">
+			<i class="fa fa-table"></i> Edit settings
+		</a>
+
+		<button class="btn btn-sm btn-default" ng-click="open(app)">
+			<i class="fa fa-pencil"></i> Edit application
+		</button>
+
+		<button class="btn btn-sm btn-default" ng-click="remove(app)">
+			<span class="text-danger">
+				<i class="fa fa-trash-o"></i> Delete application
+			</span>
+		</button>
+	</div>
+</div>
+
+<div ng-show="!applications.length" class="alert alert-info" role="alert">
+	No applications found.
+</div>
