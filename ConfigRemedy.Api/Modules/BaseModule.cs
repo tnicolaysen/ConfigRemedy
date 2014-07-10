@@ -5,13 +5,17 @@ namespace ConfigRemedy.Api.Modules
 {
     public class BaseModule : NancyModule
     {
-        protected BaseModule()
+        // ReSharper disable MemberCanBeProtected.Global
+
+        public BaseModule()
         {
         }
 
-        protected BaseModule(string modulePath) : base(modulePath)
+        public BaseModule(string modulePath) : base(modulePath)
         {
         }
+
+        // ReSharper restore MemberCanBeProtected.Global
 
         /// <summary>
         /// Ensures that a dynamic parma is present and casts it to a string
