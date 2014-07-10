@@ -18,15 +18,19 @@ namespace ConfigRemedy.Api.Modules
                 var environments = session.Query<Environment>()
                     .Customize(c => c.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5)))
                     .ToList();
+                
+                environments.Sort();
 
-                var envProjection = environments.Select(e => new
-                {
-                    e.ShortName, 
-                    e.LongName, 
-                    e.Description, 
-                    e.Icon,
-                    Link = CreateLinkForEnvironment(e)
-                });
+                var envProjection = environments
+                    //.OrderBy(e => e.ShortName)
+                    .Select(e => new
+                    {
+                        e.ShortName,
+                        e.LongName,
+                        e.Description,
+                        e.Icon,
+                        Link = CreateLinkForEnvironment(e)
+                    });
 
                 return envProjection;
             };

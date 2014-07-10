@@ -1,96 +1,118 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;
+using Nancy.Responses;
 using Raven.Client;
+using Raven.Client.Linq;
+using Environment = ConfigRemedy.Domain.Environment;
 
 namespace ConfigRemedy.Api.Modules
 {
     public class ApplicationModule : BaseModule
     {
         public ApplicationModule(IDocumentSession session)
-            : base("/environments/{envName}")
+            : base("/applications")
         {
-            Get["/applications"] = _ => // All apps in a given env.
+            Get["/"] = _ => // All apps 
             {
-                string envName = RequiredParam(_, "envName");
-                var env = GetEnvironment(session, envName);
+                var applications = session.Query<Application>()
+                    .Customize(c => c.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5)))
+                    .ToList();
+                
+                var environments = session.Query<Environment>().ToList();
 
-                return Negotiate
-                    .WithContentType("application/json")
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithModel(env.Applications);
+                var appProjection = applications.Select(a => new
+                {
+                    a.Id,
+                    a.Name,
+                    Settings = PadSettings(a.Settings, environments),
+                    Link = CreateLinkForApplication(a)
+                });
+
+                return appProjection;
             };
 
             Get["/{appName}"] = _ => // Specific app
             {
-                string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");
-                
-                var env = GetEnvironment(session, envName);
 
-                if (!env.HasApplication(appName))
+                var app = GetApplication(session, appName);
+
+                if (app == null)
                     return Negotiate.WithStatusCode(HttpStatusCode.NotFound);
 
-                return Negotiate
-                    .WithContentType("application/json")
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithModel(env.GetApplication(appName));
+                var environments = session.Query<Environment>().ToList();
+                app.Settings = PadSettings(app.Settings, environments);
+
+                return app;
             };
 
-            Post["/applications"] = _ => // Create a new app. in a given env.
+            Post["/"] = _ => // Create a new app
             {
-                string envName = RequiredParam(_, "envName");
-                
-                var env = GetEnvironment(session, envName);
-                var app = this.Bind<Application>();
+                var app = this.Bind<Application>(a => a.Id);
 
-                if (env.HasApplication(app.Name))
+                if (GetApplication(session, app.Name) != null)
                 {
-                    return Negotiate.WithStatusCode(HttpStatusCode.Forbidden)
-                        .WithReasonPhrase("Duplicates are not allowed");
+                    return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
+                    {
+                        ReasonPhrase = "Duplicates are not allowed"
+                    };
                 }
 
-                env.Applications.Add(app);
-
-                session.Store(env);
+                session.Store(app);
                 session.SaveChanges();
 
-                // NOTE: Try to generalize this in time
-                var modulePath = ModulePath.Replace("{envName}", envName);
                 return Negotiate
-                    .WithContentType("application/json")
                     .WithModel(app)
-                    .WithHeader("Location", string.Format("{0}/{1}", modulePath, app.Name))
+                    .WithHeader("Location", string.Format("{0}/{1}", ModulePath, app.Name))
                     .WithStatusCode(HttpStatusCode.Created);
             };
 
-            Delete["/{appName}"] = _ => // Delete a given app. in a given env.
+            Delete["/{appName}"] = _ => // Delete a given app.
             {
-                string envName = RequiredParam(_, "envName");
                 string appName = RequiredParam(_, "appName");
-                
-                var envToModify = session.Query<Environment>()
-                    .SingleOrDefault(env => env.ShortName == envName);
 
-                if (envToModify == null)
+                var appToDelete = GetApplication(session, appName);
+
+                if (appToDelete == null)
+                {
                     return HttpStatusCode.NotFound;
+                }
 
-                if (!envToModify.Applications.Any(a => a.Name == appName))
-                    return HttpStatusCode.NotFound;
-
-                envToModify.Applications.RemoveAll(a => a.Name == appName);
-
-                session.Store(envToModify);
+                session.Delete(appToDelete);
                 session.SaveChanges();
 
                 return HttpStatusCode.NoContent;
             };
         }
 
-        private static Environment GetEnvironment(IDocumentSession session, string envName)
+        private List<Setting> PadSettings(List<Setting> settings, IEnumerable<Environment> environments)
         {
-            return session.Load<Environment>("environments/" + envName);
+            foreach (var environment in environments)
+            {
+                foreach (var setting in settings)
+                {
+                    var envName = environment.ShortName.ToLowerInvariant();
+                    if (!setting.Overrides.ContainsKey(envName))
+                        setting.Overrides[envName] = null;
+                }
+            }
+            
+            return settings;
+        }
+
+
+        private string CreateLinkForApplication(Application application)
+        {
+            return string.Format("/application/{0}", application.Name);
+        }
+
+        private static Application GetApplication(IDocumentSession session, string appName)
+        {
+            return session.Load<Application>("applications/" + appName);
         }
     }
 }

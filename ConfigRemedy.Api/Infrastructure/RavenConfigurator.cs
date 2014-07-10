@@ -20,6 +20,14 @@ namespace ConfigRemedy.Api.Infrastructure
             
             store.Conventions.RegisterAsyncIdConvention<Environment>((dbName, commands, env) =>
                 new CompletedTask<string>("environments/" + env.ShortName));
+
+            // Create custom convetion for Application so that they get a natural 
+            // "unique" constraint. It makes it easier to look them up as well.
+            store.Conventions.RegisterIdConvention<Application>((dbName, commands, env) =>
+                "applications/" + env.Name);
+
+            store.Conventions.RegisterAsyncIdConvention<Application>((dbName, commands, env) =>
+                new CompletedTask<string>("applications/" + env.Name));
         }
     }
 }

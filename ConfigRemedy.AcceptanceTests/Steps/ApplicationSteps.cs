@@ -11,51 +11,54 @@ namespace ConfigRemedy.AcceptanceTests.Steps
     [Binding]
     public class ApplicationSteps : ModuleStepsBase
     {
-        [Given(@"""(\w+)"" has the application ""(\w+)""")]
-        public void GivenEnvironmentHasTheApplication(string envName, string appName)
+        [Given(@"an application named ""(\w+)"" exist")]
+        public void GivenEnvironmentHasTheApplication(string appName)
         {
-            WhenIPOSTAApplicationNamedToTheEnvironment(appName, envName);
-            //When(string.Format(@"When I POST a application named ""{0}"" to the ""{1}"" environment", appName, envName));
-        }
-
-        [When(@"I GET the application ""(.*)"" in the ""(.*)"" environment")]
-        public void WhenIGETTheApplicationInTheEnvironment(string appName, string envName)
-        {
-            Result = Browser.Get("/environments/" + envName + "/" + appName, JsonClient);
+            WhenIPOSTAApplicationNamed(appName);
         }
 
 
-        [When(@"I get available applications for the ""(.*)"" enviroment")]
-        public void WhenIGetAvailableApplicationsForTheEnviroment(string envName)
+
+        [When(@"I get all applications")]
+        public void WhenIGetAllApplications()
         {
-            Result = Browser.Get("/environments/" + envName + "/applications", JsonClient);
+            Result = Browser.Get("/applications", JsonClient);
         }
 
-        [When(@"I POST a application named ""(.*)"" to the ""(.*)"" environment")]
-        public void WhenIPOSTAApplicationNamedToTheEnvironment(string appName, string envName)
+        [When(@"I GET the application ""(.*)""")]
+        public void WhenIGETTheApplication(string appName)
         {
-            Result = Browser.Post("/environments/" + envName + "/applications", with =>
+            Result = Browser.Get("/applications/" + appName, JsonClient);
+        }
+
+        [When(@"I get available applications")]
+        public void WhenIGetAvailableApplications()
+        {
+            Result = Browser.Get("/applications", JsonClient);
+        }
+
+        [When(@"I POST a application named ""(.*)""")]
+        public void WhenIPOSTAApplicationNamed(string appName)
+        {
+            Result = Browser.Post("/applications", with =>
             {
                 JsonClient(with);
                 with.FormValue("name", appName);
             });
         }
 
-        [When(@"I DELETE an app named ""(.*)"" in the environment ""(.*)""")]
-        public void WhenIDELETEAnAppNamedInTheEnvironment(string appName, string envName)
+        [When(@"I DELETE an app named ""(.*)""")]
+        public void WhenIDELETEAnAppNamed(string appName)
         {
-            Result = Browser.Delete("/environments/" + envName + "/" + appName, JsonClient);
+            Result = Browser.Delete("/applications/" + appName, JsonClient);
         }
 
-        [Then(@"there should be (\d+) apps in the environment ""(\w+)""")]
-        public void ThenThereShouldBeAppsInTheEnvironment(int numberOfApps, string envName)
+        [Then(@"there should be (\d+) apps")]
+        public void ThenThereShouldBeApps(int numberOfApps)
         {
             using (var session = DbContext.EmbeddedStore.OpenSession())
             {
-                var result = session.Query<Environment>()
-                                    .Single(e => e.ShortName == envName)
-                                    .Applications;
-
+                var result = session.Query<Application>().ToList();
                 Assert.That(result.Count, Is.EqualTo(numberOfApps));
             }
         }
@@ -85,13 +88,13 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             using (var session = DbContext.EmbeddedStore.OpenSession())
             {
                 var result = session
-                    .Query<Environment>()
-                    .Where(env => env.Applications.Any(a => a.Name == appName))
+                    .Query<Application>()
+                    .Where(app => app.Name == appName)
                     .ToList();
 
                 Assert.That(result, Is.Not.Empty, "Did not find the specified application");
             }
-        }
+        }   
 
 
         // Setup / boilerplate

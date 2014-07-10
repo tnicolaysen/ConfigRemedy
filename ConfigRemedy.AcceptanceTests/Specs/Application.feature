@@ -6,54 +6,50 @@
 Background: 
 	Given I have a JSON client
 
-Scenario: Get applications in an environment without applications
-	Given an environment named "dev" exist
-	When I get available applications for the "dev" enviroment
+Scenario: Get applications when database is empty
+	Given the database is empty
+	When I get all applications
 	Then I should get HTTP OK
 	And I should get an empty list
 
 Scenario: Get all applications in an environment 
-	Given an environment named "dev" exist
-	Given "dev" has the application "zaphod"
-	Given "dev" has the application "arthur"
-	When I get available applications for the "dev" enviroment
+	Given an application named "zaphod" exist
+	Given an application named "arthur" exist
+	When I get available applications
 	Then I should get HTTP OK
 	And I should get a list containing "arthur"
 	And I should get a list containing "zaphod"
 
 Scenario: Get specific application
-	Given an environment named "dev" exist
-	Given "dev" has the application "zaphod"
-	When I GET the application "zaphod" in the "dev" environment
+	Given an application named "zaphod" exist
+	When I GET the application "zaphod"
 	Then I should get HTTP OK
 	And I should get an application model with name "zaphod"
 
 Scenario: Get non-existing application
-	Given an environment named "dev" exist
-	When I GET the application "idontexist" in the "dev" environment
+	Given the database is empty
+	When I GET the application "idontexist"
 	Then I should get HTTP NotFound
 
 Scenario: Adding application
 	Given an environment named "dev" exist
-	When I POST a application named "fixerupper" to the "dev" environment 
+	When I POST a application named "fixerupper"
 	Then I should get HTTP Created
 	And an application named "fixerupper" should be persisted
-	And location header should contain url for "environments/dev/fixerupper"
+	And location header should contain url for "applications/fixerupper"
 
 Scenario: Adding duplicate application is not allowed
-	Given an environment named "dev" exist
-	Given "dev" has the application "zaphod"
-	When I POST a application named "zaphod" to the "dev" environment 
+	Given an application named "zaphod" exist
+	When I POST a application named "zaphod" 
 	Then I should get HTTP Forbidden with reason "Duplicates are not allowed"
 
 Scenario: Delete application that exist
-	Given an environment named "dev" exist
-	Given "dev" has the application "zaphod"
-	When I DELETE an app named "zaphod" in the environment "dev"
+	Given an application named "zaphod" exist
+	When I DELETE an app named "zaphod" 
 	Then I should get HTTP NoContent
-	And there should be 0 apps in the environment "dev"
+	And there should be 0 apps
 
 Scenario: Delete application that does not exist
-	Given an environment named "dev" exist
-	When I DELETE an app named "idontexist" in the environment "dev"
+	Given the database is empty
+	When I DELETE an app named "idontexist"
 	Then I should get HTTP NotFound
