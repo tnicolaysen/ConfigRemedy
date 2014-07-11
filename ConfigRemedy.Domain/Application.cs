@@ -88,5 +88,14 @@ namespace ConfigRemedy.Domain
         }
 
         #endregion
+
+        public void UpdateSetting(string settingKey, Setting setting)
+        {
+            // TODO: TEST
+            var settingToUpdate = Settings.Single(KeyMatcher(settingKey));
+            settingToUpdate.Key = setting.Key;
+            settingToUpdate.DefaultValue = setting.DefaultValue;
+            settingToUpdate.Description = setting.Description;
+        }
     }
 }

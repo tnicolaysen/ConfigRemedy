@@ -47,6 +47,34 @@ namespace ConfigRemedy.Api.Modules
                 return app.GetSetting(settingKey);
             };
 
+
+            Put["/settings/{settingKey}"] = _ => // Update a given setting object
+            {
+                string appName = RequiredParam(_, "appName");
+                string settingKey = RequiredParam(_, "settingKey");
+
+                var app = GetApplication(session, appName);
+
+                if (!app.HasSetting(settingKey))
+                    return new NotFoundResponse();
+
+                var setting = this.Bind<Setting>(s => s.Deleted, s => s.Overrides, s => s.History);
+                if (app.HasSetting(setting.Key))
+                {
+                    return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
+                    {
+                          ReasonPhrase = "Duplicates are not allowed"
+                    };
+                }
+
+                app.UpdateSetting(settingKey, setting);
+
+                session.Store(app);
+                session.SaveChanges();
+
+                return HttpStatusCode.NoContent;
+            };
+
             Delete["/settings/{settingKey}"] = _ => // Delete a setting and all overrides
             {
                 string appName = RequiredParam(_, "appName");

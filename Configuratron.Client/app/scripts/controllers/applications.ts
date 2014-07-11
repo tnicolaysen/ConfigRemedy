@@ -8,9 +8,8 @@
  * Controller of the ctronApp
  */
 angular.module('ctronApp')
- .controller('ApplicationsCtrl', ($scope, $resource, $log) => {
+ .controller('ApplicationsCtrl', ($scope, $resource, $log, $window) => {
    $scope.applications = [];
-   $scope.environments = [];
 
    var Applications = $resource('http://localhost:2403/applications/:id.json', null, {
                                   'update': { method: 'PUT' }
@@ -18,33 +17,19 @@ angular.module('ctronApp')
 
    $scope.applications = Applications.query();
 
-   var SettingsOverride = $resource('http://localhost:2403/applications/:appName/settings/:envName/:settingKey.json',
-    {appName: '@appName', envName: '@envName', settingKey: '@settingKey'});
-
-   var Environments = $resource('http://localhost:2403/environments/:id.json');
-   $scope.environments = Environments.query();
-
-   $scope.updateOverride = (newValue, app, envName, setting) => {
-      SettingsOverride.get({ appName: app.name, envName: envName, settingKey: setting.key }, (override) => {
-        override.key = setting.key;
-        override.value = newValue;
-        override.$save({ appName: app.name, envName: envName }, (res) => {
-          $log.log('wow... it worked', res);
-         });
-      });
+   $scope.edit = (app) => {
+      $window.alert('Not done');
    };
 
    $scope.remove = (app) => {
+      if (!$window.confirm('Are you sure you want to delete ' + app.name + '?')) {
+        return;
+      }
+
       Applications.remove({id: app.name}, () => {
         $scope.applications = Applications.query();
       });
    };
 
-   $scope.saveSetting = (data) => {
-     $log.log('Remove', data);
-   };
 
-   $scope.removeSetting = (data) => {
-     $log.log('Remove', data);
-   };
 });

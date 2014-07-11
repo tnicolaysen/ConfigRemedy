@@ -16,12 +16,17 @@
 		</thead>
 		<tbody>
 		<tr ng-repeat="setting in app.settings">
-			<td>{{setting.key}}</td>
+			<td>
+				<a href="#" editable-text="setting.key" e-required onbeforesave="saveSetting('key', $data, app, setting)">
+					{{ setting.key }}
+				</a>
+				</a>
+			</td>
 			<td>
 				<!--<span editable-text="setting.defaultValue" e-name="defaultValue" e-form="rowform" e-required>
 					{{ setting.defaultValue || 'empty' }}
 				</span>-->
-				<a href="#" editable-text="setting.defaultValue" e-required onaftersave="saveSetting($data, app, env, setting)">
+				<a href="#" editable-text="setting.defaultValue" e-required onbeforesave="saveSetting('defaultValue', $data, app, setting)">
 					{{ setting.defaultValue }}
 				</a>
 			</td>
@@ -30,12 +35,12 @@
 					{{ override || 'unset' }}
 				</a>
 			</td>
-			 <td style="white-space: nowrap">
+			<td style="white-space: nowrap">
 
 		       <!--
 		        <form editable-form shown="false" name="rowform" onbeforesave="saveSetting($data, setting.key)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
 		          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-success">
-		            Save
+		            saveSetting
 		          </button>
 		          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
 		            Cancel
@@ -48,8 +53,11 @@
 		          <button class="btn btn-xs btn-danger" ng-click="removeSetting(setting.key)">
 		            <i class="fa fa-trash-o"></i> Delete
 		          </button>
-		        </div>-->
-		      </td>
+		      </div>-->
+		      <button class="btn btn-xs btn-danger" ng-click="removeSetting(app, setting)">
+		      	<i class="fa fa-trash-o"></i>
+		      </button>
+	      </td>
 		</tr>
 		</tbody>
 	</table>
