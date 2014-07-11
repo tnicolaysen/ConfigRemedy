@@ -32,8 +32,8 @@ namespace ConfigRemedy.AcceptanceTests.Specs
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "CrossOriginHeaders", "In order to support JS SPA and other clients\nAs a web developer\nI want to use the" +
-                    " API through AJAX", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "CrossOriginHeaders", "In order to support JS SPA and other clients\r\nAs a web developer\r\nI want to use t" +
+                    "he API through AJAX", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
