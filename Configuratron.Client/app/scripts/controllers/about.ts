@@ -9,9 +9,5 @@
  */
 angular.module('ctronApp')
   .controller('AboutCtrl', ($scope) => {
-    $scope.awesomeThings = [
-      'Stuff 2',
-      'AngularJS',
-      'Karma'
-    ];
+  	// Nothing
   });
