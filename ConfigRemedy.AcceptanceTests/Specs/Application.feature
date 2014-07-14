@@ -12,7 +12,7 @@ Scenario: Get applications when database is empty
 	Then I should get HTTP OK
 	And I should get an empty list
 
-Scenario: Get all applications in an environment 
+Scenario: Get all applications
 	Given an application named "zaphod" exist
 	Given an application named "arthur" exist
 	When I get available applications
@@ -36,7 +36,7 @@ Scenario: Adding application
 	When I POST an application named "fixerupper"
 	Then I should get HTTP Created
 	And an application named "fixerupper" should be persisted
-	And location header should contain url for "applications/fixerupper"
+	And location header should contain url for "api/applications/fixerupper"
 
 Scenario: Adding duplicate application is not allowed
 	Given an application named "zaphod" exist

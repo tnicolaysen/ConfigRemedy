@@ -12,6 +12,8 @@ namespace ConfigRemedy.AcceptanceTests.Steps
     [Binding, UsedImplicitly, MeansImplicitUseAttribute]
     public class ApplicationSteps : ModuleStepsBase
     {
+        private const string ApplicationsBaseUrl = "api/applications/";
+
         [Given(@"an application named ""(\w+)"" exist")]
         public void GivenEnvironmentHasTheApplication(string appName)
         {
@@ -21,25 +23,25 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I get all applications")]
         public void WhenIGetAllApplications()
         {
-            Result = Browser.Get("/applications", JsonClient);
+            Result = Browser.Get(ApplicationsBaseUrl, JsonClient);
         }
 
         [When(@"I GET the application ""(.*)""")]
         public void WhenIGetTheApplication(string appName)
         {
-            Result = Browser.Get("/applications/" + appName, JsonClient);
+            Result = Browser.Get(ApplicationsBaseUrl + appName, JsonClient);
         }
 
         [When(@"I get available applications")]
         public void WhenIGetAvailableApplications()
         {
-            Result = Browser.Get("/applications", JsonClient);
+            Result = Browser.Get(ApplicationsBaseUrl, JsonClient);
         }
 
         [When(@"I POST an application named ""(.*)""")]
         public void WhenIPostAnApplicationNamed(string appName)
         {
-            Result = Browser.Post("/applications", with =>
+            Result = Browser.Post(ApplicationsBaseUrl, with =>
             {
                 JsonClient(with);
                 with.FormValue("name", appName);
@@ -49,7 +51,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I DELETE an app named ""(.*)""")]
         public void WhenIDeleteAnAppNamed(string appName)
         {
-            Result = Browser.Delete("/applications/" + appName, JsonClient);
+            Result = Browser.Delete(ApplicationsBaseUrl + appName, JsonClient);
         }
 
         [Then(@"there should be (\d+) apps")]

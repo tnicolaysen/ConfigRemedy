@@ -11,14 +11,15 @@ namespace ConfigRemedy.AcceptanceTests.Steps
     [Binding]
     public class SettingSteps : ModuleStepsBase
     {
+        private const string ApplicationBasePath = "api/applications/{0}/";
+
         [Given(@"that ""(\w+)"" have the following settings:")]
         public void GivenThatHaveTheFollowingSettings(string appName, Table settingsTable)
         {   
             var settings = settingsTable.CreateSet<Setting>();
             foreach (var setting in settings) 
             {
-
-                Result = Browser.Post(string.Format("/applications/{0}/settings", appName), context =>
+                Result = Browser.Post(string.Format(ApplicationBasePath + "settings", appName), context =>
                 {
                     JsonClient(context);
 
@@ -31,7 +32,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I get available settings for the application ""(\w+)""")]
         public void WhenIGetAvailableSettingsForTheApplication(string appName)
         {
-            var url = string.Format("/applications/{0}", appName);
+            var url = string.Format(ApplicationBasePath, appName);
             Result = Browser.Get(url, JsonClient);
         }
 
@@ -44,7 +45,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I POST the following setting override to ""(\w+)\/(\w+)"": ""(.+)"" = ""(.+)""")]
         public void GivenITheFollowingSettingOverride(string appName, string envName, string settingKey, string settingValue)
         {
-            var url = string.Format("/applications/{0}/settings/{1}", appName, envName);
+            var url = string.Format(ApplicationBasePath + "/settings/{1}", appName, envName);
             Result = Browser.Post(url, with =>
             {
                 JsonClient(with);
@@ -71,7 +72,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I get the setting ""(\w+)"" in ""(\w+)\/(\w+)""")]
         public void WhenIGetTheSettingFor(string settingKey, string appName, string envName)
         {
-            var url = string.Format("/applications/{0}/settings/{1}/{2}", appName, envName, settingKey);
+            var url = string.Format(ApplicationBasePath + "/settings/{1}/{2}", appName, envName, settingKey);
             Result = Browser.Get(url, JsonClient);
         }
 

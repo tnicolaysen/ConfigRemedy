@@ -14,80 +14,88 @@ namespace ConfigRemedy.Api.Modules
     [UsedImplicitly]
     public class ApplicationModule : BaseModule
     {
+        private readonly IDocumentSession _session;
+
         public ApplicationModule(IDocumentSession session)
-            : base("/applications")
         {
-            Get["/"] = _ => // All apps 
-            {
-                var applications = session.Query<Application>()
-                    .Customize(c => c.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5)))
-                    .ToList();
-                
-                var environments = session.Query<Environment>().ToList();
+            _session = session;
 
-                var appProjection = applications.Select(a => new
+            Get["applications/"] = _ => GetAllApplications();
+            Get["applications/{appName}"] = _ => GetApplication(_.appName);
+            Post["applications/"] = _ => CreateApplication();
+            Delete["applications/{appName}"] = _ => DeleteApplication(_.appName);
+        }
+
+        private dynamic DeleteApplication(string appName)
+        {
+            Guard.NotNullOrEmpty(() => appName, appName);
+
+            var appToDelete = GetApplication(_session, appName);
+
+            if (appToDelete == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            _session.Delete(appToDelete);
+            _session.SaveChanges();
+
+            return HttpStatusCode.NoContent;
+        }
+
+        private dynamic CreateApplication()
+        {
+            var app = this.Bind<Application>(a => a.Id);
+
+            if (GetApplication(_session, app.Name) != null)
+            {
+                return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
                 {
-                    a.Id,
-                    a.Name,
-                    Settings = PadSettings(a.Settings, environments),
-                    Link = CreateLinkForApplication(a)
-                });
+                    ReasonPhrase = "Duplicates are not allowed"
+                };
+            }
 
-                return appProjection;
-            };
+            _session.Store(app);
+            _session.SaveChanges();
 
-            Get["/{appName}"] = _ => // Specific app
+            return Negotiate
+                .WithModel(app)
+                .WithHeader("Location", Request.Path + app.Name)
+                .WithStatusCode(HttpStatusCode.Created);
+        }
+
+        private dynamic GetApplication(string appName)
+        {
+            Guard.NotNullOrEmpty(() => appName, appName);
+
+            var app = GetApplication(_session, appName);
+
+            if (app == null)
+                return Negotiate.WithStatusCode(HttpStatusCode.NotFound);
+
+            var environments = _session.Query<Environment>().ToList();
+            app.Settings = PadSettings(app.Settings, environments);
+
+            return app;
+        }
+
+        private dynamic GetAllApplications()
+        {
+            var applications = _session.Query<Application>()
+                .Customize(c => c.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5)))
+                .ToList();
+
+            var environments = _session.Query<Environment>().ToList();
+
+            var appProjection = applications.Select(a => new
             {
-                string appName = RequiredParam(_, "appName");
+                a.Id,
+                a.Name,
+                Settings = PadSettings(a.Settings, environments),
+                Link = CreateLinkForApplication(a)
+            });
 
-                var app = GetApplication(session, appName);
-
-                if (app == null)
-                    return Negotiate.WithStatusCode(HttpStatusCode.NotFound);
-
-                var environments = session.Query<Environment>().ToList();
-                app.Settings = PadSettings(app.Settings, environments);
-
-                return app;
-            };
-
-            Post["/"] = _ => // Create a new app
-            {
-                var app = this.Bind<Application>(a => a.Id);
-
-                if (GetApplication(session, app.Name) != null)
-                {
-                    return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
-                    {
-                        ReasonPhrase = "Duplicates are not allowed"
-                    };
-                }
-
-                session.Store(app);
-                session.SaveChanges();
-
-                return Negotiate
-                    .WithModel(app)
-                    .WithHeader("Location", string.Format("{0}/{1}", ModulePath, app.Name))
-                    .WithStatusCode(HttpStatusCode.Created);
-            };
-
-            Delete["/{appName}"] = _ => // Delete a given app.
-            {
-                string appName = RequiredParam(_, "appName");
-
-                var appToDelete = GetApplication(session, appName);
-
-                if (appToDelete == null)
-                {
-                    return HttpStatusCode.NotFound;
-                }
-
-                session.Delete(appToDelete);
-                session.SaveChanges();
-
-                return HttpStatusCode.NoContent;
-            };
+            return appProjection;
         }
 
         private List<Setting> PadSettings(List<Setting> settings, IEnumerable<Environment> environments)

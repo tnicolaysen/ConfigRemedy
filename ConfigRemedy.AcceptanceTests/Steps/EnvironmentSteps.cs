@@ -11,16 +11,18 @@ namespace ConfigRemedy.AcceptanceTests.Steps
     [Binding]
     public class EnvironmentSteps : ModuleStepsBase
     {
+        private const string EnvironmentBaseUrl = "/api/environments/";
+
         [When(@"I get available environments")]
         public void WhenIGetAvailableEnvironments()
         {
-            Result = Browser.Get("/environments", JsonClient);
+            Result = Browser.Get(EnvironmentBaseUrl, JsonClient);
         }
 
         [When(@"I POST a environment named ""(\w+)""")]
         public void WhenIPostAEnvironmentNamed(string environmentName)
         {
-            Result = Browser.Post("/environments", with =>
+            Result = Browser.Post(EnvironmentBaseUrl, with =>
             {
                 JsonClient(with);
                 with.FormValue("shortName", environmentName);
@@ -30,13 +32,13 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I GET an environment named ""(\w+)""")]
         public void WhenIGetAnEnvironmentNamed(string envName)
         {
-            Result = Browser.Get("/environments/" + envName, JsonClient);
+            Result = Browser.Get(EnvironmentBaseUrl + envName, JsonClient);
         }
         
         [When(@"I DELETE an environment named ""(.*)""")]
         public void WhenIDeleteAnEnvironmentNamed(string envName)
         {
-            Result = Browser.Delete("/environments/" + envName, JsonClient);
+            Result = Browser.Delete(EnvironmentBaseUrl + envName, JsonClient);
         }
 
         [Then(@"there should be (\d+) environments")]

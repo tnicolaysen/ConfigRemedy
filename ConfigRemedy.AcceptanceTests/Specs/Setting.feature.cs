@@ -230,7 +230,8 @@ this.FeatureBackground();
 #line 54
  testRunner.And("the setting \"retries\" should be persisted in \"scroogle\" with default value \"10\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 55
- testRunner.And("location header should contain url for \"applications/scroogle/settings/retries\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("location header should contain url for \"api/applications/scroogle/settings/retrie" +
+                    "s\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

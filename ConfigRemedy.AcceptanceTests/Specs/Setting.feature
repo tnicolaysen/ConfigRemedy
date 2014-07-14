@@ -52,7 +52,7 @@ Scenario: Adding settings to an application
 		| retries | 10           |	
 	Then I should get HTTP Created
 	And the setting "retries" should be persisted in "scroogle" with default value "10"
-	And location header should contain url for "applications/scroogle/settings/retries"
+	And location header should contain url for "api/applications/scroogle/settings/retries"
 
 Scenario: Adding duplicate setting is not allowed
 	Given an application named "scroogle" exist

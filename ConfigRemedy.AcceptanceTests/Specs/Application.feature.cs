@@ -95,10 +95,10 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Get all applications in an environment")]
-        public virtual void GetAllApplicationsInAnEnvironment()
+        [NUnit.Framework.DescriptionAttribute("Get all applications")]
+        public virtual void GetAllApplications()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get all applications in an environment", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get all applications", ((string[])(null)));
 #line 15
 this.ScenarioSetup(scenarioInfo);
 #line 6
@@ -177,7 +177,7 @@ this.FeatureBackground();
 #line 38
  testRunner.And("an application named \"fixerupper\" should be persisted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 39
- testRunner.And("location header should contain url for \"applications/fixerupper\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("location header should contain url for \"api/applications/fixerupper\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

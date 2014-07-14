@@ -12,112 +12,121 @@ namespace ConfigRemedy.Api.Modules
     [UsedImplicitly]
     public class EnviromentModule : BaseModule
     {
+        private readonly IDocumentSession _session;
+
         public EnviromentModule(IDocumentSession session)
-            : base("/environments")
         {
-            Get["/"] = _ => // All environments
+            _session = session;
+
+            Get["environments"] = _ => GetAllEnvironments();
+            Get["environments/{name}"] = _ => GetEnvironment(_.name);
+            Post["environments"] = _ => CreateEnvironment();
+            Put["environments/{name}"] = _ => UpdateEnvironment(_.name); // TODO: Add tests
+            Delete["environments/{name}"] = _ => DeleteEnvironment(_.name); 
+        }
+
+        private dynamic DeleteEnvironment(string name)
+        {
+            Guard.NotNullOrEmpty(() => name, name);
+
+            var envToDelete = _session.Query<Environment>().SingleOrDefault(env => env.ShortName == name);
+
+            if (envToDelete == null)
+                return HttpStatusCode.NotFound;
+
+            _session.Delete(envToDelete);
+            _session.SaveChanges();
+
+            return HttpStatusCode.NoContent;
+        }
+
+        private dynamic UpdateEnvironment(string name)
+        {
+            Guard.NotNullOrEmpty(() => name, name);
+
+            var updatedEnvironment = this.Bind<Environment>(e => e.Id);
+
+            var storedEnvironment = GetEnvironment(_session, name);
+            if (storedEnvironment == null)
             {
-                var environments = session.Query<Environment>()
-                    .Customize(c => c.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5)))
-                    .ToList();
-                
-                environments.Sort();
-
-                var envProjection = environments
-                    //.OrderBy(e => e.ShortName)
-                    .Select(e => new
-                    {
-                        e.ShortName,
-                        e.LongName,
-                        e.Description,
-                        e.Icon,
-                        Link = CreateLinkForEnvironment(e)
-                    });
-
-                return envProjection;
-            };
-
-            Get["/{name}"] = _ => // Given environment
-            {
-                string name = RequiredParam(_, "name");
-
-                var environment = GetEnvironment(session, name);
-
-                if (environment == null)
-                    return HttpStatusCode.NotFound;
-
-                return environment;
-            };
-
-            Post["/"] = _ =>
-            {
-                var environment = this.Bind<Environment>(e => e.Id);
-
-                if (GetEnvironment(session, environment.ShortName) != null)
+                return new TextResponse(HttpStatusCode.NotFound, "Environment not found. Cannot update.")
                 {
-                    return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
-                    {
-                        ReasonPhrase = "Duplicates are not allowed"
-                    };
-                }
+                    ReasonPhrase = "Environment not found. Cannot update."
+                };
+            }
 
-                session.Store(environment);
-                session.SaveChanges();
-                    
-                return Negotiate
-                    .WithModel(environment)
-                    .WithHeader("Location", string.Format("{0}/{1}", ModulePath, environment.ShortName))
-                    .WithStatusCode(HttpStatusCode.Created);
-            };
-
-            // TODO: Add tests
-            Put["/{name}"] = _ =>
+            if (string.Equals(storedEnvironment.ShortName, updatedEnvironment.ShortName,
+                StringComparison.InvariantCultureIgnoreCase))
             {
-                string name = RequiredParam(_, "name");
-                var updatedEnvironment = this.Bind<Environment>(e => e.Id);
-
-                var storedEnvironment = GetEnvironment(session, name);
-                if (storedEnvironment == null)
+                return new TextResponse(HttpStatusCode.BadRequest, "Attempting to update 'shortName'. This is illegal as it's the ID.")
                 {
-                    return new TextResponse(HttpStatusCode.NotFound, "Environment not found. Cannot update.")
-                    {
-                        ReasonPhrase = "Environment not found. Cannot update."
-                    };
-                }
+                    ReasonPhrase = "Attempting to update 'shortName'. This is illegal as it's the ID."
+                };
+            }
 
-                if (string.Equals(storedEnvironment.ShortName, updatedEnvironment.ShortName,
-                                  StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new TextResponse(HttpStatusCode.BadRequest, "Attempting to update 'shortName'. This is illegal as it's the ID.")
-                    {
-                        ReasonPhrase = "Attempting to update 'shortName'. This is illegal as it's the ID."
-                    };
-                }
+            storedEnvironment.Icon = updatedEnvironment.Icon;
+            storedEnvironment.LongName = updatedEnvironment.LongName;
+            storedEnvironment.Description = updatedEnvironment.Description;
 
-                storedEnvironment.Icon = updatedEnvironment.Icon;
-                storedEnvironment.LongName = updatedEnvironment.LongName;
-                storedEnvironment.Description = updatedEnvironment.Description;
+            _session.Store(storedEnvironment);
+            _session.SaveChanges();
 
-                session.Store(storedEnvironment);
-                session.SaveChanges();
+            return storedEnvironment;
+        }
 
-                return storedEnvironment;
-            };
+        private dynamic CreateEnvironment()
+        {
+            var environment = this.Bind<Environment>(e => e.Id);
 
-            Delete["/{name}"] = _ =>
+            if (GetEnvironment(_session, environment.ShortName) != null)
             {
-                var name = (string) _.name;
-                
-                var envToDelete = session.Query<Environment>().SingleOrDefault(env => env.ShortName == name);
+                return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
+                {
+                    ReasonPhrase = "Duplicates are not allowed"
+                };
+            }
 
-                if (envToDelete == null)
-                    return HttpStatusCode.NotFound;
+            _session.Store(environment);
+            _session.SaveChanges();
 
-                session.Delete(envToDelete);
-                session.SaveChanges();
+            return Negotiate
+                .WithModel(environment)
+                .WithHeader("Location", Request.Path + environment.ShortName)
+                .WithStatusCode(HttpStatusCode.Created);
+        }
 
-                return HttpStatusCode.NoContent;
-            };
+        private dynamic GetEnvironment(string name)
+        {
+            Guard.NotNullOrEmpty(() => name, name);
+
+            var environment = GetEnvironment(_session, name);
+
+            if (environment == null)
+                return HttpStatusCode.NotFound;
+
+            return environment;
+        }
+
+        private dynamic GetAllEnvironments()
+        {
+            var environments = _session.Query<Environment>()
+                .Customize(c => c.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5)))
+                .ToList();
+
+            environments.Sort();
+
+            var envProjection = environments
+                //.OrderBy(e => e.ShortName)
+                .Select(e => new
+                {
+                    e.ShortName,
+                    e.LongName,
+                    e.Description,
+                    e.Icon,
+                    Link = CreateLinkForEnvironment(e)
+                });
+
+            return envProjection;
         }
 
         private string CreateLinkForEnvironment(Environment environment)
