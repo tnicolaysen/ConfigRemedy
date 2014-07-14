@@ -1,6 +1,7 @@
 ﻿using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using Nancy.Bootstrapper;
+using Nancy.Diagnostics;
 using Nancy.TinyIoc;
 using Raven.Client;
 
@@ -13,13 +14,9 @@ namespace ConfigRemedy.Api
     {
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
-        }
-
-        protected override void RequestStartup(TinyIoCContainer requestContainer, IPipelines pipelines, NancyContext context)
-        {
             CustomPipelines.Configure(pipelines);
         }
-
+        
         /// <summary>
         /// Belived to behave as "singletons"
         /// </summary>
