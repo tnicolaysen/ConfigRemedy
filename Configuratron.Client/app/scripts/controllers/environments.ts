@@ -8,11 +8,11 @@
  * Controller of the ctronApp
  */
 angular.module('ctronApp')
-  .controller('EnvironmentsCtrl', ($scope, $resource, $http, $window, $log, $modal) => {
+  .controller('EnvironmentsCtrl', ($scope, $resource, $http, $window, $log, $modal, configuration) => {
     $scope.environments = [];
     $scope.createFormIsCollapsed = true;
 
-    var Environments = $resource('http://localhost:2403/environments/:id.json', null, {
+    var Environments = $resource(configuration.ApiBaseUrl + 'environments/:id.json', null, {
                           'update': { method: 'PUT' }
                        });
     //var Environments = $resource('scripts/mocks/environments-mock.js', {});

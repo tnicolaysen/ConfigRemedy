@@ -8,20 +8,20 @@
  * Controller of the ctronApp
  */
 angular.module('ctronApp')
-  .controller('ApplicationDetailsCtrl', ($scope, $routeParams, $resource, $log, $window) => {
+  .controller('ApplicationDetailsCtrl', ($scope, $routeParams, $resource, $log, $window, configuration) => {
     $scope.app = {};
     $scope.environments = [];
 
-    var Applications = $resource('http://localhost:2403/applications/:id.json');
+    var Applications = $resource(configuration.ApiBaseUrl + 'applications/:id.json');
 
     $scope.app = Applications.get({id: $routeParams.appName});
 
-    var SettingsOverride = $resource('http://localhost:2403/applications/:appName/settings/:envName/:settingKey.json',
+    var SettingsOverride = $resource(configuration.ApiBaseUrl + 'applications/:appName/settings/:envName/:settingKey.json',
       null,
       { 'update': { method: 'PUT' } }
     );
 
-    var Environments = $resource('http://localhost:2403/environments/:id.json');
+    var Environments = $resource(configuration.ApiBaseUrl + 'environments/:id.json');
     $scope.environments = Environments.query();
 
     $scope.updateOverride = (newValue, app, envName, setting) => {

@@ -8,10 +8,10 @@
  * Controller of the ctronApp
  */
 angular.module('ctronApp')
- .controller('ApplicationsCtrl', ($scope, $resource, $log, $window) => {
+ .controller('ApplicationsCtrl', ($scope, $resource, $log, $window, configuration) => {
    $scope.applications = [];
 
-   var Applications = $resource('http://localhost:2403/applications/:id.json', null, {
+   var Applications = $resource(configuration.ApiBaseUrl + 'applications/:id.json', null, {
                                   'update': { method: 'PUT' }
                                 });
 
