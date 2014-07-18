@@ -117,12 +117,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Infrastructure\AssemblyHelper.cs" />
     <Compile Include="Infrastructure\CustomPipelines.cs" />
     <Compile Include="Infrastructure\OwinSelfHost.cs" />
     <Compile Include="Infrastructure\RavenConfigurator.cs" />
     <Compile Include="Infrastructure\RavenFactory.cs" />
     <Compile Include="Modules\ApplicationModule.cs" />
     <Compile Include="Modules\BaseModule.cs" />
+    <Compile Include="Modules\DiagnosticsModule.cs" />
     <Compile Include="Modules\EnvironmentsModule.cs" />
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="Modules\SettingModule.cs" />
