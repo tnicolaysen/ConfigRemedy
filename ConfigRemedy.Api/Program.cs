@@ -1,26 +1,30 @@
 ﻿using ConfigRemedy.Api.Annotations;
+using ConfigRemedy.Api.Infrastructure;
+using Topshelf;
 
 namespace ConfigRemedy.Api
 {
-    using Nancy.Hosting.Self;
-    using System;
-
     [UsedImplicitly]
     class Program
     {
         // ReSharper disable once UnusedParameter.Local
         static void Main(string[] args)
         {
-            var uri = new Uri("http://localhost:2403");
-
-            using (var host = new NancyHost(uri))
+            HostFactory.Run(x =>                                    
             {
-                host.Start();
+                x.Service<OwinSelfHost>(s =>                       
+                {
+                    s.ConstructUsing(name => new OwinSelfHost());  
+                    s.WhenStarted(tc => tc.Start());                
+                    s.WhenStopped(tc => tc.Stop());                 
+                });
 
-                Console.WriteLine("Your application is running on " + uri);
-                Console.WriteLine("Press any [Enter] to close the host.");
-                Console.ReadLine();
-            }
+                x.UseLog4Net();
+                x.RunAsLocalSystem();
+                x.SetDescription("Configuratron: Server and web portal");           
+                x.SetDisplayName("Configuratron");
+                x.SetServiceName("Configuratron");                          
+            });                 
         }
     }
 }
