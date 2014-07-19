@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using NLog;
 
 namespace ConfigRemedy.Api.Modules
 {
@@ -6,10 +7,9 @@ namespace ConfigRemedy.Api.Modules
     {
         // ReSharper disable MemberCanBeProtected.Global
 
-        public BaseModule()
-            : base("/api")
-        {
-        }
+        public BaseModule() : base("/api") {}
+
+        protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         // ReSharper restore MemberCanBeProtected.Global
     }

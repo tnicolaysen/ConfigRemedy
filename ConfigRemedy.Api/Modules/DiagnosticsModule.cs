@@ -19,6 +19,7 @@ namespace ConfigRemedy.Api.Modules
                 Settings.Hostname,
                 Settings.Port,
                 Settings.DbPath,
+                Settings.LogPath,
                 Links = new
                 {
                     ServerLogs = "/diagnostics/serverlogs",

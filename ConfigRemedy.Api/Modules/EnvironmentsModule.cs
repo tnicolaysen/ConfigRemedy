@@ -116,7 +116,6 @@ namespace ConfigRemedy.Api.Modules
             environments.Sort();
 
             var envProjection = environments
-                //.OrderBy(e => e.ShortName)
                 .Select(e => new
                 {
                     e.ShortName,

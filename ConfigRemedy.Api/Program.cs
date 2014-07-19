@@ -1,5 +1,5 @@
 ﻿using ConfigRemedy.Api.Annotations;
-using ConfigRemedy.Api.Infrastructure;
+using ConfigRemedy.Api.Infrastructure.OWIN;
 using Topshelf;
 
 namespace ConfigRemedy.Api
@@ -10,16 +10,18 @@ namespace ConfigRemedy.Api
         // ReSharper disable once UnusedParameter.Local
         static void Main(string[] args)
         {
+            Bootstrapper.ConfigureLogging();
+
             HostFactory.Run(x =>                                    
             {
-                x.Service<OwinSelfHost>(s =>                       
+                x.Service<OwinRunner>(s =>                       
                 {
-                    s.ConstructUsing(name => new OwinSelfHost());  
+                    s.ConstructUsing(name => new OwinRunner());  
                     s.WhenStarted(tc => tc.Start());                
                     s.WhenStopped(tc => tc.Stop());                 
                 });
 
-                x.UseLog4Net();
+                x.UseNLog();
                 x.RunAsLocalSystem();
                 x.SetDescription("Configuratron: Server and web portal");           
                 x.SetDisplayName("Configuratron");
