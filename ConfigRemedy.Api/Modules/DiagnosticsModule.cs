@@ -1,6 +1,7 @@
 ﻿using System;
 using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
+using ConfigRemedy.Api.Infrastructure.Settings;
 
 namespace ConfigRemedy.Api.Modules
 {
@@ -9,21 +10,20 @@ namespace ConfigRemedy.Api.Modules
     {
         public DiagnosticsModule()
         {
-            Get["diagnostics/"] = _ =>
+            Get["diagnostics/"] = _ => new
             {
-                return new
+                Version = AssemblyHelper.GetVersion(),
+                Platform = Environment.OSVersion.VersionString, 
+                Environment.Is64BitOperatingSystem,
+                PathToExecutable = AssemblyHelper.GetPath(), 
+                Settings.Hostname,
+                Settings.Port,
+                Settings.DbPath,
+                Links = new
                 {
-                    Version = AssemblyHelper.GetVersion(),
-                    Platform = Environment.OSVersion.VersionString,
-                    Is64BitOperatingSystem = Environment.Is64BitOperatingSystem,
-                    PathToExecutable = AssemblyHelper.GetPath(),
-
-                    Links = new
-                    {
-                        ServerLogs = "/diagnostics/serverlogs",
-                        ClientLogs = "/diagnostics/clientlogs",
-                    }
-                };
+                    ServerLogs = "/diagnostics/serverlogs",
+                    ClientLogs = "/diagnostics/clientlogs",
+                }
             };
         }
     }
