@@ -50,7 +50,6 @@ namespace ConfigRemedy.Api
 
             var nlogConfig = new LoggingConfiguration();
 
-
             var fileTarget = new FileTarget
             {
                 FileName = Path.Combine(Settings.LogPath, "${shortdate}.txt"),

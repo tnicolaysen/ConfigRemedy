@@ -14,7 +14,7 @@ namespace ConfigRemedy.Api.Infrastructure.Settings
         private static string GetDbPath()
         {
             var commonAppData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            var defaultDbPath = Path.Combine(commonAppData, "Configuratron", "Data");
+            var defaultDbPath = Path.Combine(commonAppData, Constants.ApplicationName, Constants.DefaultDbFolderName);
 
             return SettingsReader<string>.Read("DbPath", defaultDbPath);
         }
@@ -22,7 +22,7 @@ namespace ConfigRemedy.Api.Infrastructure.Settings
         private static string GetLogPath()
         {
             var commonAppData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            var defaultFolderPath = Path.Combine(commonAppData, "Configuratron", "Logs");
+            var defaultFolderPath = Path.Combine(commonAppData, Constants.ApplicationName, Constants.DefaultLogsFolderName);
 
             return Environment.ExpandEnvironmentVariables(
                 SettingsReader<string>.Read("LogPath", defaultFolderPath)
@@ -34,8 +34,8 @@ namespace ConfigRemedy.Api.Infrastructure.Settings
             get { return string.Format("http://{0}:{1}/", Hostname, Port); }
         }
 
-        public static readonly int Port = SettingsReader<int>.Read("Port", 2403);
-        public static readonly string Hostname = SettingsReader<string>.Read("Hostname", "+");
+        public static readonly int Port = SettingsReader<int>.Read("Port", Constants.DefaultPort);
+        public static readonly string Hostname = SettingsReader<string>.Read("Hostname", Constants.DefaultHostname);
         public static readonly string DbPath;
         public static readonly string LogPath;
     }
