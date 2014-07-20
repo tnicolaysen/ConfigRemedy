@@ -53,13 +53,10 @@ namespace ConfigRemedy.Api
 
             var fileTarget = new FileTarget
             {
-                ArchiveEvery = FileArchivePeriod.Day,
-                FileName = Path.Combine(Settings.LogPath, "logfile.txt"),
-                ArchiveFileName = Path.Combine(Settings.LogPath, "log.{#}.txt"),
-                ArchiveNumbering = ArchiveNumberingMode.Rolling,
+                FileName = Path.Combine(Settings.LogPath, "${shortdate}.txt"),
                 Layout = new SimpleLayout("${longdate}|${threadid}|${level}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}"),
-                MaxArchiveFiles = 14,
             };
+
             var consoleTarget = new ColoredConsoleTarget
             {
                 Layout = new SimpleLayout("${date} [${level}] ${logger} ${message}${onexception:${newline}${exception:format=tostring}}"),
