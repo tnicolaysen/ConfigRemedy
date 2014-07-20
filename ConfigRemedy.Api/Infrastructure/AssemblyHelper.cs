@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ConfigRemedy.Api.Infrastructure
 {
-    public class AssemblyHelper
+    public static class AssemblyHelper
     {
         public static string GetVersion()
         {
