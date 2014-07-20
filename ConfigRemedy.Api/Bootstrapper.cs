@@ -8,6 +8,7 @@ using NLog;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
+using NLog.Targets.Wrappers;
 using Raven.Client;
 
 namespace ConfigRemedy.Api
@@ -48,7 +49,7 @@ namespace ConfigRemedy.Api
             }
 
             var nlogConfig = new LoggingConfiguration();
-            var simpleLayout = new SimpleLayout("${longdate}|${threadid}|${level}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}");
+
 
             var fileTarget = new FileTarget
             {
@@ -56,12 +57,12 @@ namespace ConfigRemedy.Api
                 FileName = Path.Combine(Settings.LogPath, "logfile.txt"),
                 ArchiveFileName = Path.Combine(Settings.LogPath, "log.{#}.txt"),
                 ArchiveNumbering = ArchiveNumberingMode.Rolling,
-                Layout = simpleLayout,
+                Layout = new SimpleLayout("${longdate}|${threadid}|${level}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}"),
                 MaxArchiveFiles = 14,
             };
             var consoleTarget = new ColoredConsoleTarget
             {
-                Layout = simpleLayout,
+                Layout = new SimpleLayout("${date} [${level}] ${logger} ${message}${onexception:${newline}${exception:format=tostring}}"),
                 UseDefaultRowHighlightingRules = true,
             };
 
@@ -70,8 +71,8 @@ namespace ConfigRemedy.Api
 
             nlogConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Warn, fileTarget));
             nlogConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-
-            nlogConfig.AddTarget("debugger", fileTarget);
+            
+            nlogConfig.AddTarget("debugger", new AsyncTargetWrapper(fileTarget));
             nlogConfig.AddTarget("console", consoleTarget);
             LogManager.Configuration = nlogConfig;
         }
