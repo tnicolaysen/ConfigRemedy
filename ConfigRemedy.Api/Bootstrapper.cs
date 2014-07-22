@@ -4,12 +4,8 @@ using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Infrastructure.Settings;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
-using NLog;
-using NLog.Config;
-using NLog.Layouts;
-using NLog.Targets;
-using NLog.Targets.Wrappers;
 using Raven.Client;
+using Serilog;
 
 namespace ConfigRemedy.Api
 {
@@ -43,34 +39,10 @@ namespace ConfigRemedy.Api
 
         public static void ConfigureLogging()
         {
-            if (LogManager.Configuration != null)
-            {
-                return;
-            }
-
-            var nlogConfig = new LoggingConfiguration();
-
-            var fileTarget = new FileTarget
-            {
-                FileName = Path.Combine(Settings.LogPath, "${shortdate}.txt"),
-                Layout = new SimpleLayout("${longdate}|${threadid}|${level}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}"),
-            };
-
-            var consoleTarget = new ColoredConsoleTarget
-            {
-                Layout = new SimpleLayout("${date} [${level}] ${logger} ${message}${onexception:${newline}${exception:format=tostring}}"),
-                UseDefaultRowHighlightingRules = true,
-            };
-
-            nlogConfig.LoggingRules.Add(new LoggingRule("Raven.*", LogLevel.Warn, fileTarget));
-            nlogConfig.LoggingRules.Add(new LoggingRule("Raven.*", LogLevel.Warn, consoleTarget) { Final = true });
-
-            nlogConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Warn, fileTarget));
-            nlogConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            
-            nlogConfig.AddTarget("debugger", new AsyncTargetWrapper(fileTarget));
-            nlogConfig.AddTarget("console", consoleTarget);
-            LogManager.Configuration = nlogConfig;
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.ColoredConsole()
+                .WriteTo.RollingFile(Path.Combine(Settings.LogPath, "$log-{Date}.txt"))
+                .CreateLogger();
         }
     }
 }

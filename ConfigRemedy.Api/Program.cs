@@ -1,6 +1,7 @@
 ﻿using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure.OWIN;
 using Topshelf;
+using Serilog.Extras.Topshelf;
 
 namespace ConfigRemedy.Api
 {
@@ -21,7 +22,7 @@ namespace ConfigRemedy.Api
                     s.WhenStopped(tc => tc.Stop());                 
                 });
 
-                x.UseNLog();
+                x.UseSerilog();
                 x.RunAsLocalSystem();
                 x.SetDescription("Configuratron: Server and web portal");           
                 x.SetDisplayName("Configuratron");
