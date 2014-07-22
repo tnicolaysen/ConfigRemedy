@@ -41,7 +41,7 @@ namespace ConfigRemedy.Api
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.ColoredConsole()
-                .WriteTo.RollingFile(Path.Combine(Settings.LogPath, "$log-{Date}.txt"))
+                .WriteTo.RollingFile(Path.Combine(Settings.LogPath, "log-{Date}.txt"))
                 .CreateLogger();
         }
     }
