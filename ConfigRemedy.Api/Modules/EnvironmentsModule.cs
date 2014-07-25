@@ -1,4 +1,6 @@
 ﻿using ConfigRemedy.Api.Annotations;
+using ConfigRemedy.Core;
+using ConfigRemedy.Core.Modules;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
@@ -17,7 +19,6 @@ namespace ConfigRemedy.Api.Modules
         public EnviromentModule(IDocumentSession session)
         {
             _session = session;
-
             Get["environments"] = _ => GetAllEnvironments();
             Get["environments/{name}"] = _ => GetEnvironment(_.name);
             Post["environments"] = _ => CreateEnvironment();

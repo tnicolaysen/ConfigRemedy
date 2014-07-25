@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
@@ -10,7 +11,7 @@
 // ReSharper disable InconsistentNaming
 
 // ReSharper disable once CheckNamespace
-namespace ConfigRemedy.Domain.Annotations
+namespace ConfigRemedy.Core.Properties
 {
   /// <summary>
   /// Indicates that the value of the marked element could be <c>null</c> sometimes,
@@ -46,7 +47,7 @@ namespace ConfigRemedy.Domain.Annotations
   /// <summary>
   /// Indicates that the marked method builds string by format pattern and (optional) arguments.
   /// Parameter, which contains format string, should be given in constructor. The format string
-  /// should be in <see cref="string.Format(IFormatProvider,string,object[])"/>-like form
+  /// should be in <see cref="string.Format(System.IFormatProvider,string,object[])"/>-like form
   /// </summary>
   /// <example><code>
   /// [StringFormatMethod("message")]

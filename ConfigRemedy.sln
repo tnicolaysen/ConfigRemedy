@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.AcceptanceTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Api", "ConfigRemedy.Api\ConfigRemedy.Api.csproj", "{6A77021F-1884-4429-A3BE-A8163746C7DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Security", "ConfigRemedy.Security\ConfigRemedy.Security.csproj", "{2549D76B-AF4F-42E8-8E2B-E87EE2BCD081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Core", "ConfigRemedy.Core\ConfigRemedy.Core.csproj", "{9E386B4D-BDAB-4180-A847-E65E5046649E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{6A77021F-1884-4429-A3BE-A8163746C7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A77021F-1884-4429-A3BE-A8163746C7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A77021F-1884-4429-A3BE-A8163746C7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2549D76B-AF4F-42E8-8E2B-E87EE2BCD081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2549D76B-AF4F-42E8-8E2B-E87EE2BCD081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2549D76B-AF4F-42E8-8E2B-E87EE2BCD081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2549D76B-AF4F-42E8-8E2B-E87EE2BCD081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E386B4D-BDAB-4180-A847-E65E5046649E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E386B4D-BDAB-4180-A847-E65E5046649E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E386B4D-BDAB-4180-A847-E65E5046649E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E386B4D-BDAB-4180-A847-E65E5046649E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

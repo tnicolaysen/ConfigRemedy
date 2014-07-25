@@ -2,6 +2,7 @@
 using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Infrastructure.Settings;
+using ConfigRemedy.Core.Modules;
 
 namespace ConfigRemedy.Api.Modules
 {

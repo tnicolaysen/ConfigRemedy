@@ -1,6 +1,7 @@
 ﻿using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Modules;
+using ConfigRemedy.Security.Modules;
 using Nancy.Testing;
 using NUnit.Framework;
 using System;
@@ -23,6 +24,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
                 with.Module<EnviromentModule>();
                 with.Module<ApplicationModule>();
                 with.Module<SettingModule>();
+                with.Module<UsersModule>();
                 with.RequestStartup((container, pipelines, ctx) => CustomPipelines.Configure(pipelines));
                 with.Dependency(DbContext.EmbeddedStore.OpenSession());
             });

@@ -1,4 +1,5 @@
 ﻿using ConfigRemedy.Domain;
+using ConfigRemedy.Security.Domain;
 using Raven.Abstractions.Util;
 using Raven.Client;
 
@@ -28,6 +29,15 @@ namespace ConfigRemedy.Api.Infrastructure
 
             store.Conventions.RegisterAsyncIdConvention<Application>((dbName, commands, env) =>
                 new CompletedTask<string>("applications/" + env.Name));
+
+
+            // Create custom convetion for User so that they get a natural 
+            // "unique" constraint. It makes it easier to look them up as well.
+            store.Conventions.RegisterIdConvention<User>((dbName, commands, user) =>
+                "users/" + user.Username);
+
+            store.Conventions.RegisterAsyncIdConvention<User>((dbName, commands, user) =>
+                new CompletedTask<string>("users/" + user.Username));
         }
     }
 }

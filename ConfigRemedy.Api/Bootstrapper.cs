@@ -2,6 +2,7 @@
 using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Infrastructure.Settings;
+using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 using Raven.Client;
@@ -35,6 +36,11 @@ namespace ConfigRemedy.Api
 
             var documentStore = container.Resolve<IDocumentStore>();
             container.Register(documentStore.OpenSession());
+        }
+
+        protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
+        {
+            TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>()));
         }
 
         public static void ConfigureLogging()

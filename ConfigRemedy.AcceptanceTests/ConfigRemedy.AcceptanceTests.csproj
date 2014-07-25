@@ -122,8 +122,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Setting.feature</DependentUpon>
     </Compile>
+    <Compile Include="Specs\Users.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Users.feature</DependentUpon>
+    </Compile>
     <Compile Include="Steps\CommonModuleSteps.cs" />
     <Compile Include="Steps\CrossOriginHeadersSteps.cs" />
+    <Compile Include="Steps\UsersSteps.cs" />
     <Compile Include="Steps\ModuleStepsBase.cs" />
     <Compile Include="Steps\DatabaseContext.cs" />
     <Compile Include="Steps\ApplicationSteps.cs" />
@@ -153,15 +159,27 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Setting.feature.cs</LastGenOutput>
     </None>
+    <None Include="Specs\Users.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Users.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigRemedy.Api\ConfigRemedy.Api.csproj">
       <Project>{6a77021f-1884-4429-a3be-a8163746c7df}</Project>
       <Name>ConfigRemedy.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ConfigRemedy.Core\ConfigRemedy.Core.csproj">
+      <Project>{9e386b4d-bdab-4180-a847-e65e5046649e}</Project>
+      <Name>ConfigRemedy.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConfigRemedy.Domain\ConfigRemedy.Domain.csproj">
       <Project>{f8bbf591-042c-43d0-9c35-c6473f1bca86}</Project>
       <Name>ConfigRemedy.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConfigRemedy.Security\ConfigRemedy.Security.csproj">
+      <Project>{2549D76B-AF4F-42E8-8E2B-E87EE2BCD081}</Project>
+      <Name>ConfigRemedy.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

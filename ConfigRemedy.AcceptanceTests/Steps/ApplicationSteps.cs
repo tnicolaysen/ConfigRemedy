@@ -9,7 +9,7 @@ using TechTalk.SpecFlow;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
-    [Binding, UsedImplicitly, MeansImplicitUseAttribute]
+    [Binding, UsedImplicitly, MeansImplicitUse]
     public class ApplicationSteps : ModuleStepsBase
     {
         private const string ApplicationsBaseUrl = "api/applications/";

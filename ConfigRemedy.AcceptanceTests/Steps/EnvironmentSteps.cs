@@ -87,10 +87,8 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             var actualBody = Result.Body.AsString();
             Assert.That(actualBody, Is.EqualTo(expectedBody));
         }
-
         
         // Setup / boilerplate
-
         public EnvironmentSteps(DatabaseContext dbContext)
             : base(dbContext)
         {

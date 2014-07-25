@@ -1,4 +1,6 @@
 ﻿using ConfigRemedy.Api.Annotations;
+using ConfigRemedy.Core;
+using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.ModelBinding;

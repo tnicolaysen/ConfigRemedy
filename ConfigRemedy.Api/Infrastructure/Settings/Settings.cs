@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ConfigRemedy.Core;
 
 namespace ConfigRemedy.Api.Infrastructure.Settings
 {

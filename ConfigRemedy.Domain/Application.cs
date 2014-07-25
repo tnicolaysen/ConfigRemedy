@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConfigRemedy.Domain.Annotations;
+using ConfigRemedy.Core.Properties;
 
 namespace ConfigRemedy.Domain
 {

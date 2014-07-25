@@ -1,5 +1,5 @@
 ﻿using ConfigRemedy.Api.Annotations;
-using ConfigRemedy.Api.Infrastructure.OWIN;
+using ConfigRemedy.Api.Infrastructure.Nancy;
 using Topshelf;
 using Serilog.Extras.Topshelf;
 
@@ -15,9 +15,9 @@ namespace ConfigRemedy.Api
 
             HostFactory.Run(x =>                                    
             {
-                x.Service<OwinRunner>(s =>                       
+                x.Service<NancyRunner>(s =>                       
                 {
-                    s.ConstructUsing(name => new OwinRunner());  
+                    s.ConstructUsing(name => new NancyRunner());  
                     s.WhenStarted(tc => tc.Start());                
                     s.WhenStopped(tc => tc.Stop());                 
                 });

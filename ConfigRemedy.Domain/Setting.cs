@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConfigRemedy.Domain.Annotations;
+using ConfigRemedy.Core.Properties;
 
 namespace ConfigRemedy.Domain
 {

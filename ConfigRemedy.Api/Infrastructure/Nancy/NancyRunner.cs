@@ -1,16 +1,19 @@
 ﻿using System;
-using Microsoft.Owin.Hosting;
+using Nancy.Hosting.Self;
 using Serilog;
 
-namespace ConfigRemedy.Api.Infrastructure.OWIN
+namespace ConfigRemedy.Api.Infrastructure.Nancy
 {
-    public class OwinRunner
+    public class NancyRunner
     {
-        private IDisposable _host;
+        private NancyHost _host;
 
         public void Start()
         {
-            _host = WebApp.Start<Startup>(Settings.Settings.ApiUrl);
+            var uri = new Uri(Settings.Settings.ApiUrl);
+            _host = new NancyHost(uri);
+            _host.Start();
+
             Log.Information("Configuratron.Api is now accepting requests on {0}", Settings.Settings.ApiUrl);
         }
 
@@ -18,6 +21,6 @@ namespace ConfigRemedy.Api.Infrastructure.OWIN
         {
             _host.Dispose();
             Log.Information("Configuratron.Api stopped accepting requests on {0}", Settings.Settings.ApiUrl);
-        }
+        } 
     }
 }

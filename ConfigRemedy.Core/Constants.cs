@@ -1,4 +1,4 @@
-﻿namespace ConfigRemedy.Api
+﻿namespace ConfigRemedy.Core
 {
     public static class Constants
     {
@@ -6,6 +6,7 @@
         public const int DefaultPort = 2403;
         public const string DefaultLogsFolderName = "Logs";
         public const string DefaultDbFolderName = "Data";
-        public const string DefaultHostname = "+";
+        public const string DefaultHostname = "localhost";
+        public const string ApiUrlBase = "/api";
     }
 }
