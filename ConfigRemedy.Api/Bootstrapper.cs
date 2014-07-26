@@ -4,6 +4,7 @@ using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Infrastructure.Settings;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
+using Nancy.Diagnostics;
 using Nancy.TinyIoc;
 using Raven.Client;
 using Serilog;
@@ -41,6 +42,13 @@ namespace ConfigRemedy.Api
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
         {
             TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>()));
+        }
+
+        protected override DiagnosticsConfiguration DiagnosticsConfiguration
+        {
+            // You reach the dashboard by pointing your browser to http://<address-of-your-application>/_Nancy/. 
+            // However before being able to use the dashboard, you first need to configure it.
+            get { return new DiagnosticsConfiguration { Password = @"foobar" }; }
         }
 
         public static void ConfigureLogging()

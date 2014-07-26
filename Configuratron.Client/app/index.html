@@ -25,21 +25,41 @@
     <!-- Add your site or application content here -->
     <div class="container">
       <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li><a ng-href="#">Home</a></li>
-          <li><a ng-href="#/environments">Environments</a></li>
-          <li><a ng-href="#/applications">Applications</a></li>
-          <li><a ng-href="#/about">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">Configuratron 0.0.1 α</h3>
+          <div id="nav-main" class="nav-collapse pull-right">
+              <ul class="nav pull-right nav-pills ">
+                  <li class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                          evgenyb <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu pull-right">
+                          <li><a ng-href="#">Profile</a></li>
+                          <li><a ng-href="#">Sign out</a></li>
+                      </ul>
+                  <li class="active"><a ng-href="#">Administration</a></li>
+              </ul>
+            <ul class="nav nav-pills pull-right">
+              <li><a ng-href="#">Home</a></li>
+              <li><a ng-href="#/environments">Environments</a></li>
+              <li><a ng-href="#/applications">Applications</a></li>
+              <li><a ng-href="#/about">About</a></li>
+              <li><a ng-href="#">Contact</a></li>
+            </ul>
+
+          </div>
+        <h3 class="text-muted">Configuratron</h3>
       </div>
 
       <div ng-view=""></div>
 
       <div class="footer">
-        <p>Because, who likes XML?</p>
+          <div class="raw">
+              <div class="col-md-7 text-left">Configuratron 0.0.1 (New version available)</div>
+              <div class="col-md-5 text-right">Documentation Feedback</div>
+          </div>
+          <!--<p>Because, who likes XML?</p>-->
+
       </div>
+
     </div>
 
     <!--[if lt IE 9]>
@@ -72,6 +92,7 @@
         <script src="scripts/controllers/environments.js"></script>
         <script src="scripts/controllers/applications.js"></script>
         <script src="scripts/controllers/application-details.js"></script>
+        <script src="scripts/controllers/diagnostics.js"></script>
         <script src="scripts/services/configuration.js"></script>
         <!-- endbuild -->
 </body>

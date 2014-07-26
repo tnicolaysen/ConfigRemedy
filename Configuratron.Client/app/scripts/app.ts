@@ -38,6 +38,10 @@ angular
 				templateUrl: 'views/applications.html',
 				controller: 'ApplicationsCtrl'
 			})
+          .when('/configuration/diagnostics', {
+				templateUrl: 'views/diagnostics.html',
+				controller: 'DiagnosticsCtrl'
+			})
 		  .when('/applications/:appName', {
 				templateUrl: 'views/application-details.html',
 				controller: 'ApplicationDetailsCtrl'
