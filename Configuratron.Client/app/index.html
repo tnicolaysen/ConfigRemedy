@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>Configuratron 0.0.1 α</title>
+    <title>Configuratron</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="ctronApp">
+  <body ng-app="ctronApp" ng-controller="TopLevelController">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -29,7 +29,7 @@
               <ul class="nav pull-right nav-pills ">
                   <li class="dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                          evgenyb <span class="caret"></span>
+                          {{currentUser.userName}} <span class="caret"></span>
                       </a>
                       <ul class="dropdown-menu pull-right">
                           <li><a ng-href="#">Profile</a></li>
@@ -53,7 +53,7 @@
 
       <div class="footer">
           <div class="raw">
-              <div class="col-md-7 text-left">Configuratron 0.0.1 (New version available)</div>
+              <div class="col-md-7 text-left">Configuratron {{version}} (New version available)</div>
               <div class="col-md-5 text-right">Documentation Feedback</div>
           </div>
           <!--<p>Because, who likes XML?</p>-->
@@ -94,6 +94,11 @@
         <script src="scripts/controllers/application-details.js"></script>
         <script src="scripts/controllers/diagnostics.js"></script>
         <script src="scripts/services/configuration.js"></script>
+        <script src="scripts/services/login.js"></script>
+        <script src="scripts/services/session.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/toplevel.js"></script>
+        <script src="scripts/services/authInterceptor.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -1,3 +1,4 @@
+/// <reference path='../../typings/_all.d.ts' />
 /**
  * Created by evgenyb on 26.07.2014.
  */

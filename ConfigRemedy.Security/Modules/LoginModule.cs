@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using ConfigRemedy.Core.Modules;
+using ConfigRemedy.Security.Domain;
 using Nancy;
 using Nancy.Authentication.Token;
+using Nancy.ModelBinding;
 using Nancy.Security;
 using Raven.Client;
 
@@ -16,10 +18,9 @@ namespace ConfigRemedy.Security.Modules
             _session = session;
             Post["login"] = x =>
             {
-                var userName = (string)Request.Form.UserName;
-                var password = (string)Request.Form.Password;
+                var credentialns = this.Bind<Credentials>();
 
-                var userIdentity = ValidateUser(userName, password);
+                var userIdentity = ValidateUser(credentialns);
 
                 if (userIdentity == null)
                 {
@@ -30,6 +31,9 @@ namespace ConfigRemedy.Security.Modules
 
                 return new
                 {
+                    UserId = userIdentity.UserId,
+                    UserName = userIdentity.UserName,
+                    Role = userIdentity.Role,
                     Token = token,
                 };
             };
@@ -47,11 +51,13 @@ namespace ConfigRemedy.Security.Modules
             };
         }
 
-        private IUserIdentity ValidateUser(string userName, string password)
+        private ConfiguratronUserIdentity ValidateUser(Credentials credentials)
         {
             return new ConfiguratronUserIdentity
             {
                 UserName = "JamesBond",
+                UserId = "user/1",
+                Role = "admin",
                 Claims = new[] { "admin", "user"},
             };
         }
@@ -62,5 +68,7 @@ namespace ConfigRemedy.Security.Modules
     {
         public string UserName { get; set; }
         public IEnumerable<string> Claims { get; set; }
+        public string UserId { get; set; }
+        public string Role { get; set; }
     }
 }

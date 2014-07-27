@@ -30,6 +30,4 @@ angular.module('ctronApp')
         $scope.applications = Applications.query();
       });
    };
-
-
 });

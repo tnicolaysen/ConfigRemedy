@@ -20,8 +20,9 @@ angular
 		'ui.sortable',
 		'xeditable'
 	])
-	.config(($routeProvider) => {
-		$routeProvider
+	.config(($routeProvider, $httpProvider) => {
+        $httpProvider.interceptors.push('authInterceptor');
+        $routeProvider
 			.when('/', {
 				templateUrl: 'views/main.html',
 				controller: 'MainCtrl'
@@ -46,7 +47,11 @@ angular
 				templateUrl: 'views/application-details.html',
 				controller: 'ApplicationDetailsCtrl'
 			})
-			.otherwise({
+          .when('/login', {
+				templateUrl: 'views/login.html',
+				controller: 'LoginController'
+			})
+		  .otherwise({
 				redirectTo: '/'
 			});
 	})
