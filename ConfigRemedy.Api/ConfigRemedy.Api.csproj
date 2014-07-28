@@ -156,9 +156,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\readme.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="app\readme.txt" />
     <Content Include="Content\nancy-logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
