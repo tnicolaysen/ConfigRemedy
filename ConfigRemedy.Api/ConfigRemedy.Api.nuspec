@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ConfigRemedy.Api</id>
+    <title>ConfigRemedy.Api</title>
+    <version>1.0.0</version>
+    <authors>configuratron.com</authors>
+    <owners>configuratron.com</owners>
+    <licenseUrl>http://www.configuratron.net</licenseUrl>
+    <projectUrl>http://www.configuratron.net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ConfigRemedy.Api</description>
+    <files>
+      <file src="app\**\*.*"/>
+    </files>
+  </metadata>
+</package>

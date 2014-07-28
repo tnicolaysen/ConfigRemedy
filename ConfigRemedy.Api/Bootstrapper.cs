@@ -4,6 +4,7 @@ using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Infrastructure.Settings;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
+using Nancy.Conventions;
 using Nancy.Diagnostics;
 using Nancy.TinyIoc;
 using Raven.Client;
@@ -42,6 +43,12 @@ namespace ConfigRemedy.Api
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
         {
             TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>()));
+        }
+
+        protected override void ConfigureConventions(NancyConventions nancyConventions)
+        {
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("app", @"app"));
+            base.ConfigureConventions(nancyConventions);
         }
 
         protected override DiagnosticsConfiguration DiagnosticsConfiguration
