@@ -12,6 +12,7 @@
     <description>ConfigRemedy.Api</description>
   </metadata>
   <files>
-    <file src="app\**\*.*"/>
+    <file src="app\**\*.*" target="app"/>
+    <file src="bin\debug\**\*.*" />
   </files>
 </package>
