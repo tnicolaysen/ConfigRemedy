@@ -10,8 +10,8 @@
     <projectUrl>http://www.configuratron.net</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ConfigRemedy.Api</description>
-    <files>
-      <file src="app\**\*.*"/>
-    </files>
   </metadata>
+  <files>
+    <file src="app\**\*.*"/>
+  </files>
 </package>
