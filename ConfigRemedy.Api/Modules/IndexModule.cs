@@ -8,9 +8,9 @@ namespace ConfigRemedy.Api.Modules
     {
         public IndexModule()
         {
-            Get["/"] = parameters =>
+            Get["app/"] = parameters =>
             {
-                return View["index"];
+                return View["app/index"];
             };
         }
     }
