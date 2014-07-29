@@ -12,15 +12,14 @@
  */
 
 angular.module('ctronApp')
-    .controller('TopLevelController', function ($scope, $log, $window, UserRoles, AuthService) {
+    .controller('TopLevelController', function ($scope, $log, $window, UserRoles, AuthService, DiagnosticsService) {
         $scope.currentUser = null;
         $scope.userRoles = UserRoles;
         $scope.isAuthorized = AuthService.isAuthorized;
-        $scope.version = "0.0.12";
+        $scope.systemInfo = DiagnosticsService.getDiagnostics();
 
         $scope.setCurrentUser = function (user) {
             $scope.currentUser = user;
             $window.sessionStorage.token = user.token;
-            $log.log($window.sessionStorage.token);
         };
     });

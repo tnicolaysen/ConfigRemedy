@@ -53,7 +53,7 @@
 
       <div class="footer">
           <div class="raw">
-              <div class="col-md-7 text-left">Configuratron {{version}} (New version available)</div>
+              <div class="col-md-7 text-left">Configuratron {{systemInfo.version}} (New version available)</div>
               <div class="col-md-5 text-right">Documentation Feedback</div>
           </div>
           <!--<p>Because, who likes XML?</p>-->
@@ -93,12 +93,14 @@
         <script src="scripts/controllers/applications.js"></script>
         <script src="scripts/controllers/application-details.js"></script>
         <script src="scripts/controllers/diagnostics.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/toplevel.js"></script>
+
         <script src="scripts/services/configuration.js"></script>
         <script src="scripts/services/login.js"></script>
         <script src="scripts/services/session.js"></script>
-        <script src="scripts/controllers/login.js"></script>
-        <script src="scripts/controllers/toplevel.js"></script>
         <script src="scripts/services/authInterceptor.js"></script>
+        <script src="scripts/services/diagnostics.js"></script>
         <!-- endbuild -->
 </body>
 </html>

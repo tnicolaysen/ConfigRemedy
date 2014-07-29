@@ -12,12 +12,9 @@
  * Controller of the ctronApp
  */
 
-angular.module('ctronApp')
-    .controller('DiagnosticsCtrl', ($scope, $resource, $http, $window, $log, $modal, configuration) => {
-        $scope.diagnostics = [];
 
-        var Environments = $resource(configuration.ApiBaseUrl + 'diagnostics.json');
-        $scope.diagnostics = Environments.get();
-        $log.log($scope.diagnostics);
+angular.module('ctronApp')
+    .controller('DiagnosticsCtrl', ($scope, DiagnosticsService) => {
+        $scope.diagnostics = DiagnosticsService.getDiagnostics();
     });
 
