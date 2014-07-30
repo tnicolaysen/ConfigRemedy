@@ -13,7 +13,7 @@
  */
 
 angular.module('ctronApp')
-    .factory('AuthService', ($http,  $log, Session, configuration) => {
+    .factory('AuthService', ($http,  $log, Session, configuration, UserRoles) => {
         var authService = authService || {};
 
         authService.login = function (credentials) {
@@ -35,6 +35,13 @@ angular.module('ctronApp')
             }
             return (authService.isAuthenticated() &&
                 authorizedRoles.indexOf(Session.userRole) !== -1);
+        };
+
+        authService.isGuest = function (authorizedRoles) {
+            if (!angular.isArray(authorizedRoles)) {
+                authorizedRoles = [authorizedRoles];
+            }
+            return authorizedRoles.indexOf(UserRoles.guest) !== -1;
         };
 
         return authService;
