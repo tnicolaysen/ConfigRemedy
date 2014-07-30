@@ -12,15 +12,16 @@
  */
 
 angular.module('ctronApp')
-    .controller('LoginController', function ($scope, $rootScope, $log, AuthenticationEvents, AuthService) {
+    .controller('LoginController', function ($scope, $rootScope, $log, $state, AuthenticationEvents, AuthService) {
         $scope.credentials = {
             username: '',
             password: ''
         };
         $scope.login = function (credentials) {
             AuthService.login(credentials).then(function (user) {
-                $rootScope.$broadcast(AuthenticationEvents.loginSuccess);
                 $scope.setCurrentUser(user);
+                $state.go('main');
+                $rootScope.$broadcast(AuthenticationEvents.loginSuccess);
             }, function () {
                 $rootScope.$broadcast(AuthenticationEvents.loginFailed);
             });

@@ -22,7 +22,6 @@ angular.module('ctronApp')
             response: function (response) {
                 if (response.status === 401) {
                     // handle the case where the user is not authenticated
-                    $log.log('nonauthenticated');
                 }
                 return response || $q.when(response);
             }
