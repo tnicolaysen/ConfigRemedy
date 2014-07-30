@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ConfigRemedy.Core;
+using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Security.Domain;
 using Nancy;
 using Nancy.ModelBinding;
@@ -9,7 +10,7 @@ using Raven.Client;
 
 namespace ConfigRemedy.Security.Modules
 {
-    public class UsersModule : AuthenticatedModule
+    public class UsersModule : BaseModule
     {
         private readonly IDocumentSession _session;
         public UsersModule(IDocumentSession session) 
