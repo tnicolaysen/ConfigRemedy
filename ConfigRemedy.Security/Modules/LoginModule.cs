@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Security.Domain;
 using Nancy;
 using Nancy.Authentication.Token;
+using Nancy.ErrorHandling;
 using Nancy.ModelBinding;
 using Nancy.Security;
 using Raven.Client;

@@ -23,19 +23,19 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I get all applications")]
         public void WhenIGetAllApplications()
         {
-            Result = Browser.Get(ApplicationsBaseUrl, JsonClient);
+            Result = Browser.Get(ApplicationsBaseUrl, AuthenticatedJsonClient);
         }
 
         [When(@"I GET the application ""(.*)""")]
         public void WhenIGetTheApplication(string appName)
         {
-            Result = Browser.Get(ApplicationsBaseUrl + appName, JsonClient);
+            Result = Browser.Get(ApplicationsBaseUrl + appName, AuthenticatedJsonClient);
         }
 
         [When(@"I get available applications")]
         public void WhenIGetAvailableApplications()
         {
-            Result = Browser.Get(ApplicationsBaseUrl, JsonClient);
+            Result = Browser.Get(ApplicationsBaseUrl, AuthenticatedJsonClient);
         }
 
         [When(@"I POST an application named ""(.*)""")]
@@ -43,7 +43,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             Result = Browser.Post(ApplicationsBaseUrl, with =>
             {
-                JsonClient(with);
+                AuthenticatedJsonClient(with);
                 with.FormValue("name", appName);
             });
         }
@@ -51,7 +51,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I DELETE an app named ""(.*)""")]
         public void WhenIDeleteAnAppNamed(string appName)
         {
-            Result = Browser.Delete(ApplicationsBaseUrl + appName, JsonClient);
+            Result = Browser.Delete(ApplicationsBaseUrl + appName, AuthenticatedJsonClient);
         }
 
         [Then(@"there should be (\d+) apps")]

@@ -53,9 +53,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WindowsAzure.Storage.2.0.6.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy, Version=0.23.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy, Version=0.23.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.0.23.1\lib\net40\Nancy.dll</HintPath>
+      <HintPath>..\packages\Nancy.0.23.2\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Authentication.Token, Version=0.23.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Nancy.Authentication.Token.0.23.2\lib\net40\Nancy.Authentication.Token.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Testing, Version=0.23.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -122,6 +126,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Setting.feature</DependentUpon>
     </Compile>
+    <Compile Include="Specs\Login.feature.cs">
+      <DependentUpon>Login.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Specs\Users.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -129,6 +138,7 @@
     </Compile>
     <Compile Include="Steps\CommonModuleSteps.cs" />
     <Compile Include="Steps\CrossOriginHeadersSteps.cs" />
+    <Compile Include="Steps\LoginSteps.cs" />
     <Compile Include="Steps\UsersSteps.cs" />
     <Compile Include="Steps\ModuleStepsBase.cs" />
     <Compile Include="Steps\DatabaseContext.cs" />
@@ -158,6 +168,10 @@
     <None Include="Specs\Setting.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Setting.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Specs\Login.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Login.feature.cs</LastGenOutput>
     </None>
     <None Include="Specs\Users.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

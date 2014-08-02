@@ -30,9 +30,16 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             DbContext = dbContext;
         }
 
-        protected void JsonClient(BrowserContext with)
+        protected void UnauthenticatedJsonClient(BrowserContext with)
         {
             with.Header("accept", "application/json");
+            with.HttpRequest();
+        } 
+        
+        protected void AuthenticatedJsonClient(BrowserContext with)
+        {
+            with.Header("accept", "application/json");
+            with.Header("Authorization", "Token " + TokenizerMock.Token);
             with.HttpRequest();
         }
 

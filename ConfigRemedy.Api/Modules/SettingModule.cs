@@ -1,6 +1,5 @@
 ﻿using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Core;
-using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Domain;
 using ConfigRemedy.Security.Modules;
 using Nancy;
@@ -12,7 +11,7 @@ using Environment = ConfigRemedy.Domain.Environment;
 namespace ConfigRemedy.Api.Modules
 {
     [UsedImplicitly]
-    public class SettingModule : BaseModule
+    public class SettingModule : AuthenticatedModule
     {
         private readonly IDocumentSession _session;
 

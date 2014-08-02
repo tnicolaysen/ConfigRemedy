@@ -2,6 +2,9 @@
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Modules;
 using ConfigRemedy.Security.Modules;
+using Nancy;
+using Nancy.Authentication.Token;
+using Nancy.Security;
 using Nancy.Testing;
 using NUnit.Framework;
 using System;
@@ -10,6 +13,26 @@ using HttpStatusCode = Nancy.HttpStatusCode;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
+    public class TokenizerMock : ITokenizer
+    {
+        public const string Token = "SmFtZXNCb25kDQphZG1pbnx1c2VyDQo2MzU0MjYxNTAwMTQ4MDQwNjANCk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMzsgV09XNjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8zNi4wLjE5ODUuMTI1IFNhZmFyaS81MzcuMzY=:I6zbVjmlasIIGZEywNB5sJGE4PKWzPGX+2sj1vwdEyA=";
+        public string Tokenize(IUserIdentity userIdentity, NancyContext context)
+        {
+            return Token;
+        }
+
+        public IUserIdentity Detokenize(string token, NancyContext context)
+        {
+            return new ConfiguratronUserIdentity
+            {
+                UserName = "JamesBond",
+                UserId = "user/1",
+                Role = "admin",
+                Claims = new[] { "admin", "user"},
+            };
+        }
+    }
+
     [UsedImplicitly, MeansImplicitUse]
     [Binding]
     public class CommonModuleSteps : ModuleStepsBase
@@ -25,7 +48,11 @@ namespace ConfigRemedy.AcceptanceTests.Steps
                 with.Module<ApplicationModule>();
                 with.Module<SettingModule>();
                 with.Module<UsersModule>();
-                with.RequestStartup((container, pipelines, ctx) => CustomPipelines.Configure(pipelines));
+                with.Module<LoginModule>();
+                with.ApplicationStartup((container, pipelines) => CustomPipelines.Configure(pipelines));
+                with.RequestStartup((container, pipelines, ctx) => 
+                    TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>())));
+                with.Dependency<ITokenizer>(new TokenizerMock());
                 with.Dependency(DbContext.EmbeddedStore.OpenSession());
             });
         }
@@ -49,27 +76,27 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             if (string.Equals(requestType, "DELETE", StringComparison.InvariantCultureIgnoreCase))
             {
-                Result = Browser.Delete("/", JsonClient);
+                Result = Browser.Delete("/", AuthenticatedJsonClient);
             }
             else if (string.Equals(requestType, "OPTIONS", StringComparison.InvariantCultureIgnoreCase))
             {
-                Result = Browser.Options("/", JsonClient);
+                Result = Browser.Options("/", AuthenticatedJsonClient);
             }
             else if (string.Equals(requestType, "GET", StringComparison.InvariantCultureIgnoreCase))
             {
-                Result = Browser.Get("/", JsonClient);
+                Result = Browser.Get("/", AuthenticatedJsonClient);
             }
             else if (string.Equals(requestType, "POST", StringComparison.InvariantCultureIgnoreCase))
             {
-                Result = Browser.Post("/", JsonClient);
+                Result = Browser.Post("/", AuthenticatedJsonClient);
             }
             else if (string.Equals(requestType, "PUT", StringComparison.InvariantCultureIgnoreCase))
             {
-                Result = Browser.Put("/", JsonClient);
+                Result = Browser.Put("/", AuthenticatedJsonClient);
             }
             else if (string.Equals(requestType, "HEAD", StringComparison.InvariantCultureIgnoreCase))
             {
-                Result = Browser.Head("/", JsonClient);
+                Result = Browser.Head("/", AuthenticatedJsonClient);
             }
             else
             {

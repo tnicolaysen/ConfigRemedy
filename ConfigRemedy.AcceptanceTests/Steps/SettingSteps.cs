@@ -21,7 +21,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             {
                 Result = Browser.Post(string.Format(ApplicationBasePath + "settings", appName), context =>
                 {
-                    JsonClient(context);
+                    AuthenticatedJsonClient(context);
 
                     // ReSharper disable once AccessToForEachVariableInClosure
                     context.JsonBody(setting);
@@ -33,7 +33,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         public void WhenIGetAvailableSettingsForTheApplication(string appName)
         {
             var url = string.Format(ApplicationBasePath, appName);
-            Result = Browser.Get(url, JsonClient);
+            Result = Browser.Get(url, AuthenticatedJsonClient);
         }
 
         [When(@"I POST the following settings to ""(.*)"":")]
@@ -48,7 +48,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             var url = string.Format(ApplicationBasePath + "/settings/{1}", appName, envName);
             Result = Browser.Post(url, with =>
             {
-                JsonClient(with);
+                AuthenticatedJsonClient(with);
                 with.FormValue("key", settingKey);
                 with.FormValue("value", settingValue);
             });
@@ -73,7 +73,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         public void WhenIGetTheSettingFor(string settingKey, string appName, string envName)
         {
             var url = string.Format(ApplicationBasePath + "/settings/{1}/{2}", appName, envName, settingKey);
-            Result = Browser.Get(url, JsonClient);
+            Result = Browser.Get(url, AuthenticatedJsonClient);
         }
 
         [Then(@"I should get an empty settings list")]

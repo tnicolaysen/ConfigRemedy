@@ -15,13 +15,14 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I get available users")]
         public void WhenIGetAvailableUsers()
         {
-            Result = Browser.Get(UsersBaseUrl, JsonClient);
+
+            Result = Browser.Get(UsersBaseUrl, AuthenticatedJsonClient);
         }
 
         [When(@"I GET an user named ""(\w+)""")]
         public void WhenIGetAnUserNamed(string userName)
         {
-            Result = Browser.Get(UsersBaseUrl + userName, JsonClient);
+            Result = Browser.Get(UsersBaseUrl + userName, AuthenticatedJsonClient);
         }
         
         [Then(@"there should be (\d+) users")]
@@ -47,7 +48,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             Result = Browser.Post(UsersBaseUrl, with =>
             {
-                JsonClient(with);
+                AuthenticatedJsonClient(with);
                 with.FormValue("userName", userName);
                 with.FormValue("displayName", userName);
                 with.FormValue("email", userName);

@@ -16,7 +16,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I get available environments")]
         public void WhenIGetAvailableEnvironments()
         {
-            Result = Browser.Get(EnvironmentBaseUrl, JsonClient);
+            Result = Browser.Get(EnvironmentBaseUrl, AuthenticatedJsonClient);
         }
 
         [When(@"I POST a environment named ""(\w+)""")]
@@ -24,7 +24,7 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             Result = Browser.Post(EnvironmentBaseUrl, with =>
             {
-                JsonClient(with);
+                AuthenticatedJsonClient(with);
                 with.FormValue("shortName", environmentName);
             });
         }
@@ -32,13 +32,13 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [When(@"I GET an environment named ""(\w+)""")]
         public void WhenIGetAnEnvironmentNamed(string envName)
         {
-            Result = Browser.Get(EnvironmentBaseUrl + envName, JsonClient);
+            Result = Browser.Get(EnvironmentBaseUrl + envName, AuthenticatedJsonClient);
         }
         
         [When(@"I DELETE an environment named ""(.*)""")]
         public void WhenIDeleteAnEnvironmentNamed(string envName)
         {
-            Result = Browser.Delete(EnvironmentBaseUrl + envName, JsonClient);
+            Result = Browser.Delete(EnvironmentBaseUrl + envName, AuthenticatedJsonClient);
         }
 
         [Then(@"there should be (\d+) environments")]
