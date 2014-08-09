@@ -7,6 +7,8 @@ Background:
 	Given I have a JSON client
 
 Scenario: Login
+	Given the database is empty
+	Given an user with name  "foo" and password "bar" exists
 	When I POST username "foo" and password "bar" 
 	Then I should get HTTP 200
 	And response should contain "userId"

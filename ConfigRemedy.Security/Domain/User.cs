@@ -10,7 +10,7 @@ namespace ConfigRemedy.Security.Domain
         [NotNull] public string Username { get; set; }
         public string DisplayName { get; set; }
         public string Email { get; set; }
-        public string PasswordHashed { get; set; }
+        public byte[] HashedPassword { get; set; }
 
         #region Equality comparison
 
@@ -21,7 +21,7 @@ namespace ConfigRemedy.Security.Domain
             if (ReferenceEquals(this, other)) return true;
             return string.Equals(Id, other.Id) && string.Equals(Username, other.Username) &&
                    string.Equals(DisplayName, other.DisplayName) && string.Equals(Email, other.Email) &&
-                   string.Equals(PasswordHashed, other.PasswordHashed);
+                   string.Equals(HashedPassword, other.HashedPassword);
         }
 
         public override bool Equals(object obj)
@@ -40,7 +40,7 @@ namespace ConfigRemedy.Security.Domain
                 hashCode = (hashCode*397) ^ (Username != null ? Username.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (DisplayName != null ? DisplayName.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Email != null ? Email.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (PasswordHashed != null ? PasswordHashed.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (HashedPassword != null ? HashedPassword.GetHashCode() : 0);
                 return hashCode;
             }
         }

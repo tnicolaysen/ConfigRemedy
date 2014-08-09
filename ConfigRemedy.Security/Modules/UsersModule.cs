@@ -12,9 +12,11 @@ namespace ConfigRemedy.Security.Modules
     public class UsersModule : AuthenticatedModule
     {
         private readonly IDocumentSession _session;
-        public UsersModule(IDocumentSession session) 
+        private readonly IUserRegistrationService _registrationService;
+        public UsersModule(IDocumentSession session, IUserRegistrationService registrationService) 
         {
             _session = session;
+            _registrationService = registrationService;
 
             Get["users"] = _ => GetAllUsers();
             Get["users/{username}"] = _ => GetUser(_.username);
@@ -35,8 +37,8 @@ namespace ConfigRemedy.Security.Modules
 
         private dynamic CreateUser()
         {
-            var user = this.Bind<User>(e => e.Id);
-            if (GetUser(_session, user.Username) != null)
+            var userRegistration = this.Bind<UserRegistration>();
+            if (GetUser(_session, userRegistration.Username) != null)
             {
                 return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
                 {
@@ -44,6 +46,7 @@ namespace ConfigRemedy.Security.Modules
                 };
             }
 
+            var user = _registrationService.CreateUser(userRegistration);
             _session.Store(user);
             _session.SaveChanges();
 

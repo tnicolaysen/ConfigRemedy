@@ -1,10 +1,12 @@
 ﻿using ConfigRemedy.AcceptanceTests.Annotations;
+using ConfigRemedy.AcceptanceTests.Misc;
+using ConfigRemedy.Api;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Modules;
+using ConfigRemedy.Security;
 using ConfigRemedy.Security.Modules;
-using Nancy;
 using Nancy.Authentication.Token;
-using Nancy.Security;
+using Nancy.Cryptography;
 using Nancy.Testing;
 using NUnit.Framework;
 using System;
@@ -13,26 +15,6 @@ using HttpStatusCode = Nancy.HttpStatusCode;
 
 namespace ConfigRemedy.AcceptanceTests.Steps
 {
-    public class TokenizerMock : ITokenizer
-    {
-        public const string Token = "SmFtZXNCb25kDQphZG1pbnx1c2VyDQo2MzU0MjYxNTAwMTQ4MDQwNjANCk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMzsgV09XNjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8zNi4wLjE5ODUuMTI1IFNhZmFyaS81MzcuMzY=:I6zbVjmlasIIGZEywNB5sJGE4PKWzPGX+2sj1vwdEyA=";
-        public string Tokenize(IUserIdentity userIdentity, NancyContext context)
-        {
-            return Token;
-        }
-
-        public IUserIdentity Detokenize(string token, NancyContext context)
-        {
-            return new ConfiguratronUserIdentity
-            {
-                UserName = "JamesBond",
-                UserId = "user/1",
-                Role = "admin",
-                Claims = new[] { "admin", "user"},
-            };
-        }
-    }
-
     [UsedImplicitly, MeansImplicitUse]
     [Binding]
     public class CommonModuleSteps : ModuleStepsBase
@@ -49,10 +31,15 @@ namespace ConfigRemedy.AcceptanceTests.Steps
                 with.Module<SettingModule>();
                 with.Module<UsersModule>();
                 with.Module<LoginModule>();
-                with.ApplicationStartup((container, pipelines) => CustomPipelines.Configure(pipelines));
+                with.ApplicationStartup((container, pipelines) =>
+                {
+                    Bootstrapper.RegisterCoreComponents(container);
+                    container.Register<ITokenizer, TokenizerMock>();
+                    CustomPipelines.Configure(pipelines);
+                });
                 with.RequestStartup((container, pipelines, ctx) => 
-                    TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>())));
-                with.Dependency<ITokenizer>(new TokenizerMock());
+                    TokenAuthentication
+                    .Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>())));
                 with.Dependency(DbContext.EmbeddedStore.OpenSession());
             });
         }
@@ -144,6 +131,13 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Assert.That(Result.Headers.ContainsKey("Location"), Is.True, "Location header is not set");
             Assert.That(Result.Headers["Location"], Is.StringContaining(urlPart));
         }
+
+        [Then(@"I should get an the following JSON response: (.*)")]
+        public void ThenIShouldGetAnTheFollowingJSONResponse(string expectedJson)
+        {
+            var resultJson = Result.Body.AsString();
+            Assert.That(resultJson.ToLower(), Is.StringContaining(expectedJson.ToLower()));
+        } 
 
         // Setup / boilerplate
 

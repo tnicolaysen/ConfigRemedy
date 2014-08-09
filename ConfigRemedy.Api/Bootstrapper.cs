@@ -2,9 +2,11 @@
 using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Infrastructure.Settings;
+using ConfigRemedy.Security;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
+using Nancy.Cryptography;
 using Nancy.Diagnostics;
 using Nancy.TinyIoc;
 using Raven.Client;
@@ -29,7 +31,15 @@ namespace ConfigRemedy.Api
         {
             base.ConfigureApplicationContainer(container);
 
+            RegisterCoreComponents(container);
             container.Register(RavenFactory.Create());
+        }
+
+        public static void RegisterCoreComponents(TinyIoCContainer container)
+        {
+            container.Register<IUserRegistrationService, UserRegistrationService>();
+            container.Register<IHmacProvider, DefaultHmacProvider>();
+            container.Register<IKeyGenerator, RandomKeyGenerator>();
         }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)

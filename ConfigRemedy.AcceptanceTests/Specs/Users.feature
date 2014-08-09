@@ -26,16 +26,15 @@ Scenario: Getting an existing user
 
 Scenario: Adding user
 	Given the database is empty
-	When I POST a user named "james" 
+	When I POST a user with username "james" and display name "JamesBond" and email "james.bond@007.com" and password "foobar1234"
 	Then I should get HTTP Created
 	And an user named "james" should be persisted
 	And location header should contain url for "users/james"
 	And I should get an user model with name "james"
-	And I should get an the following JSON response: {"id":"users/james","userName":"james","displayName":"james","email":"james","passwordHashed":"_some_hashed_password_"}
 
 Scenario: Adding duplicate user is not allowed
 	Given an user named "foo" exist
-	When I POST a user named "foo" 
+	When I POST a user with username "foo" and display name "displayName" and email "email" and password "password"
 	Then I should get HTTP Forbidden with reason "Duplicates are not allowed"
 	And body should be "Duplicates are not allowed"
 

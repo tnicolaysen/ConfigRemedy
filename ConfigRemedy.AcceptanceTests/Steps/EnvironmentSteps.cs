@@ -74,13 +74,6 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             Assert.That(environment.ShortName, Is.EqualTo(envName));
         }
 
-        [Then(@"I should get an the following JSON response: (.*)")]
-        public void ThenIShouldGetAnTheFollowingJSONResponse(string expectedJson)
-        {
-            var resultJson = Result.Body.AsString();
-            Assert.That(resultJson, Is.EqualTo(expectedJson).IgnoreCase);
-        }
-
         [Then(@"body should be ""(.*)""")]
         public void ThenBodyShouldBe(string expectedBody)
         {

@@ -1,5 +1,6 @@
 ﻿using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Security.Domain;
+using Microsoft.SqlServer.Server;
 using NUnit.Framework;
 using System.Linq;
 using TechTalk.SpecFlow;
@@ -39,22 +40,30 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         [Given(@"an user named ""(.*)"" exist")]
         public void GivenAnUserNamedExist(string userName)
         {
-            When(string.Format(@"I POST a user named ""{0}""", userName));
+            When(string.Format(@"I POST a user with username ""{0}"" and display name ""displayName"" and email ""email"" and password ""password""", userName));
+        }
+
+        [Given(@"an user with name  ""(.*)"" and password ""(.*)"" exists")]
+        public void GivenAnUserNamedExist(string userName, string password)
+        {
+            When(string.Format(@"I POST a user with username ""{0}"" and display name ""displayName"" and email ""email"" and password ""{1}""",
+                userName, password));
         }
 
 
-        [When(@"I POST a user named ""(\w+)""")]
-        public void WhenIPostAUserNamed(string userName)
+        [When(@"I POST a user with username ""(.*)"" and display name ""(.*)"" and email ""(.*)"" and password ""(.*)""")]
+        public void when_I_post_a_user(string userName, string displayName, string email, string password)
         {
             Result = Browser.Post(UsersBaseUrl, with =>
             {
                 AuthenticatedJsonClient(with);
                 with.FormValue("userName", userName);
-                with.FormValue("displayName", userName);
-                with.FormValue("email", userName);
-                with.FormValue("passwordHashed", "_some_hashed_password_");
+                with.FormValue("displayName", displayName);
+                with.FormValue("email", email);
+                with.FormValue("password", password);
             });
         }
+
         [Then(@"an user named ""(\w+)"" should be persisted")]
         public void ThenAnUserNamedShouldBePersisted(string userName)
         {

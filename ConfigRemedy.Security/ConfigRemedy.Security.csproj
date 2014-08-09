@@ -54,10 +54,12 @@
   <ItemGroup>
     <Compile Include="Domain\Credentials.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Domain\UserRegistration.cs" />
     <Compile Include="Modules\AuthenticatedModule.cs" />
     <Compile Include="Modules\LoginModule.cs" />
     <Compile Include="Modules\UsersModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserRegistrationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

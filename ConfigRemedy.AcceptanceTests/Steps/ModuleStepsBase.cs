@@ -1,4 +1,6 @@
-﻿using Nancy.Testing;
+﻿using ConfigRemedy.AcceptanceTests.Misc;
+using Nancy.Testing;
+using NUnit.Framework;
 using Raven.Imports.Newtonsoft.Json;
 using TechTalk.SpecFlow;
 
@@ -47,6 +49,6 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             var jsonString = response.Body.AsString();
             return JsonConvert.DeserializeObject<T>(jsonString);
-        }
+        }       
     }
 }

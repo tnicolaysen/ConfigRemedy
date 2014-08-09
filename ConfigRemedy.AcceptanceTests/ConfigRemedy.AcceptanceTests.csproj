@@ -104,6 +104,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\TokenizerMock.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Specs\Application.feature.cs">
       <AutoGen>True</AutoGen>

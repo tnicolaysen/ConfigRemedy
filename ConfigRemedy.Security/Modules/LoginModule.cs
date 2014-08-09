@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Security.Domain;
 using Nancy;
 using Nancy.Authentication.Token;
-using Nancy.ErrorHandling;
+using Nancy.Cryptography;
 using Nancy.ModelBinding;
 using Nancy.Security;
 using Raven.Client;
@@ -14,10 +14,12 @@ namespace ConfigRemedy.Security.Modules
     public class LoginModule : BaseModule
     {
         private readonly IDocumentSession _session;
+        private readonly IHmacProvider _hmacProvider;
 
-        public LoginModule(ITokenizer tokenizer, IDocumentSession session)            
+        public LoginModule(ITokenizer tokenizer, IDocumentSession session, IHmacProvider hmacProvider)            
         {
             _session = session;
+            _hmacProvider = hmacProvider;
             Post["login"] = x =>
             {
                 var credentialns = this.Bind<Credentials>();
@@ -35,6 +37,7 @@ namespace ConfigRemedy.Security.Modules
                 {
                     UserId = userIdentity.UserId,
                     UserName = userIdentity.UserName,
+                    DisplayName = userIdentity.DisplayName,
                     Role = userIdentity.Role,
                     Token = token,
                 };
@@ -53,12 +56,23 @@ namespace ConfigRemedy.Security.Modules
             };
         }
 
+        private User GetUser(string username)
+        {
+            return _session.Load<User>("users/" + username);
+        }
+
         private ConfiguratronUserIdentity ValidateUser(Credentials credentials)
         {
+            var user = GetUser(credentials.Username);
+            if (user == null) return null;
+            var hashedPassword = _hmacProvider.GenerateHmac(credentials.Password);
+            if (!user.HashedPassword.SequenceEqual(hashedPassword)) return null;
+
             return new ConfiguratronUserIdentity
             {
-                UserName = "JamesBond",
-                UserId = "user/1",
+                UserName = user.Username,
+                UserId = user.Id,
+                DisplayName = user.DisplayName,
                 Role = "admin",
                 Claims = new[] { "admin", "user"},
             };
@@ -69,6 +83,7 @@ namespace ConfigRemedy.Security.Modules
     public class ConfiguratronUserIdentity : IUserIdentity
     {
         public string UserName { get; set; }
+        public string DisplayName { get; set; }
         public IEnumerable<string> Claims { get; set; }
         public string UserId { get; set; }
         public string Role { get; set; }

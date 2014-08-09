@@ -148,7 +148,8 @@ this.FeatureBackground();
 #line 28
  testRunner.Given("the database is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 29
- testRunner.When("I POST a user named \"james\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I POST a user with username \"james\" and display name \"JamesBond\" and email \"james" +
+                    ".bond@007.com\" and password \"foobar1234\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 30
  testRunner.Then("I should get HTTP Created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 31
@@ -157,10 +158,6 @@ this.FeatureBackground();
  testRunner.And("location header should contain url for \"users/james\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 33
  testRunner.And("I should get an user model with name \"james\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 34
- testRunner.And("I should get an the following JSON response: {\"id\":\"users/james\",\"userName\":\"jame" +
-                    "s\",\"displayName\":\"james\",\"email\":\"james\",\"passwordHashed\":\"_some_hashed_password" +
-                    "_\"}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -170,17 +167,18 @@ this.FeatureBackground();
         public virtual void AddingDuplicateUserIsNotAllowed()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding duplicate user is not allowed", ((string[])(null)));
-#line 36
+#line 35
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 37
+#line 36
  testRunner.Given("an user named \"foo\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 37
+ testRunner.When("I POST a user with username \"foo\" and display name \"displayName\" and email \"email" +
+                    "\" and password \"password\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 38
- testRunner.When("I POST a user named \"foo\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 39
  testRunner.Then("I should get HTTP Forbidden with reason \"Duplicates are not allowed\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 40
+#line 39
  testRunner.And("body should be \"Duplicates are not allowed\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -191,17 +189,17 @@ this.FeatureBackground();
         public virtual void GettingAllUsers()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Getting all users", ((string[])(null)));
-#line 42
+#line 41
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
-#line 43
+#line 42
  testRunner.Given("an user named \"james\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 44
+#line 43
  testRunner.Given("an user named \"bond\" exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 45
+#line 44
  testRunner.When("I get available users", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 46
+#line 45
  testRunner.Then("I should get HTTP 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
