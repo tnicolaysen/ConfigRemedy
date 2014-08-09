@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Security.Domain;
 using Nancy;
 using Nancy.Authentication.Token;
-using Nancy.Cryptography;
 using Nancy.ModelBinding;
 using Nancy.Security;
 using Raven.Client;
@@ -14,12 +12,12 @@ namespace ConfigRemedy.Security.Modules
     public class LoginModule : BaseModule
     {
         private readonly IDocumentSession _session;
-        private readonly IHmacProvider _hmacProvider;
+        private readonly IHashedPasswordProvider _hashedPasswordProvider;
 
-        public LoginModule(ITokenizer tokenizer, IDocumentSession session, IHmacProvider hmacProvider)            
+        public LoginModule(ITokenizer tokenizer, IDocumentSession session, IHashedPasswordProvider hashedPasswordProvider)            
         {
             _session = session;
-            _hmacProvider = hmacProvider;
+            _hashedPasswordProvider = hashedPasswordProvider;
             Post["login"] = x =>
             {
                 var credentialns = this.Bind<Credentials>();
@@ -65,8 +63,8 @@ namespace ConfigRemedy.Security.Modules
         {
             var user = GetUser(credentials.Username);
             if (user == null) return null;
-            var hashedPassword = _hmacProvider.GenerateHmac(credentials.Password);
-            if (!user.HashedPassword.SequenceEqual(hashedPassword)) return null;
+            var hashedPassword = _hashedPasswordProvider.GenerateHashedPassword(credentials.Password);
+            if (user.HashedPassword != hashedPassword) return null;
 
             return new ConfiguratronUserIdentity
             {

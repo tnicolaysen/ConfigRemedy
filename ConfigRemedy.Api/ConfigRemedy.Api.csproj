@@ -115,13 +115,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Infrastructure\AssemblyHelper.cs" />
     <Compile Include="Infrastructure\CustomPipelines.cs" />
     <Compile Include="Infrastructure\Nancy\NancyRunner.cs" />
     <Compile Include="Infrastructure\RavenConfigurator.cs" />
     <Compile Include="Infrastructure\RavenFactory.cs" />
-    <Compile Include="Infrastructure\Settings\Settings.cs" />
-    <Compile Include="Infrastructure\Settings\SettingsReader.cs" />
     <Compile Include="Modules\ApplicationModule.cs" />
     <Compile Include="Modules\DiagnosticsModule.cs" />
     <Compile Include="Modules\EnvironmentsModule.cs" />

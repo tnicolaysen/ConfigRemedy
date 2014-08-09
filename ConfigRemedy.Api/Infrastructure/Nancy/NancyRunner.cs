@@ -1,4 +1,5 @@
 ﻿using System;
+using ConfigRemedy.Core.Configuration.Settings;
 using Nancy.Hosting.Self;
 using Serilog;
 
@@ -10,17 +11,17 @@ namespace ConfigRemedy.Api.Infrastructure.Nancy
 
         public void Start()
         {
-            var uri = new Uri(Settings.Settings.ApiUrl);
+            var uri = new Uri(Settings.ApiUrl);
             _host = new NancyHost(uri);
             _host.Start();
 
-            Log.Information("Configuratron.Api is now accepting requests on {0}", Settings.Settings.ApiUrl);
+            Log.Information("Configuratron.Api is now accepting requests on {0}", Settings.ApiUrl);
         }
 
         public void Stop()
         {
             _host.Dispose();
-            Log.Information("Configuratron.Api stopped accepting requests on {0}", Settings.Settings.ApiUrl);
+            Log.Information("Configuratron.Api stopped accepting requests on {0}", Settings.ApiUrl);
         } 
     }
 }

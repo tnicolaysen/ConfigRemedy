@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 
-namespace ConfigRemedy.Api.Infrastructure
+namespace ConfigRemedy.Core.Infrastructure
 {
     public static class AssemblyHelper
     {

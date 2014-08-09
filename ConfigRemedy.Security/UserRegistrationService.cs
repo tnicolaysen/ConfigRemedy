@@ -1,5 +1,4 @@
 ﻿using ConfigRemedy.Security.Domain;
-using Nancy.Cryptography;
 
 namespace ConfigRemedy.Security
 {
@@ -10,21 +9,24 @@ namespace ConfigRemedy.Security
 
     public class UserRegistrationService : IUserRegistrationService
     {
-        private readonly IHmacProvider _hmacProvider;
 
-        public UserRegistrationService(IHmacProvider hmacProvider)
+        private readonly IHashedPasswordProvider _hashedPasswordProvider;
+
+        public UserRegistrationService(IHashedPasswordProvider hashedPasswordProvider)
         {
-            _hmacProvider = hmacProvider;
+            _hashedPasswordProvider = hashedPasswordProvider;
         }
 
         public User CreateUser(UserRegistration userRegistration)
         {
+            var hashedPassword = _hashedPasswordProvider.GenerateHashedPassword(userRegistration.Password);
+
             var user = new User
             {
                 Username = userRegistration.Username,
                 DisplayName = userRegistration.DisplayName,
                 Email = userRegistration.Email,
-                HashedPassword = _hmacProvider.GenerateHmac(userRegistration.Password)
+                HashedPassword = hashedPassword
             };
 
             return user;

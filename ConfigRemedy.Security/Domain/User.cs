@@ -10,7 +10,7 @@ namespace ConfigRemedy.Security.Domain
         [NotNull] public string Username { get; set; }
         public string DisplayName { get; set; }
         public string Email { get; set; }
-        public byte[] HashedPassword { get; set; }
+        public string HashedPassword { get; set; }
 
         #region Equality comparison
 

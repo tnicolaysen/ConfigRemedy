@@ -55,6 +55,7 @@
     <Compile Include="Domain\Credentials.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserRegistration.cs" />
+    <Compile Include="HashedPasswordProvider.cs" />
     <Compile Include="Modules\AuthenticatedModule.cs" />
     <Compile Include="Modules\LoginModule.cs" />
     <Compile Include="Modules\UsersModule.cs" />

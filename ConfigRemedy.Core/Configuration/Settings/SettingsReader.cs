@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace ConfigRemedy.Api.Infrastructure.Settings
+namespace ConfigRemedy.Core.Configuration.Settings
 {
     public class SettingsReader<T>
     {

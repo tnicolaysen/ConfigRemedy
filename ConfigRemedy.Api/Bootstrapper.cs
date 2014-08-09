@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
-using ConfigRemedy.Api.Infrastructure.Settings;
+using ConfigRemedy.Core.Configuration.Settings;
+using ConfigRemedy.Core.Infrastructure;
 using ConfigRemedy.Security;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
@@ -38,6 +39,7 @@ namespace ConfigRemedy.Api
         public static void RegisterCoreComponents(TinyIoCContainer container)
         {
             container.Register<IUserRegistrationService, UserRegistrationService>();
+            container.Register<IHashedPasswordProvider, HashedPasswordProvider>();
             container.Register<IHmacProvider, DefaultHmacProvider>();
             container.Register<IKeyGenerator, RandomKeyGenerator>();
         }

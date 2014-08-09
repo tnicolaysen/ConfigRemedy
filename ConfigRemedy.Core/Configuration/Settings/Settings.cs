@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using ConfigRemedy.Core;
 
-namespace ConfigRemedy.Api.Infrastructure.Settings
+namespace ConfigRemedy.Core.Configuration.Settings
 {
     public static class Settings
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
-using ConfigRemedy.Api.Infrastructure.Settings;
+using ConfigRemedy.Core.Configuration.Settings;
+using ConfigRemedy.Core.Infrastructure;
 using ConfigRemedy.Security.Modules;
 
 namespace ConfigRemedy.Api.Modules

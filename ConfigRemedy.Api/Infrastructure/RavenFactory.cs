@@ -1,4 +1,5 @@
-﻿using Raven.Client;
+﻿using ConfigRemedy.Core.Configuration.Settings;
+using Raven.Client;
 using Raven.Client.Embedded;
 
 namespace ConfigRemedy.Api.Infrastructure
@@ -9,7 +10,7 @@ namespace ConfigRemedy.Api.Infrastructure
         {
             var docstore = new EmbeddableDocumentStore
             {
-                DataDirectory = Settings.Settings.DbPath
+                DataDirectory = Settings.DbPath
             };
 
             RavenConfigurator.Configure(docstore);

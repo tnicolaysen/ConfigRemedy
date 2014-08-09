@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Security", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Core", "ConfigRemedy.Core\ConfigRemedy.Core.csproj", "{9E386B4D-BDAB-4180-A847-E65E5046649E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.UnitTests", "ConfigRemedy.UnitTests\ConfigRemedy.UnitTests.csproj", "{B1CAD286-7469-40EB-B468-F62F2852193E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A37BCE94-BDD3-4C97-BF6B-3CB6E963DDFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +43,16 @@ Global
 		{9E386B4D-BDAB-4180-A847-E65E5046649E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E386B4D-BDAB-4180-A847-E65E5046649E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E386B4D-BDAB-4180-A847-E65E5046649E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1CAD286-7469-40EB-B468-F62F2852193E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1CAD286-7469-40EB-B468-F62F2852193E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1CAD286-7469-40EB-B468-F62F2852193E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1CAD286-7469-40EB-B468-F62F2852193E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3F7C8746-1F10-46CA-B32E-7776242ECFC0} = {A37BCE94-BDD3-4C97-BF6B-3CB6E963DDFF}
+		{B1CAD286-7469-40EB-B468-F62F2852193E} = {A37BCE94-BDD3-4C97-BF6B-3CB6E963DDFF}
 	EndGlobalSection
 EndGlobal

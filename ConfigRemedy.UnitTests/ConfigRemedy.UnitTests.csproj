@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E386B4D-BDAB-4180-A847-E65E5046649E}</ProjectGuid>
+    <ProjectGuid>{B1CAD286-7469-40EB-B468-F62F2852193E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConfigRemedy.Core</RootNamespace>
-    <AssemblyName>ConfigRemedy.Core</AssemblyName>
+    <RootNamespace>ConfigRemedy.UnitTests</RootNamespace>
+    <AssemblyName>ConfigRemedy.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,22 +33,29 @@
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.0.23.2\lib\net40\Nancy.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Settings\Settings.cs" />
-    <Compile Include="Configuration\Settings\SettingsReader.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Guard.cs" />
-    <Compile Include="Infrastructure\AssemblyHelper.cs" />
-    <Compile Include="Modules\BaseModule.cs" />
-    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="HashedPasswordProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigRemedy.Security\ConfigRemedy.Security.csproj">
+      <Project>{2549D76B-AF4F-42E8-8E2B-E87EE2BCD081}</Project>
+      <Name>ConfigRemedy.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

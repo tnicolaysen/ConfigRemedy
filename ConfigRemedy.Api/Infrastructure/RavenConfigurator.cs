@@ -1,4 +1,5 @@
-﻿using ConfigRemedy.Domain;
+﻿
+using ConfigRemedy.Domain;
 using ConfigRemedy.Security.Domain;
 using Raven.Abstractions.Util;
 using Raven.Client;
