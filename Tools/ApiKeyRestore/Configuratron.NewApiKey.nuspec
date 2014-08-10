@@ -11,7 +11,4 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Configuratron new API key command line tool</description>
   </metadata>
-  <files>
-    <file src="bin\debug\**\*.*" />
-  </files>
 </package>
