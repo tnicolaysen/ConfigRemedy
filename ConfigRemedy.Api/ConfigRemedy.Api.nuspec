@@ -13,6 +13,5 @@
   </metadata>
   <files>
     <file src="app\**\*.*" target="app"/>
-    <file src="bin\debug\**\*.*" />
   </files>
 </package>
