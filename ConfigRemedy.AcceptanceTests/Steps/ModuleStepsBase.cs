@@ -1,6 +1,7 @@
 ﻿using ConfigRemedy.AcceptanceTests.Misc;
+using ConfigRemedy.Core;
+using ConfigRemedy.Security;
 using Nancy.Testing;
-using NUnit.Framework;
 using Raven.Imports.Newtonsoft.Json;
 using TechTalk.SpecFlow;
 
@@ -41,7 +42,8 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         protected void AuthenticatedJsonClient(BrowserContext with)
         {
             with.Header("accept", "application/json");
-            with.Header("Authorization", "Token " + TokenizerMock.Token);
+            var token = string.Format(Constants.AuthorizationTokenTemplate, TokenizerMock.Token);
+            with.Header(Constants.AuthorizationHeaderName, token);
             with.HttpRequest();
         }
 

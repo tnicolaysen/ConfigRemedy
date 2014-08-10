@@ -43,22 +43,19 @@
       <HintPath>..\packages\RavenDB.Client.2.5.2879\lib\net45\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Credentials.cs" />
-    <Compile Include="Domain\User.cs" />
-    <Compile Include="Domain\UserRegistration.cs" />
-    <Compile Include="HashedPasswordProvider.cs" />
+    <Compile Include="AdminAccountRestorer.cs" />
+    <Compile Include="ApiKeyProvider.cs" />
+    <Compile Include="HashedValueProvider.cs" />
     <Compile Include="Modules\AuthenticatedModule.cs" />
     <Compile Include="Modules\LoginModule.cs" />
     <Compile Include="Modules\UsersModule.cs" />
+    <Compile Include="Nancy\ConfiguratronAuthentication.cs" />
+    <Compile Include="Nancy\ConfiguratronAuthenticationConfiguration.cs" />
+    <Compile Include="Nancy\IUserResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRegistrationService.cs" />
   </ItemGroup>
@@ -70,7 +67,16 @@
       <Project>{9e386b4d-bdab-4180-a847-e65e5046649e}</Project>
       <Name>ConfigRemedy.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ConfigRemedy.Domain\ConfigRemedy.Domain.csproj">
+      <Project>{f8bbf591-042c-43d0-9c35-c6473f1bca86}</Project>
+      <Name>ConfigRemedy.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConfigRemedy.Repository\ConfigRemedy.Repository.csproj">
+      <Project>{DAC9A372-BB4F-4E53-BB6E-11401501E3D1}</Project>
+      <Name>ConfigRemedy.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

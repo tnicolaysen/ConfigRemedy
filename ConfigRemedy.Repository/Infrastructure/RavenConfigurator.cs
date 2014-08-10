@@ -1,10 +1,8 @@
-﻿
-using ConfigRemedy.Domain;
-using ConfigRemedy.Security.Domain;
+﻿using ConfigRemedy.Domain;
 using Raven.Abstractions.Util;
 using Raven.Client;
 
-namespace ConfigRemedy.Api.Infrastructure
+namespace ConfigRemedy.Repository.Infrastructure
 {
     public static class RavenConfigurator
     {

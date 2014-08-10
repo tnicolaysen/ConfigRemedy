@@ -2,8 +2,10 @@
 using ConfigRemedy.Api.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Core.Configuration.Settings;
-using ConfigRemedy.Core.Infrastructure;
+using ConfigRemedy.Repository;
+using ConfigRemedy.Repository.Infrastructure;
 using ConfigRemedy.Security;
+using ConfigRemedy.Security.Nancy;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
@@ -23,6 +25,11 @@ namespace ConfigRemedy.Api
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             CustomPipelines.Configure(pipelines);
+            if(Settings.RestoreDefaultAdminAtStartup)
+            {
+                var adminAccountRestorer = container.Resolve<IAdminAccountRestorer>();
+                adminAccountRestorer.RestoreDefaultAdminAccount();
+            }
         }
         
         /// <summary>
@@ -31,17 +38,24 @@ namespace ConfigRemedy.Api
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
-
-            RegisterCoreComponents(container);
+            RegisterApplicationLevelComponents(container);
             container.Register(RavenFactory.Create());
         }
 
-        public static void RegisterCoreComponents(TinyIoCContainer container)
+        public static void RegisterApplicationLevelComponents(TinyIoCContainer container)
         {
+            container.Register<IAdminAccountRestorer, AdminAccountRestorer>();
+            container.Register<IApiKeyProvider, ApiKeyProvider>();
             container.Register<IUserRegistrationService, UserRegistrationService>();
-            container.Register<IHashedPasswordProvider, HashedPasswordProvider>();
+            container.Register<IHashedValueProvider, HashedValueProvider>();
             container.Register<IHmacProvider, DefaultHmacProvider>();
             container.Register<IKeyGenerator, RandomKeyGenerator>();
+        }
+        public static void RegisterRequestLevelComponents(TinyIoCContainer container)
+        {
+            container.Register<IUserRepository, UserRepository>();
+            container.Register<IApiKeyRepository, ApiKeyRepository>();
+            container.Register<IUserResolver, UserResolver>();
         }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
@@ -49,12 +63,24 @@ namespace ConfigRemedy.Api
             base.ConfigureRequestContainer(container, context);
 
             var documentStore = container.Resolve<IDocumentStore>();
-            container.Register(documentStore.OpenSession());
+            var documentSession = documentStore.OpenSession();
+            container.Register(documentSession);
+
+            // TODO: check maybe there is a better way to register components, that depend to IDocumentSession
+            // If they registered inside ConfigureApplicationContainer method, and Module has a dependency to, 
+            // for instance IUserRepository, then IoC can't resolve IDocumentSession. But it has no problem resolving 
+            // IDocumentSession at module level...
+
+            RegisterRequestLevelComponents(container);
         }
 
         protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
         {
-            TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>()));
+            var tokenizer = container.Resolve<ITokenizer>();
+            var userResolver = container.Resolve<IUserResolver>();
+
+            ConfiguratronAuthentication.Enable(pipelines,
+                new ConfiguratronAuthenticationConfiguration(tokenizer, userResolver));
         }
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)

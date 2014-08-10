@@ -34,6 +34,7 @@ namespace ConfigRemedy.Core.Configuration.Settings
             get { return string.Format("http://{0}:{1}/", Hostname, Port); }
         }
 
+        public static readonly bool RestoreDefaultAdminAtStartup = SettingsReader<bool>.Read("RestoreDefaultAdminAtStartup", true);
         public static readonly int Port = SettingsReader<int>.Read("Port", Constants.DefaultPort);
         public static readonly string Hostname = SettingsReader<string>.Read("Hostname", Constants.DefaultHostname);
         public static readonly string DbPath;

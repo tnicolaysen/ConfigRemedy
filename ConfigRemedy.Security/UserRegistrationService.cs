@@ -1,4 +1,4 @@
-﻿using ConfigRemedy.Security.Domain;
+﻿using ConfigRemedy.Domain;
 
 namespace ConfigRemedy.Security
 {
@@ -10,16 +10,16 @@ namespace ConfigRemedy.Security
     public class UserRegistrationService : IUserRegistrationService
     {
 
-        private readonly IHashedPasswordProvider _hashedPasswordProvider;
+        private readonly IHashedValueProvider _hashedValueProvider;
 
-        public UserRegistrationService(IHashedPasswordProvider hashedPasswordProvider)
+        public UserRegistrationService(IHashedValueProvider hashedValueProvider)
         {
-            _hashedPasswordProvider = hashedPasswordProvider;
+            _hashedValueProvider = hashedValueProvider;
         }
 
         public User CreateUser(UserRegistration userRegistration)
         {
-            var hashedPassword = _hashedPasswordProvider.GenerateHashedPassword(userRegistration.Password);
+            var hashedPassword = _hashedValueProvider.GetHash(userRegistration.Password);
 
             var user = new User
             {

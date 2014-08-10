@@ -1,22 +1,22 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using ConfigRemedy.Core;
-using ConfigRemedy.Security.Domain;
+using ConfigRemedy.Domain;
+using ConfigRemedy.Repository;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
-using Raven.Client;
 
 namespace ConfigRemedy.Security.Modules
 {
     public class UsersModule : AuthenticatedModule
     {
-        private readonly IDocumentSession _session;
+        private readonly IUserRepository _userRepository;
         private readonly IUserRegistrationService _registrationService;
-        public UsersModule(IDocumentSession session, IUserRegistrationService registrationService) 
+
+        public UsersModule(IUserRegistrationService registrationService, IUserRepository userRepository) 
         {
-            _session = session;
             _registrationService = registrationService;
+            _userRepository = userRepository;
 
             Get["users"] = _ => GetAllUsers();
             Get["users/{username}"] = _ => GetUser(_.username);
@@ -27,7 +27,7 @@ namespace ConfigRemedy.Security.Modules
         {
             Guard.NotNullOrEmpty(() => userName, userName);
 
-            var user = GetUser(_session, userName);
+            var user = _userRepository.GetUserByUsername(userName);
 
             if (user == null)
                 return HttpStatusCode.NotFound;
@@ -38,7 +38,7 @@ namespace ConfigRemedy.Security.Modules
         private dynamic CreateUser()
         {
             var userRegistration = this.Bind<UserRegistration>();
-            if (GetUser(_session, userRegistration.Username) != null)
+            if (_userRepository.GetUserByUsername(userRegistration.Username) != null)
             {
                 return new TextResponse(HttpStatusCode.Forbidden, "Duplicates are not allowed")
                 {
@@ -47,8 +47,7 @@ namespace ConfigRemedy.Security.Modules
             }
 
             var user = _registrationService.CreateUser(userRegistration);
-            _session.Store(user);
-            _session.SaveChanges();
+            _userRepository.Store(user);
 
             return Negotiate
                 .WithModel(user)
@@ -56,18 +55,11 @@ namespace ConfigRemedy.Security.Modules
                 .WithStatusCode(HttpStatusCode.Created);
         }
 
-        private static User GetUser(IDocumentSession session, string username)
-        {
-            return session.Load<User>("users/" + username);
-        }
-
         private dynamic GetAllUsers()
         {
-            var applications = _session.Query<User>()
-                .Customize(c => c.WaitForNonStaleResultsAsOfNow(TimeSpan.FromSeconds(5)))
-                .ToList();
+            var users = _userRepository.GetAllUsers();
 
-            var userProjection = applications.Select(a => new
+            var userProjection = users.Select(a => new
             {
                 a.Id,
                 a.Username,

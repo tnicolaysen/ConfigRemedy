@@ -1,6 +1,7 @@
 ﻿using ConfigRemedy.AcceptanceTests.Annotations;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Core.Infrastructure;
+using ConfigRemedy.Repository.Infrastructure;
 using Raven.Client.Embedded;
 
 namespace ConfigRemedy.AcceptanceTests.Steps

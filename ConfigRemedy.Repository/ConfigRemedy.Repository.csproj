@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F8BBF591-042C-43D0-9C35-C6473F1BCA86}</ProjectGuid>
+    <ProjectGuid>{DAC9A372-BB4F-4E53-BB6E-11401501E3D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConfigRemedy.Domain</RootNamespace>
-    <AssemblyName>ConfigRemedy.Domain</AssemblyName>
+    <RootNamespace>ConfigRemedy.Repository</RootNamespace>
+    <AssemblyName>ConfigRemedy.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,26 +30,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Raven.Abstractions, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Database.2.5.2879\lib\net45\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Embedded">
+      <HintPath>..\packages\RavenDB.Embedded.2.5.2879\lib\net45\Raven.Client.Embedded.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.Client.2.5.2879\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Database">
+      <HintPath>..\packages\RavenDB.Database.2.5.2879\lib\net45\Raven.Database.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiKey.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="ChangeType.cs" />
-    <Compile Include="Credentials.cs" />
-    <Compile Include="Environment.cs" />
+    <Compile Include="ApiKeyRepository.cs" />
+    <Compile Include="Infrastructure\RavenConfigurator.cs" />
+    <Compile Include="Infrastructure\RavenFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setting.cs" />
-    <Compile Include="SettingHistory.cs" />
-    <Compile Include="SettingOverride.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="UserRegistration.cs" />
+    <Compile Include="UserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigRemedy.Core\ConfigRemedy.Core.csproj">
-      <Project>{9e386b4d-bdab-4180-a847-e65e5046649e}</Project>
+      <Project>{9E386B4D-BDAB-4180-A847-E65E5046649E}</Project>
       <Name>ConfigRemedy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConfigRemedy.Domain\ConfigRemedy.Domain.csproj">
+      <Project>{F8BBF591-042C-43D0-9C35-C6473F1BCA86}</Project>
+      <Name>ConfigRemedy.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

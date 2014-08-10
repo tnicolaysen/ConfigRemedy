@@ -3,10 +3,9 @@ using ConfigRemedy.AcceptanceTests.Misc;
 using ConfigRemedy.Api;
 using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Api.Modules;
-using ConfigRemedy.Security;
 using ConfigRemedy.Security.Modules;
+using ConfigRemedy.Security.Nancy;
 using Nancy.Authentication.Token;
-using Nancy.Cryptography;
 using Nancy.Testing;
 using NUnit.Framework;
 using System;
@@ -33,13 +32,15 @@ namespace ConfigRemedy.AcceptanceTests.Steps
                 with.Module<LoginModule>();
                 with.ApplicationStartup((container, pipelines) =>
                 {
-                    Bootstrapper.RegisterCoreComponents(container);
+                    Bootstrapper.RegisterApplicationLevelComponents(container);
+                    Bootstrapper.RegisterRequestLevelComponents(container);
                     container.Register<ITokenizer, TokenizerMock>();
                     CustomPipelines.Configure(pipelines);
                 });
-                with.RequestStartup((container, pipelines, ctx) => 
-                    TokenAuthentication
-                    .Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>())));
+                with.RequestStartup((container, pipelines, ctx) =>
+                    ConfiguratronAuthentication.Enable(pipelines,
+                        new ConfiguratronAuthenticationConfiguration(container.Resolve<ITokenizer>(),
+                            container.Resolve<IUserResolver>())));
                 with.Dependency(DbContext.EmbeddedStore.OpenSession());
             });
         }
@@ -49,6 +50,8 @@ namespace ConfigRemedy.AcceptanceTests.Steps
         {
             When(string.Format(@"I POST a environment named ""{0}""", environmentName));
         }
+
+        
 
         [Given(@"the database is empty")]
         public void GivenTheDatabaseIsEmpty()
@@ -145,6 +148,5 @@ namespace ConfigRemedy.AcceptanceTests.Steps
             : base(dbContext)
         {
         }
-
     }
 }

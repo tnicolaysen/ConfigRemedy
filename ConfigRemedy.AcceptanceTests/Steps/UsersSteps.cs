@@ -1,6 +1,5 @@
 ﻿using ConfigRemedy.AcceptanceTests.Annotations;
-using ConfigRemedy.Security.Domain;
-using Microsoft.SqlServer.Server;
+using ConfigRemedy.Domain;
 using NUnit.Framework;
 using System.Linq;
 using TechTalk.SpecFlow;

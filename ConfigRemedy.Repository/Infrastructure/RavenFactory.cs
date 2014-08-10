@@ -2,7 +2,7 @@
 using Raven.Client;
 using Raven.Client.Embedded;
 
-namespace ConfigRemedy.Api.Infrastructure
+namespace ConfigRemedy.Repository.Infrastructure
 {
     public static class RavenFactory
     {
@@ -10,7 +10,8 @@ namespace ConfigRemedy.Api.Infrastructure
         {
             var docstore = new EmbeddableDocumentStore
             {
-                DataDirectory = Settings.DbPath
+                DataDirectory = Settings.DbPath,
+                UseEmbeddedHttpServer = true,
             };
 
             RavenConfigurator.Configure(docstore);

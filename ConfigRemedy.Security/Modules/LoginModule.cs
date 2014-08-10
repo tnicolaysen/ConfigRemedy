@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using ConfigRemedy.Core.Modules;
-using ConfigRemedy.Security.Domain;
+using ConfigRemedy.Domain;
 using Nancy;
 using Nancy.Authentication.Token;
 using Nancy.ModelBinding;
@@ -12,12 +12,12 @@ namespace ConfigRemedy.Security.Modules
     public class LoginModule : BaseModule
     {
         private readonly IDocumentSession _session;
-        private readonly IHashedPasswordProvider _hashedPasswordProvider;
+        private readonly IHashedValueProvider _hashedValueProvider;
 
-        public LoginModule(ITokenizer tokenizer, IDocumentSession session, IHashedPasswordProvider hashedPasswordProvider)            
+        public LoginModule(ITokenizer tokenizer, IDocumentSession session, IHashedValueProvider hashedValueProvider)            
         {
             _session = session;
-            _hashedPasswordProvider = hashedPasswordProvider;
+            _hashedValueProvider = hashedValueProvider;
             Post["login"] = x =>
             {
                 var credentialns = this.Bind<Credentials>();
@@ -63,7 +63,7 @@ namespace ConfigRemedy.Security.Modules
         {
             var user = GetUser(credentials.Username);
             if (user == null) return null;
-            var hashedPassword = _hashedPasswordProvider.GenerateHashedPassword(credentials.Password);
+            var hashedPassword = _hashedValueProvider.GetHash(credentials.Password);
             if (user.HashedPassword != hashedPassword) return null;
 
             return new ConfiguratronUserIdentity

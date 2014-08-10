@@ -1,4 +1,4 @@
-﻿namespace ConfigRemedy.Security.Domain
+﻿namespace ConfigRemedy.Domain
 {
     public class Credentials
     {

@@ -1,6 +1,6 @@
 ﻿using ConfigRemedy.Core.Properties;
 
-namespace ConfigRemedy.Security.Domain
+namespace ConfigRemedy.Domain
 {
     [UsedImplicitly, MeansImplicitUse]
     public class UserRegistration
