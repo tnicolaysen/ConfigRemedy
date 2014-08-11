@@ -19,11 +19,11 @@ namespace ConfigRemedy.Api.Modules
         public EnviromentModule(IDocumentSession session)
         {
             _session = session;
-            Get["environments"] = _ => GetAllEnvironments();
-            Get["environments/{name}"] = _ => GetEnvironment(_.name);
-            Post["environments"] = _ => CreateEnvironment();
-            Put["environments/{name}"] = _ => UpdateEnvironment(_.name); // TODO: Add tests
-            Delete["environments/{name}"] = _ => DeleteEnvironment(_.name); 
+            Get[Constants.ApiResourceEnvironments] = _ => GetAllEnvironments();
+            Get[Constants.ApiResourceEnvironments + "/{name}"] = _ => GetEnvironment(_.name);
+            Post[Constants.ApiResourceEnvironments] = _ => CreateEnvironment();
+            Put[Constants.ApiResourceEnvironments + "/{name}"] = _ => UpdateEnvironment(_.name); // TODO: Add tests
+            Delete[Constants.ApiResourceEnvironments + "/{name}"] = _ => DeleteEnvironment(_.name); 
         }
 
         private dynamic DeleteEnvironment(string name)
@@ -131,7 +131,7 @@ namespace ConfigRemedy.Api.Modules
 
         private string CreateLinkForEnvironment(Environment environment)
         {
-            return string.Format("/environments/{0}", environment.ShortName);
+            return string.Format("/{0}/{1}", Constants.ApiResourceEnvironments, environment.ShortName);
         }
 
         private Environment GetEnvironment(IDocumentSession session, string name)

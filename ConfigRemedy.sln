@@ -19,10 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A37BCE94
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigRemedy.Repository", "ConfigRemedy.Repository\ConfigRemedy.Repository.csproj", "{DAC9A372-BB4F-4E53-BB6E-11401501E3D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuratron.NewApiKey", "Tools\ApiKeyRestore\Configuratron.NewApiKey.csproj", "{16FAA066-445B-4988-B011-1AF0C3DA63D5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{C4A27E1D-7AFF-44AF-A269-1F88C32408E7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,10 +53,6 @@ Global
 		{DAC9A372-BB4F-4E53-BB6E-11401501E3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAC9A372-BB4F-4E53-BB6E-11401501E3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAC9A372-BB4F-4E53-BB6E-11401501E3D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16FAA066-445B-4988-B011-1AF0C3DA63D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16FAA066-445B-4988-B011-1AF0C3DA63D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16FAA066-445B-4988-B011-1AF0C3DA63D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16FAA066-445B-4988-B011-1AF0C3DA63D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +60,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3F7C8746-1F10-46CA-B32E-7776242ECFC0} = {A37BCE94-BDD3-4C97-BF6B-3CB6E963DDFF}
 		{B1CAD286-7469-40EB-B468-F62F2852193E} = {A37BCE94-BDD3-4C97-BF6B-3CB6E963DDFF}
-		{16FAA066-445B-4988-B011-1AF0C3DA63D5} = {C4A27E1D-7AFF-44AF-A269-1F88C32408E7}
 	EndGlobalSection
 EndGlobal

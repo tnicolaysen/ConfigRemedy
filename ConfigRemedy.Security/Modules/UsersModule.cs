@@ -18,9 +18,9 @@ namespace ConfigRemedy.Security.Modules
             _registrationService = registrationService;
             _userRepository = userRepository;
 
-            Get["users"] = _ => GetAllUsers();
-            Get["users/{username}"] = _ => GetUser(_.username);
-            Post["users"] = _ => CreateUser();
+            Get[Constants.ApiResourceUsers] = _ => GetAllUsers();
+            Get[Constants.ApiResourceUsers + "/{username}"] = _ => GetUser(_.username);
+            Post[Constants.ApiResourceUsers] = _ => CreateUser();
         }
 
         private dynamic GetUser(string userName)
@@ -73,7 +73,7 @@ namespace ConfigRemedy.Security.Modules
 
         private string CreateLinkForUser(User user)
         {
-            return string.Format("users/{0}", user.Username);
+            return string.Format("{0}/{1}", Constants.ApiResourceUsers, user.Username);
         }
     }
 }

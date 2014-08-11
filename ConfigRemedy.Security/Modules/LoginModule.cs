@@ -1,23 +1,22 @@
-﻿using System.Collections.Generic;
-using ConfigRemedy.Core.Modules;
+﻿using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Domain;
+using ConfigRemedy.Repository;
+using ConfigRemedy.Security.Nancy;
 using Nancy;
 using Nancy.Authentication.Token;
 using Nancy.ModelBinding;
 using Nancy.Security;
-using Raven.Client;
 
 namespace ConfigRemedy.Security.Modules
 {
     public class LoginModule : BaseModule
     {
-        private readonly IDocumentSession _session;
         private readonly IHashedValueProvider _hashedValueProvider;
-
-        public LoginModule(ITokenizer tokenizer, IDocumentSession session, IHashedValueProvider hashedValueProvider)            
+        private readonly IUserRepository _userRepository;
+        public LoginModule(ITokenizer tokenizer, IHashedValueProvider hashedValueProvider, IUserRepository userRepository)            
         {
-            _session = session;
             _hashedValueProvider = hashedValueProvider;
+            _userRepository = userRepository;
             Post["login"] = x =>
             {
                 var credentialns = this.Bind<Credentials>();
@@ -54,14 +53,9 @@ namespace ConfigRemedy.Security.Modules
             };
         }
 
-        private User GetUser(string username)
-        {
-            return _session.Load<User>("users/" + username);
-        }
-
         private ConfiguratronUserIdentity ValidateUser(Credentials credentials)
         {
-            var user = GetUser(credentials.Username);
+            var user = _userRepository.GetUserByUsername(credentials.Username);
             if (user == null) return null;
             var hashedPassword = _hashedValueProvider.GetHash(credentials.Password);
             if (user.HashedPassword != hashedPassword) return null;
@@ -75,15 +69,5 @@ namespace ConfigRemedy.Security.Modules
                 Claims = new[] { "admin", "user"},
             };
         }
-    }
-
-
-    public class ConfiguratronUserIdentity : IUserIdentity
-    {
-        public string UserName { get; set; }
-        public string DisplayName { get; set; }
-        public IEnumerable<string> Claims { get; set; }
-        public string UserId { get; set; }
-        public string Role { get; set; }
     }
 }

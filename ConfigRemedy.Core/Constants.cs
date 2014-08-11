@@ -17,5 +17,9 @@
         public const string DefaultAdminPassword = "91076foo!Bar";
         public const string DefaultAdminDisplayName = "Administrator";
         public const string DefaultAdminUsername = "root";
+
+
+        public const string ApiResourceUsers = "users";
+        public const string ApiResourceEnvironments = "environments";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ConfigRemedy.Core;
 using ConfigRemedy.Domain;
+using ConfigRemedy.Repository;
 using Raven.Client;
 
 namespace ConfigRemedy.Security
@@ -23,7 +24,8 @@ namespace ConfigRemedy.Security
         {
             using (var session = _documentStore.OpenSession())
             {
-                var admin = session.Load<User>("users/" + Constants.DefaultAdminUsername);
+                var userRepository = new UserRepository(session);
+                var admin = userRepository.GetUserByUsername(Constants.DefaultAdminUsername);
                 if (admin != null) return;
 
                 var user = new User
@@ -33,8 +35,7 @@ namespace ConfigRemedy.Security
                     Username = Constants.DefaultAdminUsername,
                 };
 
-                session.Store(user);
-                session.SaveChanges();
+                userRepository.Store(user);
             }
         }
     }

@@ -1,4 +1,5 @@
 using ConfigRemedy.Security.Modules;
+using ConfigRemedy.Security.Nancy;
 using Nancy;
 using Nancy.Authentication.Token;
 using Nancy.Security;
