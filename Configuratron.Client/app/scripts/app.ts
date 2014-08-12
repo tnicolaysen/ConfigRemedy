@@ -18,11 +18,11 @@ angular
 		'ui.bootstrap',
 		'ui.sortable',
 		'ui.router',
+		'angular-data.DSCacheFactory',
 		'xeditable'
 	])
-	.config(function($httpProvider, $stateProvider, $urlRouterProvider, UserRoles){
+	.config(function($httpProvider, $stateProvider, $urlRouterProvider, UserRoles) {
         $httpProvider.interceptors.push('authInterceptor');
-
         $stateProvider
             .state('main', {
                 url: '/',
@@ -33,7 +33,7 @@ angular
                 }
             })
             .state('about', {
-                url: "/about",
+                url: '/about',
                 templateUrl: 'views/about.html',
                 controller: 'AboutCtrl',
                 data: {
@@ -41,7 +41,7 @@ angular
                 }
             })
             .state('environments', {
-                url: "/environments",
+                url: '/environments',
                 templateUrl: 'views/environments.html',
                 controller: 'EnvironmentsCtrl',
                 data: {
@@ -49,7 +49,7 @@ angular
                 }
             })
             .state('applications', {
-                url: "/applications",
+                url: '/applications',
                 templateUrl: 'views/applications.html',
                 controller: 'ApplicationsCtrl',
                 data: {
@@ -57,7 +57,7 @@ angular
                 }
             })
             .state('diagnostics', {
-                url: "/diagnostics",
+                url: '/diagnostics',
                 templateUrl: 'views/diagnostics.html',
                 controller: 'DiagnosticsCtrl',
                 data: {
@@ -65,7 +65,7 @@ angular
                 }
             })
             .state('login', {
-                url: "/login",
+                url: '/login',
                 templateUrl: 'views/login.html',
                 controller: 'LoginController',
                 data: {
@@ -73,7 +73,6 @@ angular
                 }
             });
 	})
-
 	.run(function(editableOptions, editableThemes) {
 		editableOptions.theme = 'bs3';
 		editableThemes.bs3.inputClass = 'input-sm';
@@ -91,8 +90,7 @@ angular
             } else {
                 // user is not logged in
                 $rootScope.$broadcast(AuthenticationEvents.notAuthenticated);
-                if (!AuthService.isGuest(authorizedRoles))
-                {
+                if (!AuthService.isGuest(authorizedRoles)) {
                     event.preventDefault();
                     $state.go('login');
                 }

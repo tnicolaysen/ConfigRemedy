@@ -20,8 +20,9 @@ angular.module('ctronApp')
             return $http
                 .post(configuration.ApiBaseUrl + 'login', credentials)
                 .then(function (res) {
-                    Session.create(res.data.token, res.data.userId, res.data.userName, res.data.role);
-                    return res.data;
+                    var user = res.data;
+                    Session.create(user);
+                    return user;
                 });
         };
 
