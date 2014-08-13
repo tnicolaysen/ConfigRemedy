@@ -64,6 +64,16 @@ angular
                     authorizedRoles: [UserRoles.admin]
                 }
             })
+            .state('logout', {
+                url: '/logout',
+                template: 'Successfully signed off',
+                controller: function($scope) {
+                    $scope.logoutUser();
+                },
+                data: {
+                    authorizedRoles: [UserRoles.admin]
+                }
+            })
             .state('login', {
                 url: '/login',
                 templateUrl: 'views/login.html',
@@ -78,7 +88,8 @@ angular
 		editableThemes.bs3.inputClass = 'input-sm';
 		editableThemes.bs3.buttonsClass = 'btn-sm';
     })
-    .run(function($rootScope, $log, $state, AuthenticationEvents, AuthService) {
+    .run(function($rootScope, $log, $state, AuthenticationEvents, AuthService, configuration) {
+        $log.log('Creating Configuratron client for endpoint ' + configuration.ApiBaseUrl);
         $rootScope.$on('$stateChangeStart', function (event, next) {
 
             var authorizedRoles = next.data.authorizedRoles;

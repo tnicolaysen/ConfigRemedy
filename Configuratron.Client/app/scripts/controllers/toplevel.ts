@@ -33,9 +33,19 @@ angular.module('ctronApp')
             $window.sessionStorage.token = user.token;
         }
 
-        $scope.setCurrentUser = function (user) {
+        $scope.setCurrentUser = function (user, rememberMe) {
             $scope.currentUser = user;
             $window.sessionStorage.token = user.token;
-            cache.put('user', user);
+            if (rememberMe){
+                cache.put('user', user);
+            }
+        };
+
+        $scope.logoutUser = function () {
+            $log.log('Processing logout for user ' + $scope.currentUser.userName);
+            $scope.currentUser = null;
+            $window.sessionStorage.token = null;
+            cache.remove('user', user);
+            Session.destroy();
         };
     });

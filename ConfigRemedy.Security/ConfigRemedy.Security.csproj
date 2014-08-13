@@ -56,7 +56,7 @@
     <Compile Include="Nancy\ConfiguratronAuthentication.cs" />
     <Compile Include="Nancy\ConfiguratronAuthenticationConfiguration.cs" />
     <Compile Include="Nancy\ConfiguratronUserIdentity.cs" />
-    <Compile Include="Nancy\IUserResolver.cs" />
+    <Compile Include="Nancy\UserResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRegistrationService.cs" />
   </ItemGroup>

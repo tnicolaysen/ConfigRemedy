@@ -1,14 +1,13 @@
 ﻿using System;
 using ConfigRemedy.Api.Annotations;
-using ConfigRemedy.Api.Infrastructure;
 using ConfigRemedy.Core.Configuration.Settings;
 using ConfigRemedy.Core.Infrastructure;
-using ConfigRemedy.Security.Modules;
+using ConfigRemedy.Core.Modules;
 
 namespace ConfigRemedy.Api.Modules
 {
     [UsedImplicitly]
-    public class DiagnosticsModule : AuthenticatedModule
+    public class DiagnosticsModule : BaseModule
     {
         public DiagnosticsModule()
         {
