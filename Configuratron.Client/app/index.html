@@ -31,12 +31,15 @@
                   <li ng-if="!currentUser"><a ui-sref="login">Login</a></li>
                   <li class="dropdown" ng-if="currentUser">
                       <a id="drop4" role="button" data-toggle="dropdown" href="#">{{currentUser.displayName}} <span class="caret"></span></a>
-                      <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                      <ul id="menu4.1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
                           <li><a ui-sref="profile">Profile</a></li>
+                          <li><a ui-sref="users">Users</a></li>
+                          <li><a ui-sref="integrations">Integrations</a></li>
+                          <li><a ui-sref="diagnostics">System information</a></li>
+                          <li role="presentation" class="divider"></li>
                           <li><a ui-sref="logout">Sign out</a></li>
                       </ul>
                   </li>
-                  <li ng-if="isAuthorized(userRoles.admin)"><a ui-sref="#">Administration</a></li>
               </ul>
             <ul class="nav nav-pills pull-right">
               <li><a ui-sref="main">Home</a></li>
@@ -97,6 +100,7 @@
         <script src="scripts/controllers/application-details.js"></script>
         <script src="scripts/controllers/diagnostics.js"></script>
         <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/profile.js"></script>
         <script src="scripts/controllers/toplevel.js"></script>
 
         <script src="scripts/services/configuration.js"></script>

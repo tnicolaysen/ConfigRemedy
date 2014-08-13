@@ -11,8 +11,8 @@ Scenario: Login
 	Given an user with name  "foo" and password "bar" exists
 	When I POST username "foo" and password "bar" 
 	Then I should get HTTP 200
-	And response should contain "userId"
 	And response should contain "userName"
+	And response should contain "displayName"
 	And response should contain "role"
 	And response should contain "token"
 	

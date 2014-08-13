@@ -20,14 +20,13 @@ angular.module('ctronApp')
             return $http
                 .post(configuration.ApiBaseUrl + 'login', credentials)
                 .then(function (res) {
-                    var user = res.data;
-                    Session.create(user);
-                    return user;
+                    Session.create(res.data);
+                    return res.data;
                 });
         };
 
         authService.isAuthenticated = function () {
-            return !!Session.userId;
+            return !!Session.userName;
         };
 
         authService.isAuthorized = function (authorizedRoles) {

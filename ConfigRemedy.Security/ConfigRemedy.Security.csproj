@@ -50,6 +50,7 @@
     <Compile Include="AdminAccountRestorer.cs" />
     <Compile Include="ApiKeyProvider.cs" />
     <Compile Include="HashedValueProvider.cs" />
+    <Compile Include="Mappers.cs" />
     <Compile Include="Modules\AuthenticatedModule.cs" />
     <Compile Include="Modules\LoginModule.cs" />
     <Compile Include="Modules\UsersModule.cs" />

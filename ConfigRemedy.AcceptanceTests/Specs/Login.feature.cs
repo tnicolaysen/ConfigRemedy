@@ -91,9 +91,9 @@ this.FeatureBackground();
 #line 13
  testRunner.Then("I should get HTTP 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 14
- testRunner.And("response should contain \"userId\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 15
  testRunner.And("response should contain \"userName\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 15
+ testRunner.And("response should contain \"displayName\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 16
  testRunner.And("response should contain \"role\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 17

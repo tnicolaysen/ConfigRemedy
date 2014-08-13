@@ -8,7 +8,7 @@ Scenario: Add Access-Control-Allow-Origin header
 	When I make a GET request
 	Then the header should contain "Access-Control-Allow-Origin" = "*"
 
-Scenario: Add Access-Control-Allow-Method header to OPTIONS response
-	Given I make a new module without any customization
-	When I make a OPTIONS request
-	Then the header should contain "Access-Control-Allow-Methods" = "DELETE"
+#Scenario: Add Access-Control-Allow-Method header to OPTIONS response
+#	Given I make a new module without any customization
+#	When I make a OPTIONS request
+#	Then the header should contain "Access-Control-Allow-Methods" = "DELETE"

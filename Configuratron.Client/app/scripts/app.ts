@@ -56,6 +56,14 @@ angular
                     authorizedRoles: [UserRoles.admin]
                 }
             })
+            .state('profile', {
+                url: '/profile',
+                templateUrl: 'views/profile.html',
+                controller: 'ProfileController',
+                data: {
+                    authorizedRoles: [UserRoles.admin]
+                }
+            })
             .state('diagnostics', {
                 url: '/diagnostics',
                 templateUrl: 'views/diagnostics.html',

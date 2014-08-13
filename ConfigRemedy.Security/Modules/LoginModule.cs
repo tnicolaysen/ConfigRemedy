@@ -1,7 +1,6 @@
 ﻿using ConfigRemedy.Core.Modules;
 using ConfigRemedy.Domain;
 using ConfigRemedy.Repository;
-using ConfigRemedy.Security.Nancy;
 using Nancy;
 using Nancy.Authentication.Token;
 using Nancy.ModelBinding;
@@ -21,18 +20,19 @@ namespace ConfigRemedy.Security.Modules
             {
                 var credentialns = this.Bind<Credentials>();
 
-                var userIdentity = ValidateUser(credentialns);
+                var user = ValidateUser(credentialns);
 
-                if (userIdentity == null)
+                if (user == null)
                 {
                     return HttpStatusCode.Unauthorized;
                 }
+
+                var userIdentity = user.ToConfiguratronUserIdentity();
 
                 var token = tokenizer.Tokenize(userIdentity, Context);
 
                 return new
                 {
-                    UserId = userIdentity.UserId,
                     UserName = userIdentity.UserName,
                     DisplayName = userIdentity.DisplayName,
                     Role = userIdentity.Role,
@@ -53,21 +53,14 @@ namespace ConfigRemedy.Security.Modules
             };
         }
 
-        private ConfiguratronUserIdentity ValidateUser(Credentials credentials)
+        private User ValidateUser(Credentials credentials)
         {
             var user = _userRepository.GetUserByUsername(credentials.Username);
             if (user == null) return null;
             var hashedPassword = _hashedValueProvider.GetHash(credentials.Password);
             if (user.HashedPassword != hashedPassword) return null;
 
-            return new ConfiguratronUserIdentity
-            {
-                UserName = user.Username,
-                UserId = user.Id,
-                DisplayName = user.DisplayName,
-                Role = "admin",
-                Claims = new[] { "admin", "user"},
-            };
+            return user;
         }
     }
 }

@@ -18,7 +18,6 @@ angular.module('ctronApp')
         $scope.isAuthorized = AuthService.isAuthorized;
         $scope.systemInfo = DiagnosticsService.getDiagnostics();
 
-
         var cache = DSCacheFactory('Configuratron.Cache', {
             deleteOnExpire: 'aggressive',
             storageMode: 'localStorage',
@@ -39,6 +38,17 @@ angular.module('ctronApp')
             if (rememberMe){
                 cache.put('user', user);
             }
+            Session.create(user);
+        };
+
+        $scope.setCurrentUserDisplayName = function (displayName) {
+            var user = $scope.currentUser;
+            user.displayName = displayName;
+            var userFromCache = cache.get('user');
+            userFromCache.displayName = displayName;
+            cache.put('user', userFromCache);
+            $scope.currentUser = user;
+            Session.create(user);
         };
 
         $scope.logoutUser = function () {
