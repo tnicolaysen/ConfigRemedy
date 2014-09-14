@@ -179,7 +179,6 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       options: {
-        cwd: '<%= yeoman.app %>'
       },
       app: {
         src: ['<%= yeoman.app %>/index.html'],
@@ -373,16 +372,16 @@ module.exports = function (grunt) {
               declaration: false,
               // true (default) | false
               removeComments: true
-          },
+          }
       },
       // Another target
       dist: {                               
           src: ['<%= yeoman.app %>/scripts/{,*/}*.ts'],
           // Override the main options for this target
           options: {
-              sourceMap: false,
+              sourceMap: false
           }
-      },
+      }
     },
 
     // Run some tasks in parallel to speed up the build process
@@ -396,7 +395,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'ts:dist',
-        'copy:styles',
+        'copy:styles'
         //'imagemin',
         //'svgmin'
       ]
