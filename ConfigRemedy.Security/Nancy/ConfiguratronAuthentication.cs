@@ -22,14 +22,10 @@ namespace ConfigRemedy.Security.Nancy
         public static void Enable(IPipelines pipelines, ConfiguratronAuthenticationConfiguration configuration)
         {
             if (pipelines == null)
-            {
                 throw new ArgumentNullException("pipelines");
-            }
 
             if (configuration == null)
-            {
                 throw new ArgumentNullException("configuration");
-            }
 
             pipelines.BeforeRequest.AddItemToStartOfPipeline(GetCredentialRetrievalHook(configuration));
         }
@@ -42,14 +38,10 @@ namespace ConfigRemedy.Security.Nancy
         public static void Enable(INancyModule module, ConfiguratronAuthenticationConfiguration configuration)
         {
             if (module == null)
-            {
                 throw new ArgumentNullException("module");
-            }
 
             if (configuration == null)
-            {
                 throw new ArgumentNullException("configuration");
-            }
 
             module.RequiresAuthentication();
             module.Before.AddItemToStartOfPipeline(GetCredentialRetrievalHook(configuration));
@@ -64,9 +56,7 @@ namespace ConfigRemedy.Security.Nancy
         private static Func<NancyContext, Response> GetCredentialRetrievalHook(ConfiguratronAuthenticationConfiguration configuration)
         {
             if (configuration == null)
-            {
                 throw new ArgumentNullException("configuration");
-            }
 
             return context =>
             {

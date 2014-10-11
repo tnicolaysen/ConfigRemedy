@@ -1,23 +1,22 @@
 ﻿using ConfigRemedy.Core;
 using ConfigRemedy.Domain;
 using ConfigRemedy.Repository;
+using ConfigRemedy.Security.Annotations;
 using Raven.Client;
+using Serilog;
 
 namespace ConfigRemedy.Security
 {
-    public interface IAdminAccountRestorer
-    {
-        void RestoreDefaultAdminAccount();
-    }
-
-    public class AdminAccountRestorer : IAdminAccountRestorer
+    [UsedImplicitly]
+    public sealed class AdminAccountRestorer
     {
         private readonly IDocumentStore _documentStore;
-        private readonly IHashedValueProvider _hashedValueProvider;
-        public AdminAccountRestorer(IDocumentStore documentStore, IHashedValueProvider hashedValueProvider)
+        private readonly IPasswordHasher _passwordHasher;
+
+        public AdminAccountRestorer(IDocumentStore documentStore, IPasswordHasher passwordHasher)
         {
             _documentStore = documentStore;
-            _hashedValueProvider = hashedValueProvider;
+            _passwordHasher = passwordHasher;
         }
 
         public void RestoreDefaultAdminAccount()
@@ -26,12 +25,16 @@ namespace ConfigRemedy.Security
             {
                 var userRepository = new UserRepository(session);
                 var admin = userRepository.GetUserByUsername(Constants.DefaultAdminUsername);
-                if (admin != null) return;
+
+                if (admin != null)
+                    return;
+               
+                Log.Information("Restoring default admin account");
 
                 var user = new User
                 {
                     DisplayName = Constants.DefaultAdminDisplayName,
-                    HashedPassword = _hashedValueProvider.GetHash(Constants.DefaultAdminPassword),
+                    HashedPassword = _passwordHasher.CreateHash(Constants.DefaultAdminPassword),
                     Username = Constants.DefaultAdminUsername,
                 };
 

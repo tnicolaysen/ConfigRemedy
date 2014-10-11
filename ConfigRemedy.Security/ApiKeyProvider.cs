@@ -1,14 +1,11 @@
 ﻿using System;
+using ConfigRemedy.Security.Annotations;
 using Nancy.Cryptography;
 
 namespace ConfigRemedy.Security
 {
-    public interface IApiKeyProvider
-    {
-        string GenerateApiKey();
-    }
-
-    public class ApiKeyProvider : IApiKeyProvider
+    [UsedImplicitly]
+    public class ApiKeyProvider
     {
         private readonly IKeyGenerator _keyGenerator;
 
@@ -17,7 +14,7 @@ namespace ConfigRemedy.Security
             _keyGenerator = keyGenerator;
         }
 
-        public string GenerateApiKey()
+        public virtual string GenerateApiKey()
         {
             var generateApiKey = Convert.ToBase64String(_keyGenerator.GetBytes(10));
             generateApiKey = generateApiKey.Replace('+', '-');

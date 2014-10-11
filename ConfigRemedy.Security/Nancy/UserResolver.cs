@@ -1,5 +1,4 @@
 ﻿using ConfigRemedy.Repository;
-using ConfigRemedy.Security.Modules;
 using Nancy.Security;
 
 namespace ConfigRemedy.Security.Nancy
@@ -13,18 +12,18 @@ namespace ConfigRemedy.Security.Nancy
     {
         private readonly IApiKeyRepository _apiKeyRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IHashedValueProvider _hashedValueProvider;
+        private readonly IStringHasher _stringHasher;
 
-        public UserResolver(IApiKeyRepository apiKeyRepository, IUserRepository userRepository, IHashedValueProvider hashedValueProvider)
+        public UserResolver(IApiKeyRepository apiKeyRepository, IUserRepository userRepository, IStringHasher stringHasher)
         {
             _apiKeyRepository = apiKeyRepository;
             _userRepository = userRepository;
-            _hashedValueProvider = hashedValueProvider;
+            _stringHasher = stringHasher;
         }
 
         public IUserIdentity GetUser(string apiKey)
         {
-            var hashedApiKey = _hashedValueProvider.GetHash(apiKey);
+            var hashedApiKey = _stringHasher.CreateHash(apiKey);
             var key = _apiKeyRepository.GetApiKyByHashedValue(hashedApiKey);
             if (key == null) return null;
 

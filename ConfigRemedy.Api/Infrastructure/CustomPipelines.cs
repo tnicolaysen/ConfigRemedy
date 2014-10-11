@@ -1,6 +1,5 @@
 ﻿using Nancy;
 using Nancy.Bootstrapper;
-using Raven.Abstractions.Extensions;
 
 namespace ConfigRemedy.Api.Infrastructure
 {

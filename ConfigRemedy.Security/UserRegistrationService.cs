@@ -1,25 +1,21 @@
 ﻿using ConfigRemedy.Domain;
+using ConfigRemedy.Security.Annotations;
 
 namespace ConfigRemedy.Security
 {
-    public interface IUserRegistrationService
+    [UsedImplicitly]
+    public class UserRegistrationService
     {
-        User CreateUser(UserRegistration userRegistration);
-    }
+        private readonly IPasswordHasher _passwordHasher;
 
-    public class UserRegistrationService : IUserRegistrationService
-    {
-
-        private readonly IHashedValueProvider _hashedValueProvider;
-
-        public UserRegistrationService(IHashedValueProvider hashedValueProvider)
+        public UserRegistrationService(IPasswordHasher passwordHasher)
         {
-            _hashedValueProvider = hashedValueProvider;
+            _passwordHasher = passwordHasher;
         }
 
-        public User CreateUser(UserRegistration userRegistration)
+        public virtual User CreateUser(UserRegistration userRegistration)
         {
-            var hashedPassword = _hashedValueProvider.GetHash(userRegistration.Password);
+            var hashedPassword = _passwordHasher.CreateHash(userRegistration.Password);
 
             var user = new User
             {

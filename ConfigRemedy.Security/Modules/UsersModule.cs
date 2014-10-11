@@ -13,19 +13,20 @@ namespace ConfigRemedy.Security.Modules
     {
         private readonly IUserRepository _userRepository;
         private readonly ITokenizer _tokenizer;
-        private readonly IUserRegistrationService _registrationService;
-        private readonly IHashedValueProvider _hashedValueProvider;
-        public UsersModule(ITokenizer tokenizer, IUserRegistrationService registrationService, IUserRepository userRepository, IHashedValueProvider hashedValueProvider) 
+        private readonly UserRegistrationService _registrationService;
+        private readonly IPasswordHasher _passwordHasher;
+
+        public UsersModule(ITokenizer tokenizer, UserRegistrationService registrationService,
+                           IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
             _tokenizer = tokenizer;
             _registrationService = registrationService;
             _userRepository = userRepository;
-            _hashedValueProvider = hashedValueProvider;
+            _passwordHasher = passwordHasher;
 
             Get[Constants.ApiResourceUsers] = _ => GetAllUsers();
             Get[Constants.ApiResourceUsers + "/{username}"] = _ => GetUser(_.username);
             Put[Constants.ApiResourceUsers + "/{username}"] = _ => UpdateUser(_.username); // TODO: Add tests
-
             Post[Constants.ApiResourceUsers] = _ => CreateUser();
         }
 
@@ -43,10 +44,12 @@ namespace ConfigRemedy.Security.Modules
                     ReasonPhrase = "User not found. Cannot update."
                 };
             }
+
             storedUser.DisplayName = updatedProfile.DisplayName;
             storedUser.Email = updatedProfile.Email;
+            
             if (!string.IsNullOrWhiteSpace(updatedProfile.Password))
-                storedUser.HashedPassword = _hashedValueProvider.GetHash(updatedProfile.Password);
+                storedUser.HashedPassword = _passwordHasher.CreateHash(updatedProfile.Password);
 
             _userRepository.Store(storedUser);
 

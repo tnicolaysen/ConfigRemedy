@@ -42,6 +42,14 @@
     <Reference Include="Raven.Client.Lightweight">
       <HintPath>..\packages\RavenDB.Client.2.5.2879\lib\net45\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Serilog.1.3.36\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.3.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Serilog.1.3.36\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,7 +57,10 @@
   <ItemGroup>
     <Compile Include="AdminAccountRestorer.cs" />
     <Compile Include="ApiKeyProvider.cs" />
-    <Compile Include="HashedValueProvider.cs" />
+    <Compile Include="Md5StringHasher.cs" />
+    <Compile Include="IStringHasher.cs" />
+    <Compile Include="SecurePasswordHasher.cs" />
+    <Compile Include="IPasswordHasher.cs" />
     <Compile Include="Mappers.cs" />
     <Compile Include="Modules\AuthenticatedModule.cs" />
     <Compile Include="Modules\LoginModule.cs" />
@@ -58,6 +69,7 @@
     <Compile Include="Nancy\ConfiguratronAuthenticationConfiguration.cs" />
     <Compile Include="Nancy\ConfiguratronUserIdentity.cs" />
     <Compile Include="Nancy\UserResolver.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRegistrationService.cs" />
   </ItemGroup>

@@ -27,7 +27,7 @@ namespace ConfigRemedy.Api
             CustomPipelines.Configure(pipelines);
             if(Settings.RestoreDefaultAdminAtStartup)
             {
-                var adminAccountRestorer = container.Resolve<IAdminAccountRestorer>();
+                var adminAccountRestorer = container.Resolve<AdminAccountRestorer>();
                 adminAccountRestorer.RestoreDefaultAdminAccount();
             }
         }
@@ -44,13 +44,15 @@ namespace ConfigRemedy.Api
 
         public static void RegisterApplicationLevelComponents(TinyIoCContainer container)
         {
-            container.Register<IAdminAccountRestorer, AdminAccountRestorer>();
-            container.Register<IApiKeyProvider, ApiKeyProvider>();
-            container.Register<IUserRegistrationService, UserRegistrationService>();
-            container.Register<IHashedValueProvider, HashedValueProvider>();
+            container.Register<AdminAccountRestorer>();
+            container.Register<ApiKeyProvider>();
+            container.Register<UserRegistrationService>();
+            container.Register<IPasswordHasher, SecurePasswordHasher>();
+            container.Register<IStringHasher, Md5StringHasher>();
             container.Register<IHmacProvider, DefaultHmacProvider>();
             container.Register<IKeyGenerator, RandomKeyGenerator>();
         }
+
         public static void RegisterRequestLevelComponents(TinyIoCContainer container)
         {
             container.Register<IUserRepository, UserRepository>();
