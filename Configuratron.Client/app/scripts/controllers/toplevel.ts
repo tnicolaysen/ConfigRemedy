@@ -12,7 +12,7 @@
  */
 
 angular.module('ctronApp')
-    .controller('TopLevelController', function ($scope, $log, $window, UserRoles, AuthService, DiagnosticsService, DSCacheFactory, Session) {
+    .controller('TopLevelController', ($scope, $log, $window, UserRoles, AuthService, DiagnosticsService, DSCacheFactory, Session) => {
         $scope.currentUser = null;
         $scope.userRoles = UserRoles;
         $scope.isAuthorized = AuthService.isAuthorized;
@@ -25,8 +25,7 @@ angular.module('ctronApp')
         });
 
         var user = cache.get('user');
-        if (user)
-        {
+        if (user) {
             Session.create(user);
             $scope.currentUser = user;
             $window.sessionStorage.token = user.token;
@@ -35,7 +34,7 @@ angular.module('ctronApp')
         $scope.setCurrentUser = function (user, rememberMe) {
             $scope.currentUser = user;
             $window.sessionStorage.token = user.token;
-            if (rememberMe){
+            if (rememberMe) {
                 cache.put('user', user);
             }
             Session.create(user);

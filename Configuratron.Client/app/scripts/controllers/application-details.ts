@@ -8,22 +8,22 @@
  * # ApplicationDetailCtrl
  * Controller of the ctronApp
  */
+
 angular.module('ctronApp')
-  .controller('ApplicationDetailsCtrl', ($scope, $routeParams, $resource, $log, $window, configuration) => {
+  .controller('ApplicationDetailsCtrl', ($scope, $stateParams, $resource, $log, $window, configuration) => {
     $scope.app = {};
     $scope.environments = [];
 
     var Applications = $resource(configuration.ApiBaseUrl + 'applications/:id.json');
+    $scope.app = Applications.get({id: $stateParams.appName});
 
-    $scope.app = Applications.get({id: $routeParams.appName});
+    var Environments = $resource(configuration.ApiBaseUrl + 'environments/:id.json');
+    $scope.environments = Environments.query();
 
     var SettingsOverride = $resource(configuration.ApiBaseUrl + 'applications/:appName/settings/:envName/:settingKey.json',
       null,
       { 'update': { method: 'PUT' } }
     );
-
-    var Environments = $resource(configuration.ApiBaseUrl + 'environments/:id.json');
-    $scope.environments = Environments.query();
 
     $scope.updateOverride = (newValue, app, envName, setting) => {
       SettingsOverride.get({ appName: app.name, envName: envName, settingKey: setting.key }, (override) => {
@@ -55,7 +55,8 @@ angular.module('ctronApp')
       }
 
       SettingsOverride.remove({ appName: app.name, settingKey: setting.key }, (res) => {
-        $scope.app = Applications.get({id: $routeParams.appName});
+        $scope.app = Applications.get({id: $stateParams.appName});
       });
     };
   });
+ // }]);

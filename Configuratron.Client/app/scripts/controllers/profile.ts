@@ -37,5 +37,5 @@ angular.module('ctronApp')
                 $log.log(userIdentity);
                 $scope.setCurrentUser(userIdentity);
             });
-        }
+        };
     });
