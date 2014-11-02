@@ -45,7 +45,7 @@ namespace ConfigRemedy.Security
         // The following constants may be changed without breaking existing hashes.
         public const int SALT_BYTE_SIZE = 24;
         public const int HASH_BYTE_SIZE = 24;
-        public const int PBKDF2_ITERATIONS = 1000;
+        public const int PBKDF2_ITERATIONS = 100000;
 
         public const int ITERATION_INDEX = 0;
         public const int SALT_INDEX = 1;
