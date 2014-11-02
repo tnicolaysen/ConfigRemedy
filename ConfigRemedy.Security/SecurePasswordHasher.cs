@@ -43,13 +43,13 @@ namespace ConfigRemedy.Security
     public sealed class SecurePasswordHasher : IPasswordHasher
     {
         // The following constants may be changed without breaking existing hashes.
-        public const int SALT_BYTE_SIZE = 24;
-        public const int HASH_BYTE_SIZE = 24;
-        public const int PBKDF2_ITERATIONS = 100000;
+        public const int SaltByteSize = 24;
+        public const int HashByteSize = 24;
+        public const int Pbkdf2Iterations = 100000;
 
-        public const int ITERATION_INDEX = 0;
-        public const int SALT_INDEX = 1;
-        public const int PBKDF2_INDEX = 2;
+        public const int IterationIndex = 0;
+        public const int SaltIndex = 1;
+        public const int Pbkdf2Index = 2;
 
         /// <summary>
         /// Creates a salted PBKDF2 hash of the password.
@@ -64,8 +64,8 @@ namespace ConfigRemedy.Security
 
         private static string HashPasswordAndEncodeParameters(string password, byte[] salt)
         {
-            byte[] hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
-            return PBKDF2_ITERATIONS + ":" +
+            byte[] hash = Pbkdf2(password, salt, Pbkdf2Iterations, HashByteSize);
+            return Pbkdf2Iterations + ":" +
                    Convert.ToBase64String(salt) + ":" +
                    Convert.ToBase64String(hash);
         }
@@ -73,7 +73,7 @@ namespace ConfigRemedy.Security
         private static byte[] GenerateRandomSalt()
         {
             var csprng = new RNGCryptoServiceProvider();
-            var salt = new byte[SALT_BYTE_SIZE];
+            var salt = new byte[SaltByteSize];
             csprng.GetBytes(salt);
             return salt;
         }
@@ -89,11 +89,11 @@ namespace ConfigRemedy.Security
             // Extract the parameters from the hash
             char[] delimiter = { ':' };
             string[] split = correctHash.Split(delimiter);
-            int iterations = Int32.Parse(split[ITERATION_INDEX]);
-            byte[] salt = Convert.FromBase64String(split[SALT_INDEX]);
-            byte[] hash = Convert.FromBase64String(split[PBKDF2_INDEX]);
+            int iterations = Int32.Parse(split[IterationIndex]);
+            byte[] salt = Convert.FromBase64String(split[SaltIndex]);
+            byte[] hash = Convert.FromBase64String(split[Pbkdf2Index]);
 
-            byte[] testHash = PBKDF2(password, salt, iterations, hash.Length);
+            byte[] testHash = Pbkdf2(password, salt, iterations, hash.Length);
             return SlowEquals(hash, testHash);
         }
 
@@ -121,7 +121,7 @@ namespace ConfigRemedy.Security
         /// <param name="iterations">The PBKDF2 iteration count.</param>
         /// <param name="outputBytes">The length of the hash to generate, in bytes.</param>
         /// <returns>A hash of the password.</returns>
-        private static byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
+        private static byte[] Pbkdf2(string password, byte[] salt, int iterations, int outputBytes)
         {
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt)
             {
